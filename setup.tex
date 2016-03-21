@@ -1,0 +1,117 @@
+%% Optional Packages. 
+%% Choose packages you want by using comments in the list below. 
+
+\usepackage[
+%% en, %% English text and wording
+de, %% German text and wording
+singlepage, %% Put sitenumbers always on the right
+%%doublepage, %% Put sitenumbers alternating on the left and on the right. The first number starts always right, so be sure that you insert a blank page with \shipout\null
+acronym, %% Use acronyms and print a acronym table. Use acronym.tex to add acronyms
+figures, %% make list of figures and include graphicx package
+tables, %% make list of tables and include table packages, also supertabular
+listings, %% Use listings for source code and create table of listings
+%% intro, %% include introduction file and make bookmark
+ bib, %% make list of references at the end and import bib package. Use bib.bib as bibliography
+%% appendix, %% includes appendix. add sections in the file appendix.tex
+%% PA, %% inserts at the titlepage the company and such stuff
+%% Bachelor, %% inserts at the titlepage the company and such stuff: Bachelorformat
+Study, %% insert at the titlepage information without company and such stuff
+%% 2010, %% Bis Jahrgang 2010 --> Ehrenwörtliche Erklärung
+2011, %% Ab Jahrgang 2011 --> Ehrenwörtliche Erklärung
+]{optional} 
+ 
+\opt{en}{\usepackage[american]{babel}} 
+\opt{de}{\usepackage[ngerman]{babel}}
+
+% %%% Folgende Angaben ausfüllen:
+
+\newcommand{\student}{Marco Heumann} 
+\newcommand{\matrikel}{4188528}  
+\newcommand{\kurs}{TINF13AI-BI}  
+
+\newcommand{\reporttitle}{}  
+\newcommand{\reportsubtitle}{}
+
+\opt{en}{\newcommand{\reportstart}{startdate}} 
+\opt{de}{\newcommand{\reportstart}{startdatum}} 
+\opt{en}{\newcommand{\reportend}{enddate}}
+\opt{de}{\newcommand{\reportend}{enddatum}}
+\opt{en}{\newcommand{\handoverdate}{}}
+\opt{de}{\newcommand{\handoverdate}{}}
+\opt{en}{\newcommand{\timerange}{}}
+\opt{de}{\newcommand{\timerange}{}}
+
+\newcommand{\tutor}{}
+\newcommand{\companylogo}{dblogo} %% filname of logo for titlepage
+\opt{Study}{
+	\newcommand{\reportsemester}{5. - 6. Semester}
+}
+\opt{PA}{
+	\newcommand{\businessunit}{I.LPA 73} 
+	\newcommand{\department}{}
+	\newcommand{\company}{DB Systel GmbH}
+	\opt{en}{\newcommand{\educationdepartment}{Education department}}
+	\opt{de}{\newcommand{\educationdepartment}{Fakult{\"a}t f{\"u}r Technik}}
+	\opt{en}{\newcommand{\lokation}{Frankfurt}}
+	\opt{de}{\newcommand{\lokation}{Frankfurt a. Main}}
+	\newcommand{\manager}{Detlef Exner}
+}
+\opt{Bachelor}{
+	\newcommand{\degree}{Bachelor of Science}
+	\newcommand{\company}{Company}
+	\newcommand{\lokation}{Mannheim}
+}
+
+
+\newcommand{\dhbws}{DHBW Mannheim}
+\opt{en}{\newcommand{\dhbw}{BW Cooperative State University Mannheim, Germany}}
+\opt{de}{\newcommand{\dhbw}{Duale Hochschule Baden-W{\"u}rttemberg Mannheim}}
+\opt{en}{\newcommand{\studiengang}{applied computer science}}
+\opt{de}{\newcommand{\studiengang}{Angewandte Informatik}}
+\newcommand{\prof}{Prof. Dr. C. B{\"u}rgy} % Tutor at DHBW
+
+\opt{listings}{
+	\newcommand{\listingssetup}{
+		\lstset{
+			language={[Visual]Basic},                  % the language of the code
+			basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+			numbers=left,                   % where to put the line-numbers
+			numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+			stepnumber=0,                   % the step between two line-numbers. If it's 1, each line 
+			                                % will be numbered
+			numbersep=5pt,                  % how far the line-numbers are from the code
+			backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+			showspaces=false,               % show spaces adding particular underscores
+			showstringspaces=false,         % underline spaces within strings
+			showtabs=false,                 % show tabs within strings adding particular underscores
+			frame=single,                   % adds a frame around the code
+			rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+			tabsize=2,                      % sets default tabsize to 2 spaces
+			captionpos=b,                   % sets the caption-position to bottom
+			breaklines=true,                % sets automatic line breaking
+			breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+			title=\lstname,                 % show the filename of files included with \lstinputlisting;
+			                                % also try caption instead of title
+			keywordstyle=\color{blue},      % keyword style
+			commentstyle=\color{green},   % comment style
+			stringstyle=\color{gray},       % string literal style
+			escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+			morekeywords={*,...}            % if you want to add more keywords to the set
+		}
+	}
+}
+
+%%%%%%%%%%%%
+%% Folgende Angaben müssen nicht verändert werden. Werden aber zur einfacheren Anpassung (falls nötig) hier aufgeführt
+\opt{PA}{
+	\opt{en}{\newcommand{\reporttype}{Internship Report}}
+	\opt{de}{\newcommand{\reporttype}{Projektarbeit}}
+}
+\opt{Bachelor}{
+	\opt{en}{\newcommand{\reporttype}{Bachelor thesis}}
+	\opt{de}{\newcommand{\reporttype}{Bachelorarbeit}}
+}
+\opt{Study}{
+	\opt{en}{\newcommand{\reporttype}{Study Report}}
+	\opt{de}{\newcommand{\reporttype}{Studienarbeit}}
+}
