@@ -26,18 +26,45 @@ In den nachfolgenden Unterkapiteln wird die Funktionsweise des Algorithmus, sowi
   \begin{center}
    \includegraphics[width=300pt]{generation_of_authentication_vectors}
   \end{center}
-  \caption{Übersicht über die Generierung der Authentifizierungsvektoren}
+  \caption{Übersicht über die Generierung der Authentifizierungsvektoren \cite{3gpp.33.102}}
   \label{abb:funktionsubersicht}
  \end{figure}
  
- Die Abbildung \ref{abb:funktionsubersicht} zeigt, dass zu Beginn die \ac{SQN} generiert wird. Diese besteht aus den beiden Teilen SEQ und IND, mit SEQ als der die eigentliche Sequenznummer und IND als Arrayindex. Auf der SIM-Karte sind nämlich die letzten SQNs in einem Array gespeichert. Die empfohlene Größe ist 32, was für IND eine Länge von fünf Bits bedeutet. Mit diesem Index kann nachher die Aktualität der SEQ überprüft werden. Für die Bildung der SEQ selbst gibt es drei verschiedene Möglichkeiten:
+ In Abbildung \ref{abb:funktionsubersicht} ist zu sehen, dass zu Beginn die \ac{SQN} generiert wird. Diese ist insgesamt 48 Bits lang und besteht aus den beiden Teilen SEQ und IND, mit SEQ als der die eigentliche Sequenznummer und IND als Arrayindex. Dieser Index wird benötigt, da auf der SIM-Karte sind die letzten SQNs in einem Array gespeichert. Die empfohlene Arraygröße ist 32, was für IND eine Länge von fünf Bits bedeutet. Mit diesem Index kann nachher die Aktualität der SEQ überprüft werden.\cite{3gpp.33.102} \\
+ Für die Bildung der SEQ selbst gibt es drei verschiedene Möglichkeiten:
  \begin{itemize}
   \item teilweise zeitbasiert
   \item nicht zeitbasiert
   \item komplett zeitbasiert
  \end{itemize}
  
+ Die einfachste Variante ist die nicht zeitbasierte Lösung, bei der lediglich ein Zähler hochgezählt wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt und gleichzeitig vom \ac{AuC} in einer Datenbank gespeichert \cite{3gpp.33.102}. Auf die anderen Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit keine Anwendung fanden.
+ 
+ Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Generell handelt es sich dabei um eine 128-bit lange Zufallszahl, die für jede Funktion benötigt wird.
+ 
+ Abbildung \ref{abb:funktionsubersicht} zeigt zwar, welche Variablen in die Funktionen einfließen und welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun verarbeitet werden. Dies zeigt Abbildung \ref{abb:schematisch_milenage} besser. Dort ist zu erkennen, dass \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und \emph{f1}, sowie \emph{f1*} noch einige zusätzliche Parameter haben.
+ 
+ Zunächst die Erklärung der Symbole sowie einiger weiterer Abkürzungen. \ac{OPc} wird durch folgende Formel generiert:
+ \begin{center}
+  $OP_{C} = OP \oplus E(OP)_{K}$
+ \end{center}
+ 
+ $E()$ ist die Blockschiffrierung. In diesem Falle wird also \ac{OP} mit dem Schlüssel \ac{K} verschlüsselt. Welche Verschlüsselung gewählt wird, wird von 3GPP nicht vorgegeben. In dieser Arbeit wurde \ac{AES} verwendet, welche im Kapitel \ref{aes} näher beschrieben wird. \\
+ Der verschlüsselte OP wird dann im zweiten Schritt über XOR ($\oplus$) mit dem ursprünglichen OP verknüpft.
+ 
+ \begin{figure}[ht]
+  \begin{center}
+   \includegraphics[width=400pt]{detailed_generation_of_authentication_vectors}
+  \end{center}
+  \caption{Schematische Darstellung zur Berechnung der Authentifizierungsvektoren \cite{3gpp.33.102}}
+  \label{abb:schematisch_milenage}
+ \end{figure}
+ 
+ In Abbildung \ref{abb:schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen. Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem Rotationswert r von 2: 011101.
+ 
+ 
  \subsubsection{AES}
+ \label{aes}
 
 \subsection{PPPoE}
 
