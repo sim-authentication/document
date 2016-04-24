@@ -38,8 +38,156 @@ In den nachfolgenden Unterkapiteln wird die Funktionsweise des Algorithmus, sowi
  \end{itemize}
  
  \subsubsection{AES}
+ \clearpage
 
-\subsection{PPPoE}
+\subsection{PPP}
+Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
+wird von Providern (\ac{ISP}) Implementierungen eines
+\ac{PPP} verwendet. Mit Protokollen dieser Art wurden zum Beispiel schon Modem- oder ISDN-Verbindungen
+aufgebaut. Heutige Szenarien sind unter anderem auch GPRS- und UMTS-Datenverbindungen -
+hier hauptsächlich in
+Form von \ac{PPPoE}. Auf beide Architekturen wird im folgenden
+genauer eingegangen.
+
+
+
+\subsubsection{Architektur PPP}
+\ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
+Datalink-Layers und wurde speziell für den Betrieb von Modems etc. entwickelt.
+Jede Maschine, die ein Modem in Betrieb hatte, nutzte bereits \ac{PPP} um z.B.
+Internet im lokalen Netzwerk freizuschalten und zu verteilen.
+Neben der Freischaltung von Internetverbindungen wird \ac{PPP} von vielen \ac{ISP}
+auch dazu verwendet Zugriffe zu monitoren sowie Angriffe durch Intrusion Detection zu vermeiden.
+In üblichen \ac{LAN}-Umgebungen ist es notwendig, dass eingesetzte Technologien die Datalink-Layer-Funktion
+implementieren und darüberhinhaus über einen MAC-Meschanismus verfügen, da verschiedene
+Quellen/Ziele das selbe Medium teilen könnten. Dieser Regulierungsmechanismus ist bei \ac{PPP}
+nicht notwendig, da es sich um eine Punkt-zu-Punkt bzw. Ende-zu-Ende-Verbindung handelt.
+In jedem Fall handelt es sich um genau zwei Teilnehmer:
+\begin{itemize}
+	\item Quelle
+	\item Ziel
+\end{itemize}
+
+Neben dem Datalink-Layer baut \ac{PPP} notwendigerweise auch auf der bestehenden Verbindung
+auf dem Physical-Layer auf.
+
+\paragraph{Motivation} Die Architektur ist gezielt sehr simpel gewählt. Es werden lediglich IP-Datagramme zwischen den
+Endgeräten enkapsuliert. Vergleichbar ist der Aufbau mit dem von Ethernet, jedoch ohne
+die notwendige Behandlung vieler Probleme die in sonstigen \ac{LAN}- und Breitbandumgebungen
+auftreten können. So ist der Header z.B. nur 8 Byte statt 16 Byte lang. Doch dazu später mehr.
+\ac{PPP} wurde als Alternative zum bereits bestehenden \ac{SLIP} implementiert, welches neben den notwendigen
+Methoden, dem multiplexen verschiedener Netzwerklayer-Protokolle sowie mehrere Authentifizierungsmethoden noch zusätzliche Funktionen ermöglichte, die nicht benötigt werden.
+
+\paragraph{PPP Frame}
+Ein \ac{PPP}-Frame ist wie folgt aufgebaut:
+
+\begin{itemize}
+\item flag (1 Byte) - hexadezimal - Funktion des Paketdelimiter
+\item address (1 Byte) - hexadezimal (FF) - Indikator für 'adressiert an alle Stationen'
+\item control (1 Byte) - hexadezimal (03) -identifiziert Paket als \ac{HDLC}
+\item protocol (2 Byte) - hexadezimal - identifiziert erwünschtes bzw. eingesetztes Protokoll
+	\begin{itemize}
+		\item 0xxx bis 3xxx : Netzwerklayer-Protokolle
+		\item 4xxx bis 7xxx : Low Level Netzwerklayer Protokolle ohne \ac{NCP}
+		\item 7xxx bis bxxx : Low Level Netzwerklayer Protokolle mit \ac{NCP}
+		\item cxxx bis fxxx : Link Layer Protokoll wie LCP und zusätzliche Authentifizierungsprotokolle
+	\end{itemize}
+\item data and pad (variabel, maximal 1.500 Byte)
+\item frame check sequence (2 Byte oder 4 Byte)
+\item flag (1 Byte)
+\end{itemize}
+
+ \begin{figure}[htp]
+  \begin{center}
+   \includegraphics[width=500pt]{aufbau_ppp_frame}
+  \end{center}
+  \caption{Aufbau eines PPP-Frames}\cite{tcpipillustrated}
+  \label{abb:aufbau_ppp_frame}
+ \end{figure}
+
+Diverse oben genannte Felder können in ihrer Länge variieren, da 
+diese während des Verbindungsaufbaus vom \ac{LCP} ausgehandelt werden.
+
+\paragraph{LCP Frame} Um die effizienteste Verbindungsart zu finden, benutzen PPP-Systeme
+immer \ac{LCP} um die korrekten Parameter auszuhandeln. LCP-Nachrichten in ausgetauschten
+PPP-Frames enthalten somit alle Konfigurationsoptionen für die sich gerade aufbauende
+Verbindung. Ist eine Konfiguration gefunden, die beide Knoten unterstützen folgt der
+Link-Establishment-Prozess. Ist dieser erreicht müssen danach keine weiteren redundanten
+Paketinformationen im Header mitgetragen werden.
+
+Ein LCP-Frame ist wie folgt aufgebaut:
+\begin{itemize}
+	\item code (1 Byte) - hexadezimal - enhält den Messagetyp (als Codes spezifiziert)
+	\item identifier (1 Byte) - hexadezimal - mit diesen werden Anfragen bzw. Antworten mit einzelnen LCP-Transaktionen in Verbindung gebracht
+	\item length (2 Byte) - hexadezimal - beinhaltet die Länge der Nachricht (inklusive code, identifier, length, data)
+	\item data (variabel) - hexadezimal - Nutzdaten
+\end{itemize}
+
+\ac{LCP} ist so entworfen, dass Hersteller ihre eigenen Optionen einsetzen können, ohne
+selbige explizit über \ac{IANA} spezifizieren zu müssen. Dokumentiert ist dies in \textbf{RFC2153}.
+
+\paragraph{Aufbauphasen} Nachfolgend werden die verschiedenen Aufbauphasen des
+PPP-Protokolls erläutert. Im \Anhang{abb:aufbauphasen_pppverbindung} befindet
+sich eine Abbildung, die diesen Vorgang illustriert.
+
+\textbf{Link Dead Phase:}
+Beide Systeme fangen mit dieser Phase an und enden hiermit wieder.
+Grundlage ist, dass außer (maximal) dem Link auf physischer Ebene,
+keine Verbindung zwischen beiden Endpunkten besteht. Normalerweise
+wird nach sicherstellen des physischen Links von einer Seite der
+Aufbau der Verbindung initiiert. Dies geschieht meist mit einer Form von Modem.
+Nach Abschluss der Initiierung beginnt die nachfolgende Phase.
+
+\textbf{Link Establishment Phase:}
+Das initiierende System System sendet eine \ac{LCP}-Nachricht an das Zielsystem,
+um Optionen anzufordern, die gesetzt werden sollen. Dazu gehören
+Netzwerklayer-Protokoll, Authentifizierungsmethode und andere optionale
+Funktionen. Sofern das Zielsystem alle angeforderten Optionen beherrscht,
+kann dieses eine Bestätigung (\textbf{ACK}) an das Quellsystem senden.
+Ist dies nicht der Fall, wird eine Anwort verfasst, die sowohl alle
+\textit{nicht unterstützten} als auch alle \text{unterstützten} Optionen
+enthält, damit das Quellsystem nach Empfang dieser Information eine
+Verbindung initiieren kann, die in jedem Fall von beiden Seiten unterstützt
+wird. Das erfolgreiche Abschließen dieser Phase führt zur nächsten Phase.
+
+\textbf{Authentication Phase:}
+Diese Phase ist optional. Ausgelöst wird sie durch das vorhandensein einer
+Authentifizierungsoption in der LCP-Konfigurationsnachricht.
+Zur Auswahl stehen z.B. \ac{PAP} oder \ac{CHAP}.
+Hierbei greift PAP auf Username und Passwort, CHAP auf eines komplexeren Informationsaustausch
+mit einem Challenge-Response-Verfahren zurück. Wobei der Erfolg immer zu nächsten
+Phase führt ist die Reaktion bei Misserfolg des Vorgangs Protokollabhängig.
+
+\textbf{Link Quality Monitoring:}
+Diese Phase ist wie ihr Vorgänger ebenfalls optional - ebenfalls ausgelöst durch
+die gewählt Option in der LCP-Nachricht.
+Hier aus mehreren Protokollen gewählt werden. Eines davon ist standardisiert:
+das 'Link Quality Report Protocol'. Registriert werden unter anderem der Linktraffic
+sowie Fehlermeldungen.
+
+\textbf{Network Layer Protocol Configuration:}
+Wie bereits erwähnt unterstützt PPP  das multiplexen von Protokollen auf
+Netzwerklayerebene. Für jedes einzelne, das eingesetzt wird,
+führt das System einen separaten Prozess des Verbindungsaufbaus durch.
+Jedes Netzwerklayerprotokoll verfügt über einen eigenes \ac{NCP} sowie \ac{IPCP}.
+Vergleichbar ist dies mit dem Aufbau von \ac{LCP} - nur spezifischer.
+
+\textbf{Link Open Phase:}
+Nachdem alle individuellen Optionen und NCP-Exchanges erfolgreich durchgeführt wurden,
+ist der Verbindungsaufbau komplett und Protokolldaten können jetzt über den aufgebauten
+Link in beide Richtungen ausgetauscht werden.
+
+\textbf{Link Termination Phase:}
+Wird die Verbindung absichtlich (Ablauf der Session, Authentifizierungsfehler)
+oder durch Fehler o.ä. physikalisch getrennt, wird im Regelfall über \ac{LCP}
+eine 'Terminate Request Message' versandt. Diese kann von der Gegenseite
+angenommen (\textit{AKC}) werden, sofern die grundlegende Verbindung noch aktiv ist.
+Beide Systeme sind dann wieder in der ursprünglich genannten 'Link Dead Phase'.
+Eine Terminierung der Verbindung ist neben \ac{LCP} auch auf \ac{NCP}-Ebene möglich,
+damit die PPP-Verbindung trotz 'Terminierung' bestehen bleibt.
+
+
+\subsubsection{Architektur PPPoE}
 
 \subsection{raspberry pi}
 
