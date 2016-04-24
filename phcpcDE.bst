@@ -1591,9 +1591,9 @@ FUNCTION {www}
     }
   if$
   new.block
-  title empty$ 'skip$ 'possibly.setup.inlinelink if$
-  format.title "title" output.check
-  inbrackets onlinestring output
+  title empty$
+    'skip$
+   { format.title "title" output.check }
   new.block
   year empty$
     'skip$
