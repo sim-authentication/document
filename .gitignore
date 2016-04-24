@@ -31,6 +31,7 @@
 *.out
 *.pdfsync
 *.ps
+main.pdf
 *.run.xml
 *.snm
 *.synctex.gz
