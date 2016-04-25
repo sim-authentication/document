@@ -13,15 +13,29 @@
 \subsection{Milenage Algorithmus}
 \label{milenage}
 Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und Kommunikation gewährleistet werden können. Dies war wie in Kapitel \Verweis{geschichte-usim} bereits beschrieben mit dem ersten entwickelten Algorithmus des \ac{3GPP} nicht mehr gewährleistet, weshalb mit der Entwicklung des neuen Netzstandards auch ein neuer Algorithmus entwickelt wurde, namentlich der Milenage Algorithmus. \\
-Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3}, \emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und Schlüsselgenerierung ermöglicht wird. 3GPP hat allerdings wie auch beim Vorgänger diese Funktionen nicht näher spezifiziert und ermöglicht den Netzprovidern eigenen Lösungen zu implementieren. Stattdessen wird beschrieben in welchem Kontext diese Funktionen Anwendung finden und definieren generelle Anforderungen an diese Algorithmen \cite{3gpp.35.205}.
+Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3}, \emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei lediglich für die Re-synchonisation nötig. \\
+3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht den Netzprovidern eigenen Lösungen zu implementieren. Stattdessen wird beschrieben in welchem Kontext diese Funktionen Anwendung finden und definieren generelle Anforderungen an diese Algorithmen \cite{3gpp.35.205}.
 
 Der Milenage Algorithmus hat wie erwähnt zwei Hauptaufgaben, nämlich einerseits die Authentifizierung, als auch die Generierung eines Schlüssel, um die versendeten Nachrichten zu ver- und entschlüsseln. Wenn es um die Authentifizierung geht muss sich einerseits die SIM-Karte, bzw. das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits muss sich auch das Netzwerk gegenüber der SIM-Karte authentifizieren. Damit soll die Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
 
 In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des Algorithmus, sowie die Funktionsweise der eingesetzten Blockschiffrierung \ac{AES} erläutert.
 
- \subsubsection{Ein Überblick}
+ \subsubsection{Warum Milenage sicher ist}
+ In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass das die Mechanismen zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur Berechnung der Daten weißt einige Vorteile auf. \\
+ Ein wichtiger Punkt dabei ist, dass der Vorgänger geheim war und Milenage nicht, denn ein solcher Algorithmus sollte öffentlich sein, damit möglichst viele Leute drüber gucken können und eventuelle Schwachstellen rechtzeitig bemerkt werden. 
  
- \cite{putz01}
+ Stephan Spitz zeigt in seinem Buch ``Kryptographie und IT-Sicherheit''  \cite{spitz11} drei wesentliche Gründe auf, die den Algorithmus sicher machen:
+ 
+ \paragraph{Ergebnisse mit hoher Entropie}
+ Wenn der Schlüssel \ac{K} unbekannt ist und die die Eingabeparameter \ac{SQN}, \ac{RAND} und \ac{AMF} variieren, dann werden ``sehr gute Pseudo-Zufalls-Ergebnisse mit einer hohen Entropie'' \cite{spitz11} erreicht. Dafür muss aber auch eine gute Blockschiffrierung wie AES eingesetzt werden.
+ 
+ \paragraph{Keine Rückschlüsse auf K möglich}
+ Wenn die Eingabe- und Ausgabeparameter der einzelnen Funktionen \emph{f1} bis \emph{f5} analysiert werden, lassen sich keine Rückschlüsse auf den Schlüssel K oder das \acf{OP} ziehen, auch nicht auf Teile dessen. Dies hängt unter anderem damit zusammen, dass K nicht direkt in die Funktionen eingeht.
+ 
+ \paragraph{Schlüssellänge}
+ Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der Schlüssellänge von 128 Bits zu aufwändig mit aktuellen Rechnern.
+ 
+ \textbf{Kapitel über die Vorraussetzungen an einzelne Parameter, bzw. wie diese angepasst werden können?}
 
  \subsubsection{Funktionsweise}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert sind. Diese sind der \ac{OP} und \ac{K}, sowie jeweils fünf Rotations- und XOR-Konstanten (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert zeigt dabei \Abbildung{funktionsubersicht}.
@@ -66,9 +80,13 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
  
  In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen. Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem Rotationswert r von 2: 011101.
  
+ Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*} ausgehen von einem verschlüsselten $RAND \oplus OP_{C}$, welcher in der Dokumentation auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ {C}$ verknüpft und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR-Verknüpfung mit der speziellen XOR-Konstante c und die Schiffrierung des Ausgabewertes. Im letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
+ Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
+ 
  
  \subsubsection{AES}
  \label{aes}
+ 
  \cite{paar09}
  
  \clearpage
