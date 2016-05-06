@@ -239,8 +239,121 @@ damit die PPP-Verbindung trotz 'Terminierung' bestehen bleibt.
 
 
 \subsubsection{Architektur PPPoE}
+Zur Realisierung der Verbindung zwischen Authentifizierungsstelle und
+Endgerät wurde aufgrund der Beschaffenheit des Raspberry Pis eine
+Ethernetverbindung gewählt. Dieser wird das im vorangegangenen
+Abschnitt erläuterte \ac{PPP}-Protokoll zugrunde gelegt.
+In Ethernetframes werden PPP-Daten als Nutzdaten enkapsuliert.
+Diese Methode wurde auch im realen Umfeld dazu entwickelt \ac{ISP}s die
+Möglichkeit zu geben Verbindungen über Kabelmodem oder DSL in Form
+von Bridged-Topologien zu realisieren. Provider bewerkstelligen
+so auch die Endpunktidentifikation, Accounting und Rechnungserstellung.
+(Beschrieben wird der Standard in RFC2516)
 
-\subsection{raspberry pi}
+\paragraph{Aufbauphasen}
+im Kontext einer PPPoE-Verbindung sind Discovery und Session.
+Beide werden nachfolgend erläutert.
+
+\paragraph{Discovery}
+ist die Phase, in der der Client PPPoE-Frames dazu verwendet einen
+Zugangspunkt zu finden.
+
+Dies geschieht in den folgenden Schritten bzw. Frames:
+\begin{enumerate}
+\item PPPoE Active Discovery Initiation (PADI) - Ein Frame, vom Client
+      gesendet an die Broadcastadresse 0xFF-FF-FF-FF-FF-FF.
+      Falls vorhanden, werden weitere Parameter als Payload 
+      mitgeschickt. (Codefeld:9; Session-ID:0)
+\item PPPoE Active Discovery Offer (PADO) - Ein Frame, der von der
+      Authentifizierungsstelle an die Unicast MAC-Adresse des
+      initiierenden Client geschickt wird. Weitere Parameter wie
+      Service-Name o.ä. können ebenfalls mitgeschickt
+      werden. (Codefeld:7; Session-ID:0)
+\item PPPoE Active Discovery Request (PADR) - Ein Frame, der vom Client
+      an die Unicat MAC-Adresse der Authentifizierungsstelle geschickt
+      wird. (Codefeld:25; Session-ID:0)
+\item PPPoE Active Discovery Session-Confirmation (PADS) - Ein Frame,
+      der von der Authentifizierungsstelle an die Unicast MAC-Adresse
+      des Client geschickt wird. Er enthält alle ausgehandelten Daten
+      mit der zugewiesenen Session-ID. (Codefeld:101; Session-ID:XX)
+\item PPPoE Active Discovery Terminate (PADT) - Ein Frame,
+      der von beiden Endpunkten geschickt werden kann. Er signalisiert
+      die gewünschte Verbindungsterminierung des Absenders.
+      (Codefeld:167)
+\end{enumerate}
+
+\paragraph{Session}
+ist die Phase, in der die PPPoE-Verbindung bereits erfolgreich
+aufgebaut ist und Daten ausgetauscht werden können.
+Dieser Zustand ist erreicht, sobald die PPPoE-Discovery-Phase
+erfolgreich abgeschlossen ist.
+
+<PPP-Daten im Ethernet Frame Abb?>
+
+\subsection{Raspberry Pi}
+
+Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
+
+\subsubsection{Raspberry Pi Foundation}
+Entwickelt wird der Raspberry Pi von der Raspberry Pi Foundation\footnote{\url{https://www.raspberrypi.org}}
+(registriert in Großbritannien). Ziel der Organisation ist es,
+seit Veröffentlichung des ersten Modells, einen kostengünstigen
+Computer vorrangig für Bildungszwecke zu entwerfen. Auf diesem
+Weg soll sowohl Erwachsenen als auch Kindern der Zugang zum
+Programmieren oder anderen wissenschaftlichen Anwendungsgebieten
+erleichtert werden.
+
+Bisher wurden seit der initialen Veröffentlichung im Februar 2012(\cite{rasppifoundweb})
+drei Generationen in unterschiedlichen Ausführungen
+entwickelt. Die Bezeichnung A(+) bzw. B(+) gibt jeweils Aufschluss
+über die jeweilige Ausführung.
+
+\subsubsection{Hardware Modell B}
+Das eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
+\begin{itemize}
+\item CPU - 700 MHz Singlecore ARM1176JZF-S
+\item RAM - 512 MB
+\item Speicherslot - SDHC
+\item Grafikprozessor - Broadcom VideoCore IV
+\end{itemize}
+
+\subsubsection{Betriebssystem}
+Als Betriebssystem gibt es für den Raspberry Pi eine breite Auswahl.
+Neben einer Vielzahl von Media-Center-Plattformen sind auch alle
+Desktop- bzw. Server-Versionen gängiger Linux-Derivate verfügbar:
+Arch Linux, Puppy Linux, Raspbian, openSUSE, Gentoo Linux, Ubuntu Mate,
+CentOS, Slackware, ...
+
+\paragraph{Raspbian}
+Aufgrund hoher Stabilität und Verfügbarkeit aller benötigten Treiber
+(u.a. dem SIM-Kartenleser) wurde die auf \textit{Debian GNU Linux}\footnote{\url{https://www.debian.org/}}
+basierende Distribution \textit{Raspbian}\footnote{\url{https://www.raspbian.org/}} ausgewählt.
+Es erbt somit alle Eigenschaftem vom übergeordneten Debianprojekt.
+So auch den Paketmanager \textit{dpkg} mit ca. 35.000 vorkompilierten
+Softwarepaketen - in einigen Fällen für den Betrieb mit dem
+Raspberry Pi optimiert. Nicht vorpaketierte Software kann auf dem Raspberry
+Pi durch vorhandensein einer Vielzahl von Libraries und Build-Tools
+für die ARM-Architektur kompiliert werden.
+
+Über den rein funktionalen Konsolenbetrieb hinaus, wird Raspbian standardmäßig mit den
+Windowmanagern XFCE oder LXDE ausgeliefert.
+
+Nachdem im Juni 2012(\cite{raspbianweb}) die erste
+Version fertiggestellt wurde ist Raspbian nach wie vor aktiv
+in Entwicklung. Momentan im stabilen Debian-Release \textit{Jessie}.
+Selbiges wird auch zur Umsetzung des Endgerätes eingesetzt.
+Die vorkompilierten Pakete stammen dementsprechend aus dem aktuellen
+\textit{stable}-Zweig, der häufig vor allem im Umfeld des Serverbetriebes
+anzutreffen ist. Die Ursache hierfür ist die Tatsache, dass das
+Projekt Pakete erst nach einem langen Testprozess im \textit{unstable}-
+sowie darauffolgenden \textit{testing-}Zweig für den \textit{stable}-Zweig
+freigibt. Im Kontrast zu gängigen Desktop-Distributionen, die
+im Vergleich zu Debian stärker auf Aktualität achten.
+
+Neben den Zielen der Raspberry Pi Foundation verfolgt das Projekt
+auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
+den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}} lizensiert und durch die Raspbian-Community unabhängig
+entwickelt.
 
 \subsection{pysim}
 
