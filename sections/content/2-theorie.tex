@@ -355,6 +355,52 @@ auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
 den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}} lizensiert und durch die Raspbian-Community unabhängig
 entwickelt.
 
+\subsection{PC/SC}
+Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
+auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
+dementsprechend zu organisieren. Ein Standard, der sich mit genau
+dieser Problemstellung befasst ist der \textit{PC/SC}-Standard.
+Er definiert Schnittstellen, die dem Zugriff auf Chipkarten ausgehend
+von mehreren Applikationen bzw. Nutzern ermgöglichen. Grundlegend
+dafür benötigt werden neben dem Standardkonformen Treiber ein \ac{IFD} und
+eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
+
+ \begin{figure}[htp]
+  \begin{center}
+   \includegraphics[width=300pt]{pcscspec_chipkartenitsicherheit}
+  \end{center}
+  \caption{Architektur des PC/SC-Standards}\cite{spitz11}
+  \label{abb:architektur_pcsc}
+ \end{figure}
+
+Der Unterschied zum ähnlichen CT-API-Standard fängt in der Ebene
+des \textit{ICC Resource Managers} an. Also der Abstraktion der
+APDU-Schnittstelle in der Chipkartenmiddleware.\cite{spitz11}
+Selbiger Manager organisiert sowohl die Vergabe von Terminals inklusive
+der vorhandenen Chipkarte, als auch das Zuordnen zusammenhängender
+APDU-Kommandoketten.
+
+Losgelöst davon können Daten auf der Chipkarte abgelegt werden. Im Umfeld
+der SIM-Karte sind dies Kontakte, SMS, o.ä. Hierfür zuständig ist der
+\textit{ICC Service Provider}. Ebenfalls dazu gehören administrative Dateisystemzugriffe
+wie das Ändern des PIN-Codes.
+
+Der \textit{Cryptographic Service Provider} ist die ausführende Komponente
+der auf der Chipkarte implementierten Algorithmen zur Authentifizierung mittels
+Kryptoalgorithmen. Auslöser für die Aufteilung in zwei Schnittstellen -
+\textit{Crypto Service Provider} und \textit{ICC Service Provider} sind
+rechtliche Grundlagen. In manchen Staaten ist der Import von
+Verschlüsselungtechnologien auf diesem Weg untersagt.
+
+Unter Einhaltung des Standards ist es mit oben genannter Architektur möglich,
+dass parallel aus verschiedenen Anwendungen auf unterschiedliche Konstellationen
+von Chipkarten und Lesern zugegriffen wird.
+
+Sowohl unter Windows als auch in vielen Linux-Distributionen sind
+\textit{PC/SC-Treiber} mittlerweile verbreitet.
+
+\subsection{Die Sprache Python}
+
 \subsection{pysim}
 
 \subsection{Die Sprache C}
