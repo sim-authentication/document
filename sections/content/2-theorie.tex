@@ -44,7 +44,7 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
   \begin{center}
    \includegraphics[width=300pt]{generation_of_authentication_vectors}
   \end{center}
-  \caption{Übersicht über die Generierung der Authentifizierungsvektoren \cite{3gpp.33.102}}
+  \caption[Übersicht über die Generierung der Authentifizierungsvektoren]{Übersicht über die Generierung der Authentifizierungsvektoren \cite{3gpp.33.102}}
   \label{fig:funktionsubersicht}
  \end{figure}
  
@@ -74,7 +74,7 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
   \begin{center}
    \includegraphics[width=400pt]{detailed_generation_of_authentication_vectors}
   \end{center}
-  \caption{Schematische Darstellung zur Berechnung der Authentifizierungsvektoren \cite{3gpp.33.102}}
+  \caption[Schematische Darstellung der Berechnung der Authentifizierungsvektoren]{Schematische Darstellung der Berechnung \cite{3gpp.33.102}}
   \label{fig:schematisch_milenage}
  \end{figure}
  
@@ -94,12 +94,22 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
  
  \subsubsection{Geschichte}
  \label{aes-geschichte}
+ Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreitung der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere Argumente finden sich in \cite{paar09}. Es gab deswegen die Empflung den dreifach DES zu nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue Blockverschlüsselung suchte über eine Ausschreibung (1997).
  
+ An die neue Verschlüsselung wurden folgende Bedingungen gestellt:
+\begin{itemize}
+ \item Blockverschlüsselung mit einer Blocklänge von 128 Bits
+ \item Die drei Schlüssellängen 128. 192 und 256 Bits müssen unterstützt werden
+ \item Sicherheitslevel ähnlich anderer Algorithmen
+ \item Effizient in Soft- und Hardware
+\end{itemize} 
+
+Die Suche nach dem neuen Algorithmus fand öffentlich statt, sodass sich jeder auf der ganzen Welte beteiligen konnte und im August 1999 fünf Finalisten gekührt wurden. Dabei wurden öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 hat NIST mit Rijndael den Gewinner bekannt gegeben. Dieser wurde von den beiden Belgiern Joan Daemon und Vincent Rijmen entwickelt.
+
+An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in AES hat. So hat diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu verschlüsseln und selbst als \emph{TOP SECRET} einegstufte Dokumente dürfen mit einer Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar09}
  
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
- 
- \cite{paar09}
  
  \clearpage
 
@@ -164,7 +174,7 @@ Ein \ac{PPP}-Frame ist wie folgt aufgebaut:
   \begin{center}
    \includegraphics[width=500pt]{aufbau_ppp_frame}
   \end{center}
-  \caption{Aufbau eines PPP-Frames}\cite{tcpipillustrated}
+  \caption[Aufbau eines PPP-Frames]{Aufbau eines PPP-Frames \cite{tcpipillustrated}}
   \label{abb:aufbau_ppp_frame}
  \end{figure}
 
@@ -391,7 +401,7 @@ eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
   \begin{center}
    \includegraphics[width=300pt]{pcscspec_chipkartenitsicherheit}
   \end{center}
-  \caption{Architektur des PC/SC-Standards}\cite{spitz11}
+  \caption[Architektur des PC/SC-Standards]{Architektur des PC/SC-Standards \cite{spitz11}}
   \label{abb:architektur_pcsc}
  \end{figure}
 
