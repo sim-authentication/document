@@ -12,33 +12,69 @@
 
 \subsection{Milenage Algorithmus}
 \label{milenage}
-Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und Kommunikation gewährleistet werden können. Dies war wie in Kapitel \Verweis{geschichte-usim} bereits beschrieben mit dem ersten entwickelten Algorithmus des \ac{3GPP} nicht mehr gewährleistet, weshalb mit der Entwicklung des neuen Netzstandards auch ein neuer Algorithmus entwickelt wurde, namentlich der Milenage Algorithmus. \\
-Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3}, \emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei lediglich für die Re-synchonisation nötig. \\
-3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht den Netzprovidern eigenen Lösungen zu implementieren. Stattdessen wird beschrieben in welchem Kontext diese Funktionen Anwendung finden und definieren generelle Anforderungen an diese Algorithmen \cite{3gpp.35.205}.
+Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und
+Kommunikation gewährleistet werden können. Dies war wie in Kapitel \Verweis{geschichte-usim}
+bereits beschrieben mit dem ersten entwickelten Algorithmus des \ac{3GPP} nicht mehr
+gewährleistet, weshalb mit der Entwicklung des neuen Netzstandards auch ein neuer
+Algorithmus entwickelt wurde, namentlich der Milenage Algorithmus. \\
+Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3},
+\emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und
+Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei lediglich für die
+Re-synchonisation nötig. \\
+3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht
+den Netzprovidern eigenen Lösungen zu implementieren. Stattdessen wird beschrieben in
+welchem Kontext diese Funktionen Anwendung finden und definieren generelle Anforderungen
+an diese Algorithmen \cite{3gpp.35.205}.
 
-Der Milenage Algorithmus hat wie erwähnt zwei Hauptaufgaben, nämlich einerseits die Authentifizierung, als auch die Generierung eines Schlüssel, um die versendeten Nachrichten zu ver- und entschlüsseln. Wenn es um die Authentifizierung geht muss sich einerseits die SIM-Karte, bzw. das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits muss sich auch das Netzwerk gegenüber der SIM-Karte authentifizieren. Damit soll die Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
+Der Milenage Algorithmus hat wie erwähnt zwei Hauptaufgaben, nämlich einerseits die
+Authentifizierung, als auch die Generierung eines Schlüssel, um die versendeten Nachrichten zu
+ver- und entschlüsseln. Wenn es um die Authentifizierung geht muss sich einerseits die SIM
+Karte, bzw. das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits
+muss sich auch das Netzwerk gegenüber der SIM-Karte authentifizieren. Damit soll die
+Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden
+erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor
+aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
 
-In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des Algorithmus, sowie die Funktionsweise der eingesetzten Blockschiffrierung \ac{AES} erläutert.
+In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des
+Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erläutert.
 
  \subsubsection{Warum Milenage sicher ist}
- In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass das die Mechanismen zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur Berechnung der Daten weißt einige Vorteile auf. \\
- Ein wichtiger Punkt dabei ist, dass der Vorgänger geheim war und Milenage nicht, denn ein solcher Algorithmus sollte öffentlich sein, damit möglichst viele Leute drüber gucken können und eventuelle Schwachstellen rechtzeitig bemerkt werden. 
+ In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass das die Mechanismen
+ zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige
+ Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur
+ Berechnung der Daten weißt einige Vorteile auf. \\
+ Ein wichtiger Punkt dabei ist, dass der Vorgänger geheim war und Milenage nicht, denn ein
+ solcher Algorithmus sollte öffentlich sein, damit möglichst viele Leute drüber gucken können und
+ eventuelle Schwachstellen rechtzeitig bemerkt werden. 
  
- Stephan Spitz zeigt in seinem Buch ``Kryptographie und IT-Sicherheit''  \cite{spitz11} drei wesentliche Gründe auf, die den Algorithmus sicher machen:
+ Stephan Spitz zeigt in seinem Buch ``Kryptographie und IT-Sicherheit''  \cite{spitz11} drei
+ wesentliche Gründe auf, die den Algorithmus sicher machen:
  
  \paragraph{Ergebnisse mit hoher Entropie}
- Wenn der Schlüssel \ac{K} unbekannt ist und die die Eingabeparameter \ac{SQN}, \ac{RAND} und \ac{AMF} variieren, dann werden ``sehr gute Pseudo-Zufalls-Ergebnisse mit einer hohen Entropie'' \cite{spitz11} erreicht. Dafür muss aber auch eine gute Blockschiffrierung wie AES eingesetzt werden.
+ Wenn der Schlüssel \ac{K} unbekannt ist und die die Eingabeparameter \ac{SQN}, \ac{RAND}
+ und \ac{AMF} variieren, dann werden ``sehr gute Pseudo-Zufalls-Ergebnisse mit einer hohen
+ Entropie'' \cite{spitz11} erreicht. Dafür muss aber auch eine gute Blockchiffre wie AES
+ eingesetzt werden.
  
  \paragraph{Keine Rückschlüsse auf K möglich}
- Wenn die Eingabe- und Ausgabeparameter der einzelnen Funktionen \emph{f1} bis \emph{f5} analysiert werden, lassen sich keine Rückschlüsse auf den Schlüssel K oder das \acf{OP} ziehen, auch nicht auf Teile dessen. Dies hängt unter anderem damit zusammen, dass K nicht direkt in die Funktionen eingeht.
+ Wenn die Eingabe- und Ausgabeparameter der einzelnen Funktionen \emph{f1} bis \emph{f5}
+ analysiert werden, lassen sich keine Rückschlüsse auf den Schlüssel K oder das \acf{OP}
+ ziehen, auch nicht auf Teile dessen. Dies hängt unter anderem damit zusammen, dass K nicht
+ direkt in die Funktionen eingeht.
  
  \paragraph{Schlüssellänge}
- Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der Schlüssellänge von 128 Bits zu aufwändig mit aktuellen Rechnern.
+ Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der
+ Schlüssellänge von 128 Bits zu aufwändig mit aktuellen Rechnern.
  
- \textbf{Kapitel über die Vorraussetzungen an einzelne Parameter, bzw. wie diese angepasst werden können?}
+ \textbf{Kapitel über die Vorraussetzungen an einzelne Parameter, bzw. wie diese angepasst
+ werden können?}
 
  \subsubsection{Funktionsweise}
- In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert sind. Diese sind der \ac{OP} und \ac{K}, sowie jeweils fünf Rotations- und XOR-Konstanten (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert zeigt dabei \Abbildung{funktionsubersicht}.
+ In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen
+ \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es
+ gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert
+ sind. Diese sind der \ac{OP} und \ac{K}, sowie jeweils fünf Rotations- und XOR-Konstanten
+ (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert zeigt dabei \Abbildung{funktionsubersicht}.
  
  \begin{figure}[htp]
   \begin{center}
@@ -48,7 +84,12 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
   \label{fig:funktionsubersicht}
  \end{figure}
  
- In \Abbildung{funktionsubersicht} ist zu sehen, dass zu Beginn die \ac{SQN} generiert wird. Diese ist insgesamt 48 Bits lang und besteht aus den beiden Teilen SEQ und IND, mit SEQ als der die eigentliche Sequenznummer und IND als Arrayindex. Dieser Index wird benötigt, da auf der SIM-Karte sind die letzten SQNs in einem Array gespeichert. Die empfohlene Arraygröße ist 32, was für IND eine Länge von fünf Bits bedeutet. Mit diesem Index kann nachher die Aktualität der SEQ überprüft werden.\cite{3gpp.33.102} \\
+ In \Abbildung{funktionsubersicht} ist zu sehen, dass zu Beginn die \ac{SQN} generiert wird.
+ Diese ist insgesamt 48 Bits lang und besteht aus den beiden Teilen SEQ und IND, mit SEQ als
+ der die eigentliche Sequenznummer und IND als Arrayindex. Dieser Index wird benötigt, da auf
+ der SIM-Karte sind die letzten SQNs in einem Array gespeichert. Die empfohlene Arraygröße ist
+ 32, was für IND eine Länge von fünf Bits bedeutet. Mit diesem Index kann nachher die
+ Aktualität der SEQ überprüft werden.\cite{3gpp.33.102} \\
  Für die Bildung der SEQ selbst gibt es drei verschiedene Möglichkeiten:
  \begin{itemize}
   \item teilweise zeitbasiert
@@ -56,19 +97,33 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
   \item komplett zeitbasiert
  \end{itemize}
  
- Die einfachste Variante ist die nicht zeitbasierte Lösung, bei der lediglich ein Zähler hochgezählt wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt und gleichzeitig vom \ac{AuC} in einer Datenbank gespeichert \cite{3gpp.33.102}. Auf die anderen Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit keine Anwendung fanden.
+ Die einfachste Variante ist die nicht zeitbasierte Lösung, bei der lediglich ein Zähler hochgezählt
+ wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt und
+ gleichzeitig vom \ac{AuC} in einer Datenbank gespeichert \cite{3gpp.33.102}. Auf die anderen
+ Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit keine Anwendung
+ fanden.
  
- Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Generell handelt es sich dabei um eine 128-bit lange Zufallszahl, die für jede Funktion benötigt wird.
+ Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND
+ generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde.
+ Generell handelt es sich dabei um eine 128-bit lange Zufallszahl, die für jede Funktion benötigt wird.
  
- \Abbildung{funktionsubersicht} zeigt zwar, welche Variablen in die Funktionen einfließen und welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun verarbeitet werden. Dies zeigt \Abbildung{schematisch_milenage} besser. Dort ist zu erkennen, dass \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und \emph{f1}, sowie \emph{f1*} noch einige zusätzliche Parameter haben.
+ \Abbildung{funktionsubersicht} zeigt zwar, welche Variablen in die Funktionen einfließen und
+ welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun verarbeitet
+ werden. Dies zeigt \Abbildung{schematisch_milenage} besser. Dort ist zu erkennen, dass
+ \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und \emph{f1},
+ sowie \emph{f1*} noch einige zusätzliche Parameter haben.
  
- Zunächst die Erklärung der Symbole sowie einiger weiterer Abkürzungen. \ac{OPc} wird durch folgende Formel generiert:
+ Zunächst die Erklärung der Symbole sowie einiger weiterer Abkürzungen. \ac{OPc} wird durch
+ folgende Formel generiert:
  \begin{center}
   $OP_{C} = OP \oplus E(OP)_{K}$
  \end{center}
  
- $E()$ ist die Blockschiffrierung. In diesem Falle wird also \ac{OP} mit dem Schlüssel \ac{K} verschlüsselt. Welche Verschlüsselung gewählt wird, wird von 3GPP nicht vorgegeben. In dieser Arbeit wurde \ac{AES} verwendet, welche im Kapitel \Verweis{aes} näher beschrieben wird. \\
- Der verschlüsselte OP wird dann im zweiten Schritt über XOR ($\oplus$) mit dem ursprünglichen OP verknüpft.
+ $E()$ ist die Blockchiffre. In diesem Falle wird also \ac{OP} mit dem Schlüssel \ac{K}
+ verschlüsselt. Welche Verschlüsselung gewählt wird, wird von 3GPP nicht vorgegeben. In
+ dieser Arbeit wurde \ac{AES} verwendet, welche im Kapitel \Verweis{aes} näher beschrieben wird. \\
+ Der verschlüsselte OP wird dann im zweiten Schritt über XOR ($\oplus$) mit dem ursprünglichen
+ OP verknüpft.
  
  \begin{figure}[ht]
   \begin{center}
@@ -78,23 +133,47 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
   \label{fig:schematisch_milenage}
  \end{figure}
  
- In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen. Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem Rotationswert r von 2: 011101.
+ In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen.
+ Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und
+ die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem
+ Rotationswert r von 2: 011101.
  
- Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*} ausgehen von einem verschlüsselten $RAND \oplus OP_{C}$, welcher in der Dokumentation auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ {C}$ verknüpft und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR-Verknüpfung mit der speziellen XOR-Konstante c und die Schiffrierung des Ausgabewertes. Im letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
- Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
+ Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*}
+ ausgehen von einem verschlüsselten $RAND \oplus OP_{C}$, welcher in der Dokumentation
+ auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ {C}$ verknüpft
+ und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR
+ Verknüpfung mit der speziellen XOR-Konstante c und die Chiffrierung des Ausgabewertes. Im
+ letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
+ Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr
+ ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits
+ erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und
+ AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
  
  
 \subsection{AES / Rijndael}
 \label{aes}
- Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel chiffriert wird. Die Blocklänge des verschlüsselten Text bleibt dabei gleich. \\
- Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- uns Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
- AES auf der anderen Seite hat die Blocklänge auf 128 Bits festegelegt und die Schlüssellänge darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
+ Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
+ verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel
+ chiffriert wird. Die Blocklänge des verschlüsselten Text bleibt dabei gleich. \\
+ Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- uns
+ Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
+ unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
+ beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
+ AES auf der anderen Seite hat die Blocklänge auf 128 Bits festegelegt und die Schlüssellänge
+ darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
  
- Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und wie der Verschlüsselungsalgorithmus der beiden funktioniert.
+ Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und
+ wie der Verschlüsselungsalgorithmus der beiden funktioniert.
  
  \subsubsection{Geschichte}
  \label{aes-geschichte}
- Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreitung der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere Argumente finden sich in \cite{paar09}. Es gab deswegen die Empflung den dreifach DES zu nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue Blockverschlüsselung suchte über eine Ausschreibung (1997).
+ Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war
+ \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei
+ DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreitung
+ der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere
+ Argumente finden sich in \cite{paar10}. Es gab deswegen die Empflung den dreifach DES zu
+ nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue
+ Blockverschlüsselung suchte über eine Ausschreibung (1997).
  
  An die neue Verschlüsselung wurden folgende Bedingungen gestellt:
 \begin{itemize}
@@ -104,12 +183,63 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
  \item Effizient in Soft- und Hardware
 \end{itemize} 
 
-Die Suche nach dem neuen Algorithmus fand öffentlich statt, sodass sich jeder auf der ganzen Welte beteiligen konnte und im August 1999 fünf Finalisten gekührt wurden. Dabei wurden öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 hat NIST mit Rijndael den Gewinner bekannt gegeben. Dieser wurde von den beiden Belgiern Joan Daemon und Vincent Rijmen entwickelt.
+Die Suche nach dem neuen Algorithmus fand öffentlich statt, sodass sich jeder auf der ganzen
+Welte beteiligen konnte und im August 1999 fünf Finalisten gekührt wurden. Dabei wurden
+öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 hat NIST
+mit Rijndael den Gewinner bekannt gegeben. Dieser wurde von den beiden Belgiern Joan
+Daemon und Vincent Rijmen entwickelt.
 
-An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in AES hat. So hat diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu verschlüsseln und selbst als \emph{TOP SECRET} einegstufte Dokumente dürfen mit einer Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar09}
+An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in AES hat. So hat
+diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu
+verschlüsseln und selbst als \emph{TOP SECRET} einegstufte Dokumente dürfen mit einer
+Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
+ Bei der Blockverschlüsselung gibt es fünf verschiedene Betriebsmodi, die in der ISO/IEC 10116:2006
+ \cite{ISO10116} beschrieben sind. Diese Betriebsmodi beschreiben wie ein Text bestehend aus
+ mehreren Blöcken verschlüsselt wird.
+ 
+  \paragraph{Electronic Codeblock (ECB)}
+   Jeder Textblock wird unabhängig vom vorherigen Block verschlüsselt. Daraus resultieren vor allem
+   zwei Dinge. Zum einen bewirkt eine Vertauschung der Blöcke im chiffrierten Text zur gleichen Vertauschung
+   im entschlüsselten Text und zum anderen beeinflusst ein Fehler bei der Entschlüsselung eines Blocks
+   nicht die anderen Blöcke. Es wird deshalb davon abgeraten diesen Modus zu verwenden bei mehr
+   als einem Block.
+
+  \paragraph{Cipher Block Chaining (CBC)}
+   Beim CBC werden die Schwächen von ECB verkleinert, in dem eine Verkettung der Blöcke vorgenommen
+   wird. So gibt es beim ersten Block zusätzlich zum Schlüssel noch einen Initialisierungsvektor. Bei den
+   folgenden Textblöcken wird der Schlüssel mit dem vorhergehenden verschlüsselten Textblock
+   verknüpft. Dadurch können Blöcke nicht mehr vertauscht werden und wenn ein Fehler bei der Ent\-
+   schlüsselung in einem Block passiert ist zusätzlich zu diesem auch der nachfolgende Block nicht mehr
+   zu entschlüsseln.
+   
+  Neben den beiden genannten Modi existieren noch ``Cipher Feedback'', ``Output Feedback'' und
+  ``Counter''. Auf diese soll hier aber nicht näher eingegenagen werden, da diese Elemente der
+  Stromchiffre nutzen. Ihre Erklärung wäre deshalb für diesen Rahmen zu umfangreich, da beim
+  Mileange-Algorithmus nur keine Zeichenketten länger oder kürzer als ein Block verschlüsselt
+  werden. Das ist auch der Grund warum bei Milenage bedenkenlos der ECB eingesetzt werden kann.
+  
+  Beim AES-Algorithmus werden nicht nur Teile sondern immer alle 128 Bits bearbeitet, weshalb die
+  Anzahl der Iterationen relativ gering ist und den Algorithmus schnell macht. Bei einer Schlüssellänge
+  von 128 Bits werden 10 Runden benötigt, bei 192 Bits 12 und bei der Schlüssellänge von 256 Bits
+  sind 14 Runden nötig. In jeder Runde werden vier Funktionen auf den Textblock angewendet, um
+  den Textblock gut zu verschlüsseln.
+  
+  \paragraph{SubBytes}
+   
+   
+  \paragraph{ShiftRows}
+   
+   
+  \paragraph{MixColumns}
+   
+   
+  \paragraph{AddRoundKey}
+   
+   
+   Der gesamte Ablauf ist auch grafisch in der Abbildung \ref{abb:funktion_aes} im Anhang dargestellt.
  
  \clearpage
 
