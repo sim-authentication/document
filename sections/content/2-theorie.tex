@@ -423,6 +423,38 @@ BSD- sowie Unix-Derivate unterstützt.
 \subsection{Die Sprache Python}
 
 \subsection{pysim}
+Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein Tool,
+welches Operationen direkt auf der SIM-Karte implementiert.
+Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
+bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
+Unterstützt sind 3G und UMTS-Authentifizierungsvorgänge.
+
+Pysim kennt verschiedene Modi und nimmt dementsprechend unterschiedliche
+Parameter entgegen. Verfügbare Parameter sind Chipkartentyp, verwendetes
+Device (im Betriebssystem /dev/ttyX) und Baudrate\cite{pysimprince}.
+
+Über den normalen Betrieb einer SIM-Karte (also Authentifizierung, Auslesen, etc.)
+ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
+
+Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
+python-Shell verwendbar.
+
+\subsection{pyscard}
+Zur Verwendung des Tools pysim wird zuerst eine Bibliothek benötigt,
+die Smartcard-Support für Python bereitstellt. Diese Bibliothek
+ist pysim. Sie fungiert als Schnittstelle zwischen dem Treiber \textit{PC/SC}
+bzw. \textit{PCSClite} und der Python-Anwendung 
+(dargestellt im \Anhang{abb:pyscard_schema}).
+
+Implementierte Funktionen sind das Prüfen der gesteckten bzw. nicht gestecken
+Chipkarte, der darauffolgende Verbindungsaufbau sowie das Versenden und
+Empfangen von APDUs in hexadezimaler Darstellung.
+Nach erfolgreichem Verbindungsaufbau kann somit eine Kommunikation via
+APDUs stattfinden.
+
+Veröffentlicht wurde pyscard als freie Software unter der
+\textit{GNU Lesser General Public License}.
+
 
 \subsection{Die Sprache C}
 
