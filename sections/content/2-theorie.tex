@@ -359,8 +359,18 @@ entwickelt.
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
 dementsprechend zu organisieren. Ein Standard, der sich mit genau
-dieser Problemstellung befasst ist der \textit{PC/SC}-Standard.
-Er definiert Schnittstellen, die dem Zugriff auf Chipkarten ausgehend
+dieser Problemstellung befasst ist der \textit{\ac{PC/SC}}-Standard.
+Er abstrahiert die Kommunikation mit der Chipkarte so,
+dass die Anwendung keine genaueren speziellen Informationen zur verwendeten
+Karte benötigt. Lediglich die Kommunikation mit dem Standard
+konformen Lesegerät muss durch den Treiber sichergestellt werden.
+
+\subsubsection{Die PC/SC-Workgroup}
+Entwickelt wurde PC/SC von verschiedenen Herstellern. Hauptsächlich
+Gemalto, Microsoft, Infineon und Toshiba.
+
+\subsubsection{Spezifikation und Aufbau der Schnittstelle}
+Die Spezifikation definiert Schnittstellen, die dem Zugriff auf Chipkarten ausgehend
 von mehreren Applikationen bzw. Nutzern ermgöglichen. Grundlegend
 dafür benötigt werden neben dem Standardkonformen Treiber ein \ac{IFD} und
 eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
@@ -398,6 +408,17 @@ von Chipkarten und Lesern zugegriffen wird.
 
 Sowohl unter Windows als auch in vielen Linux-Distributionen sind
 \textit{PC/SC-Treiber} mittlerweile verbreitet.
+
+\subsubsection{PCSClite}
+Die unter Linux-Distributionen verfügbare Version ist
+PCSClite\footnote{\url{https://pcsclite.alioth.debian.org/}}.
+Das von David Corcoran gestartete Projekt M.U.S.C.L.E
+(Movement for the Use of Smart Cards in a Linux Environment)
+wird mittlerweile hauptsächlich von Ludovic Rousseau
+weitergeführt\cite{pcscliteweb}.
+
+Neben diversen Linux-Distributionen werden auch Mac OSX und diverse
+BSD- sowie Unix-Derivate unterstützt.
 
 \subsection{Die Sprache Python}
 
