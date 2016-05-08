@@ -84,8 +84,20 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
  Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
  
  
- \subsubsection{AES}
- \label{aes}
+\subsection{AES / Rijndael}
+\label{aes}
+ Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel chiffriert wird. Die Blocklänge des verschlüsselten Text bleibt dabei gleich. \\
+ Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- uns Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
+ AES auf der anderen Seite hat die Blocklänge auf 128 Bits festegelegt und die Schlüssellänge darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
+ 
+ Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und wie der Verschlüsselungsalgorithmus der beiden funktioniert.
+ 
+ \subsubsection{Geschichte}
+ \label{aes-geschichte}
+ 
+ 
+ \subsubsection{Funktionsweise}
+ \label{aes-funktion}
  
  \cite{paar09}
  
