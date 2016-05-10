@@ -258,7 +258,39 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    In einer vierten Zeile würde somit aus dem String $3B | 2A | 34 | 71$ der String $71 | 3B | 2A | 34$ werden.
    
   \paragraph{MixColumns}
+   In der MixColumns-Transformation wird nicht jedes Byte einzeln transformiert, sonder die gesamte Spalte.
+   Die Berechnung ist hierbei etwas umfangreicher, als in den Transformationen zuvor. Nehmen wir eine Spalte
+   $j$, dann wird folgende Berechnung durchgeführt:
    
+    \begin{equation*}
+     \begin{split}
+     b_{0,j} = T_2(a_{0,j}) \oplus T_3(a_{1,j}) \oplus a_{2,j} \oplus a_{3,j} \\
+     b_{1,j} = a_{0,j} \oplus T_2(a_{1,j}) \oplus T_3(a_{2,j}) \oplus a_{3,j} \\
+     b_{2,j} = a_{0,j} \oplus a_{1,j} \oplus T_2(a_{2,j}) \oplus T_3(a_{3,j}) \\
+     b_{3,j} = T_3(a_{0,j}) \oplus a_{1,j} \oplus a_{2,j} \oplus T_2(a_{3,j})
+     \end{split}
+    \end{equation*}
+    
+    $T_2(a)$ ist nun definiert als:
+    
+    \begin{equation*}
+     \begin{aligned}
+     T_2(a) = \begin{cases}
+      2 * a 		 & \text{wenn $a < 128$},\\
+      (2*a) \oplus 283 & \text{wenn $a \geq 128$}.
+     \end{cases}
+     \end{aligned}
+    \end{equation*}
+    
+    Die Definition von $T_3(a)$ ist lediglich $T_2(a) \oplus a$.
+    
+    Durch diese Definition gilt, dass wenn $a = 143$, dann
+    \begin{equation*}
+     \begin{aligned}
+     T_2(143) &= 5 \\
+     T_3(143) &= T_2(143) \oplus 143 = 138
+     \end{aligned}
+    \end{equation*}
    
   \paragraph{AddRoundKey}
    
