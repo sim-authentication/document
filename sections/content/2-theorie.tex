@@ -278,7 +278,7 @@ genauer eingegangen.
 
 
 
-\subsubsection{Architektur PPP}
+\subsubsection{Architektur PPP}\label{subsubsection:architecture_ppp}
 \ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
 Datalink-Layers und wurde speziell für den Betrieb von Modems etc. entwickelt.
 Jede Maschine, die ein Modem in Betrieb hatte, nutzte bereits \ac{PPP} um z.B.
@@ -414,7 +414,7 @@ Eine Terminierung der Verbindung ist neben \ac{LCP} auch auf \ac{NCP}-Ebene mög
 damit die PPP-Verbindung trotz 'Terminierung' bestehen bleibt.
 
 
-\subsubsection{Architektur PPPoE}
+\subsubsection{Architektur PPPoE}\label{subsubsection:architecture_pppoe}
 Zur Realisierung der Verbindung zwischen Authentifizierungsstelle und
 Endgerät wurde aufgrund der Beschaffenheit des Raspberry Pis eine
 Ethernetverbindung gewählt. Dieser wird das im vorangegangenen
@@ -465,6 +465,41 @@ Dieser Zustand ist erreicht, sobald die PPPoE-Discovery-Phase
 erfolgreich abgeschlossen ist.
 
 <PPP-Daten im Ethernet Frame Abb?>
+
+\subsubsection{Roaring Penguin PPPoE}
+Die eingesetzte Software zur Realisierung der PPPoE-Verbindung ist der
+Roaring Penguin\footnote{\url{https://www.roaringpenguin.com/products/pppoe}} PPPoE-Server.
+
+Er implementiert den PPPoE-Standard (\Verweis{subsubsection:architecture_pppoe}) auf Basis
+von \textit{TCP/IP} und \textit{PPP} als eine \textit{Userland}-Anwendung.
+Dementsprechend ist es nicht notwendig hierfür den Kernel zu patchen und neu zu bauen.
+Ein einfaches installieren und konfigurieren genügt.
+
+\paragraph{pppd}
+ist der im Userland installierte Dienst. Um eine Verbindung aufzubauen
+erstellt er ein Network-Device (der Form ppp\textit{X}) und verknüpt dieses
+mit einem beliebigen tty.
+Typischerweise handelt es sich hier um einem seriellen Port \cite{roaringpenguinpres}).
+Daten, die von diesem tty-Device empfangen erscheinen durch das ppp\textit{X}-Device.
+
+Logisch unterhalb des tty-Device wird dann über PPPoE mit einem ebenfalls durch den Server
+asoziierten Ethernet-Interface kommuniziert (eth\textit{X}).
+
+Der Informationsfluss findet somit in nachfolgender Hierarchie statt:
+ \begin{figure}[htp]
+  \begin{center}
+   \includegraphics[width=300pt]{pppoe_roaringpenguin_2000}
+  \end{center}
+  \caption{Roaring Penguin PPPoE Devicehierarchie\cite{roaringpenguinpres}}
+  \label{fig:pppoe_roaringpenguin_devicehierarchy}
+ \end{figure}
+
+Ausgehend vom tty\textit{X}-Device kommen Daten in \ac{HDLC}-Frames zum Ethernet-Device.
+Eingehende Pakete werden beim Ethernet-Device gerahmt und auf dem stdout an
+das tty\textit{X}-Device weitergeleitet.
+
+Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
+Ethernet-Devices ausgetauscht werden.
 
 \subsection{Raspberry Pi}
 
