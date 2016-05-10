@@ -634,11 +634,12 @@ BSD- sowie Unix-Derivate unterstützt.
 \subsection{Die Sprache Python}
 
 \subsection{pysim}
-Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein Tool,
+Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
+python-Skript, geschrieben von Kevin Prince,
 welches Operationen direkt auf der SIM-Karte implementiert.
 Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
 bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
-Unterstützt sind 3G und UMTS-Authentifizierungsvorgänge.
+Unterstützt wird der GSM-Authentifizierungsvorgang.
 
 Pysim kennt verschiedene Modi und nimmt dementsprechend unterschiedliche
 Parameter entgegen. Verfügbare Parameter sind Chipkartentyp, verwendetes
@@ -650,8 +651,31 @@ ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
 Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
 python-Shell verwendbar.
 
+\subsection{osmo-sim-auth}
+\textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
+überschneidet sich im Unfang angebotener Funktionen. Hauptsächlich ist es,
+genau wie \textit{pysim} eine Implementierung in python, um den Authentifizierungsprozess
+einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
+\textit{PCSClite}-Treibers und der \textit{pyscard}-Library.
+
+Ein Unterschied zwischen beiden python-Skripten stellte sich bei der
+Realisierung der Kommunikation in der Praxis heraus:
+Während \textit{pysim} auch die Programmierung von Chipkarten anbietet, ist
+\textit{osmo-sim-auth} dazu in der Lage über \ac{GSM}- hinaus auch
+eine \ac{UMTS}-Authentifizierung zu leiten.
+Der jeweilige Modus wird über Parameter übermittelt.
+Dementsprechend verfügt \textit{osmo-sim-auth} auch über die Funktion der
+Resynchronisation bezüglich der \ac{SQN}-Nummer\cite{osmosimweb}.
+
+Entwickelt wird es vom Osmocom OpenBSC-Project, welches sich damit
+beschäftigt eine (A)GPL-lizensierte Implementierung für den
+GSM/3GPP-Protokollstack zu erzielen. Neben der Authentifizierung
+in direkter Kommunikation mit der SIM-Karte werden auch folgende
+Funktionalitäten durch das Projekt realisiert:
+\ac{BSC},\ac{MSC},\ac{HLR},\ac{AuC},\ac{VLR}, und \ac{EIR}\cite{osmocombscweb}.
+
 \subsection{pyscard}
-Zur Verwendung des Tools pysim wird zuerst eine Bibliothek benötigt,
+Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine python-Bibliothek benötigt,
 die Smartcard-Support für Python bereitstellt. Diese Bibliothek
 ist pysim. Sie fungiert als Schnittstelle zwischen dem Treiber \textit{PC/SC}
 bzw. \textit{PCSClite} und der Python-Anwendung 
