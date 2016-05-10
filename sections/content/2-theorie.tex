@@ -159,7 +159,7 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
  unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
  beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
- AES auf der anderen Seite hat die Blocklänge auf 128 Bits festegelegt und die Schlüssellänge
+ AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssellänge
  darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
  
  Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und
@@ -169,9 +169,9 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  \label{aes-geschichte}
  Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war
  \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei
- DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreitung
+ DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreiten
  der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere
- Argumente finden sich in \cite{paar10}. Es gab deswegen die Empflung den dreifach DES zu
+ Argumente finden sich in \cite{paar10}. Es gab deswegen die Empfehlung den dreifach DES zu
  nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue
  Blockverschlüsselung suchte über eine Ausschreibung (1997).
  
@@ -184,14 +184,14 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
 \end{itemize} 
 
 Die Suche nach dem neuen Algorithmus fand öffentlich statt, sodass sich jeder auf der ganzen
-Welte beteiligen konnte und im August 1999 fünf Finalisten gekührt wurden. Dabei wurden
+Welt beteiligen konnte und im August 1999 fünf Finalisten gekürt wurden. Dabei wurden
 öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 hat NIST
 mit Rijndael den Gewinner bekannt gegeben. Dieser wurde von den beiden Belgiern Joan
 Daemon und Vincent Rijmen entwickelt.
 
 An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in AES hat. So hat
 diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu
-verschlüsseln und selbst als \emph{TOP SECRET} einegstufte Dokumente dürfen mit einer
+verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
  \subsubsection{Funktionsweise}
@@ -216,7 +216,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    zu entschlüsseln.
    
   Neben den beiden genannten Modi existieren noch ``Cipher Feedback'', ``Output Feedback'' und
-  ``Counter''. Auf diese soll hier aber nicht näher eingegenagen werden, da diese Elemente der
+  ``Counter''. Auf diese soll hier aber nicht näher eingegangen werden, da diese Elemente der
   Stromchiffre nutzen. Ihre Erklärung wäre deshalb für diesen Rahmen zu umfangreich, da beim
   Mileange-Algorithmus nur keine Zeichenketten länger oder kürzer als ein Block verschlüsselt
   werden. Das ist auch der Grund warum bei Milenage bedenkenlos der ECB eingesetzt werden kann.
@@ -227,11 +227,35 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   sind 14 Runden nötig. In jeder Runde werden vier Funktionen auf den Textblock angewendet, um
   den Textblock gut zu verschlüsseln.
   
+  Damit der Textblock mit dem Schlüssel verschlüsselt werden können, müssen beide in ein rechteckiges
+  Array aus Bytes transformiert werden. Die Anzahl der Reihen ist immer vier, aber die Anzahl der Spalten
+  variiert je nach Textlänge. Mit der Umwandlung des Textblocks in das Array, spricht man vom Zustand
+  und der umgewandelte Schlüssel ist nun der Chiffrierschlüssel. \\
+  Der Zustand ist bei AES immer vier Spalten breit und der Chiffrierschlüssel vier, sechs oder acht Spalten
+  breit. In beiden Fällen wird das Array zeilenweise gebildet. Das bedeutet das bei einer Blocklänge von
+  128 Bits in den ersten vier Arrayelementen des Zustands die ersten 32 Bits des Blocks stehen.
+  
+  Nachfolgend werden nun die vier Funktionen beschrieben die den Zustand verändern.
+  
   \paragraph{SubBytes}
+   Bei der SubBytes-Transformation handelt es sich um eine nicht-lineare Bytesubstitution, welche
+   separat auf jedes Byte des Status angewendet wird. Die Substitutionstabelle, auch S-Box genannt,
+   ist 16 x 16 Felder groß und ist damit eine bijektive Abbildung aller 256 möglichen Eingabemöglichkeiten.
+   Wie die Tabelle gebildet wird, wird an dieser Stelle nicht näher beschrieben, aber im \Anhang{abb:s-box}
+   befindet sich die Tabelle.
    
+   Mit dem Wert das Statuselements wird nun der Wert aus der Substitutionstabelle ermittelt. Die ersten vier
+   Bits geben die Zeile vor und die letzten viert Bits die Spalte. So wird beispielsweise der Wert $8D_{16}$ mit
+   $5D_{16}$ substituiert.
    
   \paragraph{ShiftRows}
+   Bei dieser Funktion werden die Bytes in jeder Zeile des Zustands-Arrays zirkulär verschoben. Das bedeutet,
+   dass die einzelnen Bytes vorne, also links, ``rausgeschoben'' werden und hinten/rechts, wieder
+   ``reingeschoben''. Dabei ist  die Anzahl der Verschiebungen in jeder Zeile unterschiedlich. In Zeile eins wird
+   gar nicht verschoben, in Zeile zwei um ein Byte, Zeile drei um zwei Bytes und in Zeile vier das Array um drei
+   Bytes verschoben.
    
+   In einer vierten Zeile würde somit aus dem String $3B | 2A | 34 | 71$ der String $71 | 3B | 2A | 34$ werden.
    
   \paragraph{MixColumns}
    
