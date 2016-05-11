@@ -159,11 +159,12 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
  unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
  beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
- AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssellänge
+ AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssel\-länge
  darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
  
  Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und
- wie der Verschlüsselungsalgorithmus der beiden funktioniert.
+ wie der Verschlüsselungs\-algorithmus der beiden funktioniert. Nicht angesprochen wird der
+ Entschlüsselungs\-algorithmus, da der für diese Arbeit keine Relevanz hat.
  
  \subsubsection{Geschichte}
  \label{aes-geschichte}
@@ -293,9 +294,54 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
     \end{equation*}
    
   \paragraph{AddRoundKey}
+   In dieser Funktion wird jedes einzelne Zustandsbyte mit einem Byte aus dem Rundenschlüssel bitweise über
+   ein exklusives Oder verrechnet. Der Rundenschlüssel ist ein ein erweiterter Chiffrierschlüssel. Die Berechnung
+   des Rundenschlüssels wird im Anschluss erklärt. In jeder Runde kommt ein neuer Rundenschlüssel zum
+   Einsatz, welcher die selbe Größe, wie das Zustands-Array hat. Die Formel dafür lautet:
    
+   \begin{equation*}
+    b_{i,j} = a_{i,j} \oplus rk_{i,j}
+   \end{equation*}
    
-   Der gesamte Ablauf ist auch grafisch in der Abbildung \ref{abb:funktion_aes} im Anhang dargestellt.
+   $b$ ist der neue Zustand, $a$ der initiale und $rk$ ist der Rundenschlüssel.
+   
+   Der gesamte Ablauf der einzelnen Runden und angewendeten Transformationen ist auch grafisch in der
+   Abbildung \ref{abb:funktion_aes} im Anhang dargestellt. Dort steht ebenfalls was bereits erwähnt wurde,
+   nämlich dass aus dem ursprünglichen Chiffrierschlüssel die Rundenschlüssel bilden.
+   
+  \paragraph{Key Schedule}
+   Mit dem (Rijndael) Key Schedule werden die Rundenschlüssel ermittelt. Der erste Rundenschlüssel ist
+   einfach der Chiffrierschlüssel. Die folgenden Rundenschlüssel berechnen sich alle gleich. Die Berechnung der
+   ersten Spalte lässt sich wieder am besten mit Hilfe einer kurzen Formel beschreiben:
+   
+    \begin{equation*}
+     \begin{aligned}
+     rk_{r,0,0} &= rk_{r-1,0,0} \oplus S-box[rk_{r-1,1,3} \oplus round\_const[r] \\
+     rk_{r,1,0} &= rk_{r-1,1,0} \oplus S-box[rk_{r-1,2,3} \\
+     rk_{r,2,0} &= rk_{r-1,2,0} \oplus S-box[rk_{r-1,3,3} \\
+     rk_{r,3,0} &= rk_{r-1,3,0} \oplus S-box[rk_{r-1,0,3}
+     \end{aligned}
+    \end{equation*}
+    
+   $r$ ist die aktuelle Runde, $round\_const[1] = 1$ und $round\_const[r] = T_2(round\_const[r-1])$. Es wird eine
+   Rundenkonstante weniger benötigt, als Runden durchlaufen werden, da der erste Rundenschlüssel der 
+   Chiffrierungs\-schlüssel ist.
+   
+   Da die Blocklänge bei AES auf 128 Bits begrenzt ist, hat der Rundenschlüssel eine Größe von 4 x 4 Byte. Die
+   restlichen vier Spalten berechnen sich wie folgt:
+   
+    \begin{equation*}
+     \begin{aligned}
+      rk_{r,i,j} &= rk_{r-1,i,j} \oplus rk_{r,i,j-1} &\text{für $i = 0, 1, 2, 3$ und $j = 1, 2, 3$}
+     \end{aligned}
+    \end{equation*}
+    
+   Zusammengefasst wird die erste Spalte des neuen Rundenschlüssels berechnet aus der Verknüpfung
+   von der ersten Spalte des vorherigen Rundenschlüssels mit der substituierten vierten Spalte aus dem vorherigen
+   Rundenschlüssel. Außerdem wird vor der Substitution das oberste Byte zyklisch oben rausgeschoben und unten
+   wieder reingeschoben. Zum Schluss wird das erste Byte noch mit einer Rundenkonstanten verrechnet. \\
+   Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
+   jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
  
  \clearpage
 
@@ -522,7 +568,7 @@ Der Informationsfluss findet somit in nachfolgender Hierarchie statt:
   \begin{center}
    \includegraphics[width=300pt]{pppoe_roaringpenguin_2000}
   \end{center}
-  \caption{Roaring Penguin PPPoE Devicehierarchie\cite{roaringpenguinpres}}
+  \caption[Roaring Penguin PPPoE Devicehierarchie]{Roaring Penguin PPPoE Devicehierarchie \cite{roaringpenguinpres}}
   \label{fig:pppoe_roaringpenguin_devicehierarchy}
  \end{figure}
 
