@@ -10,7 +10,13 @@
 \subsection{Authentifizierungsvorgang}
 \label{authentifizierungsvorgang}
 
-\begin{figure}[htp]
+Eine Darstellung des Authentifizierungsvorgangs ist in \Abbildung{kommunikationswege} zu
+sehen. Diese ist jedoch recht umfangreich und soll hier näher erläutert werden. Anschließend
+wird auf die Stärken und Schwächen des Authentifizierungsvorgangs eingegangen.
+
+ \subsubsection{Ablauf}
+ 
+ \begin{figure}[htp]
  \begin{center}
   \includegraphics[width=440pt]{kommunikationswege}
  \end{center}
@@ -18,6 +24,29 @@
  \label{fig:kommunikationswege}
 \end{figure}
 
+ Die Authentifizierung mit \ac{USIM}-Karten geschieht in zwei Richtungen. Es muss nicht nur die
+ USIM verifizieren können, dass sie eine valide Karte ist, sondern der Netzprovider muss sich auch
+ gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten schickt sie
+ Registrierungsanfrage an den nächsten \ac{AP}, also beispielsweise eine Mobilfunkantenne mit
+ einer Funknetzwerk-Steuereinrichtung. Diese fragt daraufhin beim \ac{AuC} des Netzproviders
+ nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel \ref{milenage} auf S.
+ \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
+ Der AV ist ein Quintett und besteht aus
+ 
+ \begin{description}
+  \item [RAND] Ein Zufallswert, der vom AuC jedes Mal neu generiert wird
+  \item [XRES] Der Wert mit dem sich die USIM verifiziert
+  \item [\ac{CK}, \ac{IK}] Für Verschlüsselungs- und Integritätsschutz bei der späteren Kommunikation
+  \item [AUTN] Authentifizierungstoken, den die USIM benötigt. Ist selber ein Triplet aus:
+  \begin{description}
+   \item [SQN $\oplus$ AK] Eine Sequenznummer verschleiert durch einen Anonymitätsschlüssel
+   \item [AMF] Providerspezifisches Managementfeld
+   \item [MAC-A] Token zur Verifizierung des Netzwerks
+  \end{description}
+ \end{description}
+ 
+Die Werte XRES, CK und IK speichert der AP zwischen und RAND, sowie AUTN werden an die USIM
+weitergegeben als Antwort auf die Registrierungsanfrage.
 
 \subsection{Milenage Algorithmus}
 \label{milenage}
