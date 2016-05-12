@@ -5,6 +5,7 @@
 
 \subsection{Mobilfunkstandards}
 
+%% Chipkarten %%
 \subsection{Chipkarten}
 \subsubsection{Entwicklung}
 Wie bereits in der Einleitung erwähnt startete die Verbreitung der SIM-Karten
@@ -75,6 +76,10 @@ Grundlegend besteht eine Datei immer aus einem Header und einem Body.
 
 \paragraph{Sicherheit}
 
+%% TODO: entfernen des Seitenumbruchs
+\clearpage
+
+%% Authentifizierungsvorgang %%
 \subsection{Authentifizierungsvorgang}
 \label{authentifizierungsvorgang}
 
@@ -98,7 +103,7 @@ vorgangs eingegangen.
  Die Authentifizierung mit \ac{USIM}-Karten geschieht in zwei Richtungen. Es muss nicht nur die
  USIM verifizieren können, dass sie eine valide Karte ist, sondern der Netzprovider muss sich auch
  gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten schickt sie
- Registrierungsanfrage an den nächsten \ac{AP}, also beispielsweise eine Mobilfunkantenne mit
+ Registrierungsanfrage an den nächsten \ac{SGSN}, also beispielsweise eine Mobilfunkantenne mit
  einer Funknetzwerk-Steuereinrichtung. Diese fragt daraufhin beim \ac{AuC} des Netzproviders
  nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel \ref{milenage} auf S.
  \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
@@ -107,7 +112,7 @@ vorgangs eingegangen.
  \begin{description}
   \item [RAND] Ein Zufallswert, der vom AuC jedes Mal neu generiert wird
   \item [XRES] Der Wert mit dem sich die USIM verifiziert
-  \item [\ac{CK}, \ac{IK}] Für Verschlüsselungs- und Integritätsschutz bei der späteren Kommunikation
+  \item [CK, IK] Für Verschlüsselungs- und Integritätsschutz bei der späteren Kommunikation
   \item [AUTN] Authentifizierungstoken, den die USIM benötigt. Ist selber ein Triplet aus:
   \begin{description}
    \item [SQN $\oplus$ AK] Eine Sequenznummer verschleiert durch einen Anonymitätsschlüssel
@@ -121,7 +126,7 @@ vorgangs eingegangen.
 
  Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerk\-
  token um zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
- und MAC-A nicht übereinstimmen, wird dem AP mitgeteilt, dass die Authentifizierung nicht erfolgreich
+ und MAC-A nicht übereinstimmen, wird dem SGSN mitgeteilt, dass die Authentifizierung nicht erfolgreich
  war und die Kommunikation beendet.
 
  Sollten die Werte jedoch wie erwartet übereinstimmen, überprüft die USIM, ob die SQN im erlaubten
@@ -129,8 +134,34 @@ vorgangs eingegangen.
  beendet wird. Die USIM speichert die gültige SQN, was in Kapitel \Verweis{milenage-funktion}
  nochmal näher erläutert wird. Diese wird aktualisiert bei jeder Authentifizierungsanfrage und so kann
  es passieren, dass das AuC keine aktuelle SQN generiert hat und eine Resynchronisation vorgenommen
- werden muss.
+ werden muss, welche am Ende dieses Kapitels erklärt wird.
+ 
+ Wenn die SQN im erlaubten Bereich liegt, generiert die USIM ihrerseits RES und schickt diesen an
+ den SGSN. Der SGSN überprüft nun, ob XRES des Authenticaton Centers mit dem RES der USIM
+ übereinstimmt. Je nach Ergebnis erteilt der SGSN dem \ac{UE} den Zutritt zum Mobilfunknetz oder
+ nicht.
+ 
+ \paragraph{Resynchronisation}
+  Wie vorher in diesem Kapitel erwähnt kann es passieren, dass die SQN zwischen USIM und AuC
+  nicht mehr synchron sind und deswegen resynchronisiert werden müssen. Dafür generiert die
+  USIM ebenfalls einen RAND-Wert und einen AUTS-Token, welcher dem AUTN sehr ähnlich ist.
+  Der AUTS hat im Gegensatz zum AUTN aber keinen AMF und statt dem MAC-A, wird ein MAC-S
+  verschickt. Die SQN im AUTS, diel geschickt wird, ist die letzte gültige SQN, die die USIM erhalten
+  hat. Aus dieser SQN kann das AuC nun eine gültige SQN berechnen. \\
+  Ähnlich wie bei der Authentifizierung berechnet diesmal das AuC eine XMAC-S und vergleicht
+  diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich geht wieder eine Meldung an den
+  SGSN, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
+  jedoch gleich sind, wird mit Hilfe der neuen SQN nochmal der AV berechnet und an den SGSN
+  geschickt. Dieser gibt wieder AUTN und RAND an die USIM weiter welche die selben Schritte
+  wie zuvor ausführt und diesmal zu dem Ergebnis kommen sollte, dass SQN im erlaubten
+  Bereich liegt.
+  
+  Als Quelle für dieses Kapitel und für weitere Informationen dient \cite{3gpp.33.102}.
+  
+ \subsubsection{Stärken und Schwächen}
+ Irgendwas à la Man-in-the-Middle und keine Nutzung schon versendeter Daten möglich.
 
+%% Milenage Algorithmus %%
 \subsection{Milenage Algorithmus}
 \label{milenage}
 Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und
@@ -271,7 +302,7 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und
  AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
  
- 
+%% AES/Rijndael %%
 \subsection{AES / Rijndael}
 \label{aes}
  Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
@@ -465,6 +496,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
+%% Point-to-Point %%
 \subsection{PPP}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
 wird von Providern (\ac{ISP}) Implementierungen eines
@@ -473,8 +505,6 @@ aufgebaut. Heutige Szenarien sind unter anderem auch GPRS- und UMTS-Datenverbind
 hier hauptsächlich in
 Form von \ac{PPPoE}. Auf beide Architekturen wird im folgenden
 genauer eingegangen.
-
-
 
 \subsubsection{Architektur PPP}\label{subsubsection:architecture_ppp}
 \ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
@@ -764,6 +794,7 @@ auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
 den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}}
 lizensiert und durch die Raspbian-Community unabhängig entwickelt.
 
+%% PC/SC %%
 \subsection{PC/SC}
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
