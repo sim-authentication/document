@@ -11,8 +11,11 @@
 \label{authentifizierungsvorgang}
 
 Eine Darstellung des Authentifizierungsvorgangs ist in \Abbildung{kommunikationswege} zu
-sehen. Diese ist jedoch recht umfangreich und soll hier näher erläutert werden. Anschließend
-wird auf die Stärken und Schwächen des Authentifizierungsvorgangs eingegangen.
+sehen. Diese beschreibt nur die Authentifizierung einer \ac{USIM}-Karte, aber nicht einer
+GSM \ac{SIM}-Karte. \\
+Die Authentifizierung ist recht umfangreich und soll hier anhand des Diagramms näher
+erläutert werden. Anschließend wird auf die Stärken und Schwächen des Authentifizierungs\-
+vorgangs eingegangen.
 
  \subsubsection{Ablauf}
  
@@ -45,8 +48,20 @@ wird auf die Stärken und Schwächen des Authentifizierungsvorgangs eingegangen.
   \end{description}
  \end{description}
  
-Die Werte XRES, CK und IK speichert der AP zwischen und RAND, sowie AUTN werden an die USIM
-weitergegeben als Antwort auf die Registrierungsanfrage.
+ Die Werte XRES, CK und IK speichert der AP zwischen und RAND, sowie AUTN werden an die USIM
+ weitergegeben als Antwort auf die Registrierungsanfrage.
+
+ Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerk\-
+ token um zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
+ und MAC-A nicht übereinstimmen, wird dem AP mitgeteilt, dass die Authentifizierung nicht erfolgreich
+ war und die Kommunikation beendet.
+
+ Sollten die Werte jedoch wie erwartet übereinstimmen, überprüft die USIM, ob die SQN im erlaubten
+ Bereich ist. Wenn dem nicht so ist, bedeutet das nicht automatisch, dass die Kommunikation wieder
+ beendet wird. Die USIM speichert die gültige SQN, was in Kapitel \Verweis{milenage-funktion}
+ nochmal näher erläutert wird. Diese wird aktualisiert bei jeder Authentifizierungsanfrage und so kann
+ es passieren, dass das AuC keine aktuelle SQN generiert hat und eine Resynchronisation vorgenommen
+ werden muss.
 
 \subsection{Milenage Algorithmus}
 \label{milenage}
@@ -108,6 +123,7 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  werden können?}
 
  \subsubsection{Funktionsweise}
+ \label{milenage-funktion}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen
  \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es
  gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert
