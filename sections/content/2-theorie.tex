@@ -5,7 +5,75 @@
 
 \subsection{Mobilfunkstandards}
 
-\subsection{SIM-Karten}
+\subsection{Chipkarten}
+\subsubsection{Entwicklung}
+Wie bereits in der Einleitung erwähnt startete die Verbreitung der SIM-Karten
+mit Einführung der Telefon- und Krankenversicherungs-Karten im Jahr 1985.
+Bereits 6 Jahre später kamen die ersten Karten mit Mikroprozessoren - die \ac{SIM}-Karten
+- zum Einsatz. Seit diesem Zeitpunkt haben sich die Chipkarten unter anderem
+mit der enorm wachsenden Mobilfunkbranche stetig weiterentwickelt. Für diese
+Arbeit ist vor allem die Chipkartenvariante \ac{SIM} wichtig.
+Neben den klassischen Mikroprozessorkarten für \ac{GSM}-Netze wurden im Jahr
+1998 damit begonnen JavaCards zu entwickeln. Diese verfügen über eine
+Java-Laufzeitumgebung.
+
+\subsubsection{Typen}
+Bei Chipkarten wird zwischen zwei verschiedenen Typen unterschieden:
+Speicher- und Prozessor-Karten \cite{chipkarten02}. Die Karten mit Mikroprozessoren
+sind mittlerweile stärker vertreten als die reinen Speicherkarten.
+
+Anwendungsgebiete für diese verschiedene Varianten von Chipkarten sind:
+\begin{itemize}
+\item Telekommunikation - \ac{SIM}-Karte
+\item Bankwesen - elektronische Geldbörse
+\item Gesundheitswesen - Krankenkassenkarte
+\item Sicherheitskritische Anwendungen - Identifizierung und Authentifizierung
+\item Service-Anwendungen - Pay-TV
+\end{itemize}
+
+\paragraph{Speicherkarten} werden dort verwendet wo kleine Datenmengen abrufbar
+sein müssen. Meist wird dies in Form von \ac{EEPROM}-Speicherbausteinen realisiert,
+die über ein serielles Protokoll beschrieben und gelesen werden können \cite{spitz11}.
+Manche von ihnen sind dazu in der Lage über einfache Schaltungen simple Funktionen
+zu integrieren. Nach Ausgabe ist es jedoch nicht mehr möglich die Funktionalitäten
+zu ändern oder erweitern.k
+
+\paragraph{Prozessorkarten} erweitern die Speicherkarten um das Vorhandensein
+eines Prozessors, der dazu in der Lage ist verschiedene (z.B. arithmetische)
+Operationen auszuführen. Diese sind für rechenintensive Implementierungen
+von Kryptoalgorithmen wie z.B. auch AES wichtig. Ebenfalls verfügt diese
+Variante von Chipkarten über ein spezifisches Betriebssystem mithilfe derer
+die verschiedenen Anwendungen ausgeführt werden können.
+Neuere Architekturen erlauben es nach der Ausgabe der Karten Codestrecken
+zu ändern oder erweitern.
+
+\subsubsection{SIM-Karten}
+
+\paragraph{Standardisierung}
+\textit{SIM-Karten} folgen dem Standard der Chipkartentechnologie und sind in
+ISO/IEC 786 definiert. Dort werden mechanische, physikalische und elektrische
+Eigenschaften festgelegt.
+So werden z.B. verschiedene Formfaktoren eingeführt, die Kompatibilität
+auf mechanischer Ebene sicherstellt. Mobilfunkkarten müssen dem ID-000-Format
+entsprechen, wohingegen Kreditkarten dem ID-1-Format entsprechen. Die physikalischen und elektrischen
+Definitionen behandeln vor allem die Konformität der Kontaktflächen, damit
+der Informationsaustausch zwischen Chipkarte und Lesegerät gesichert ist.
+<Bild in den Anhang fügen für die beispielbelegung der simpins \#edit>
+
+Neben den bereits genannten Aspekten wird auch das logische Verhalten des Betriebssystems
+genau definiert. Interaktionen von Anwendungen mit dem Betriebssystem auf der Chipkarte
+werden auf diesem Weg festgelegt. Desweiteren wird auch die Struktur des Dateisystems
+genau beschrieben. Hier wird hohen Wert darauf gelegt auch auf kleine Datenmengen
+granulare Rechtevergabe zu gewährleisten. <Bild Anhang Filesystem \#edit>
+
+Benutzte Typen sind \ac{MF} für das Wurzelverzeichnis,
+\ac{DF} für Dateien von Anwendungen sowie
+\ac{EF} für die eigentlichen Dateien. Für jeden genannten Typ
+existieren unterschiedliche Formate.
+
+Grundlegend besteht eine Datei immer aus einem Header und einem Body.
+
+\paragraph{Sicherheit}
 
 \subsection{Authentifizierungsvorgang}
 \label{authentifizierungsvorgang}
