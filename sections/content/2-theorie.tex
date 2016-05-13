@@ -3,8 +3,6 @@
 \section{Theorie}
 \label{theorie}
 
-\subsection{Mobilfunkstandards}
-
 %% Chipkarten %%
 \subsection{Chipkarten}
 \subsubsection{Entwicklung}
@@ -37,7 +35,7 @@ sein müssen. Meist wird dies in Form von \ac{EEPROM}-Speicherbausteinen realisi
 die über ein serielles Protokoll beschrieben und gelesen werden können \cite{spitz11}.
 Manche von ihnen sind dazu in der Lage über einfache Schaltungen simple Funktionen
 zu integrieren. Nach Ausgabe ist es jedoch nicht mehr möglich die Funktionalitäten
-zu ändern oder erweitern.k
+zu ändern oder erweitern.
 
 \paragraph{Prozessorkarten} erweitern die Speicherkarten um das Vorhandensein
 eines Prozessors, der dazu in der Lage ist verschiedene (z.B. arithmetische)
@@ -73,12 +71,24 @@ Benutzte Typen sind \ac{MF} für das Wurzelverzeichnis,
 \ac{EF} für die eigentlichen Dateien. Für jeden genannten Typ
 existieren unterschiedliche Formate.
 
-Grundlegend besteht eine Datei immer aus einem Header und einem Body.
+Grundlegend besteht eine Datei immer aus einem Header und einem Body. Während
+der Body die Nutzdaten trägt, wird im Header der Dateityp und Zugriffsregeln
+angegeben. Die Dateitypen beschreiben die genaue Struktur der Daten (zyklisch, linear fest,
+linear flexibel,...).
+
+\paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
+und Zählvariablen unterschieden\cite{spitz11}. Einzelne Kommandos, die in diese
+Klassen eingeteilt sind, werden immer als \ac{APDU} versandt sowie empfangen.
+
+Unter \Anhang{abb:befehlsklassen_chipkarten} befindet sich eine genauere
+Auflistung der verschiedenen Befehle mit zugehörigen \ac{APDU}-Beispielen.
 
 \paragraph{Sicherheit}
+%% TODO EDIT
 
-%% TODO: entfernen des Seitenumbruchs
-\clearpage
+
+\subsection{Mobilfunkstandards}
+Unter Verwendung
 
 %% Authentifizierungsvorgang %%
 \subsection{Authentifizierungsvorgang}
@@ -846,7 +856,7 @@ eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
 
 Der Unterschied zum ähnlichen CT-API-Standard fängt in der Ebene
 des \textit{ICC Resource Managers} an. Also der Abstraktion der
-APDU-Schnittstelle in der Chipkartenmiddleware.\cite{spitz11}
+APDU-Schnittstelle in der Chipkartenmiddleware \cite{spitz11}.
 Selbiger Manager organisiert sowohl die Vergabe von Terminals inklusive
 der vorhandenen Chipkarte, als auch das Zuordnen zusammenhängender
 APDU-Kommandoketten.
