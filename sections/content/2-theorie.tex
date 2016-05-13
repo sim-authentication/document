@@ -85,10 +85,65 @@ Auflistung der verschiedenen Befehle mit zugehörigen \ac{APDU}-Beispielen.
 
 \paragraph{Sicherheit}
 %% TODO EDIT
+Über Chipkarten wird in \ac{GSM}- und \ac{UMTS}-Netzen Sicherheit abgebildet.
+Sie fassen Kryptoalgorithmen auf Prozessoren sowie Kryptoschlüssel im
+Filesystem. So werden beispielsweise die Kryptoalgorithmen A3, A5 und A8
+auf SIM-Karten ausgeliefert, die zum Nachweis der Authentizität des Benutzers dienen.
+Diese werden in Abschnitt \Verweis{authentifizierungsvorgang}
+näher erläutert.
 
 
-\subsection{Mobilfunkstandards}
-Unter Verwendung
+\subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
+Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
+Chipkartenstandards. Weit verbreitete Standards für die Kommunikation sind
+\textit{UMTS} und \textit{GSM}. Sie schließen neben den Chipkarten einen weiteren
+Kontext mit ein. So gehören zu diesen Standards auch die Rollen des Mobiltelefons (\ac{MS}),
+Authentifizierungsstellen (\ac{AuC}) sowie vielen weiteren Teilnehmern.
+
+Die GSM- umd UMTS-Kryptoalgorithmen basieren auf symmetrischen Verfahren, die nicht
+vollständig veröffentlicht wurden. Kryptoschlüssel müssen deshalb auf
+Seiten der SIM-Karte und Authentifizierungsstelle parallel aufbewahrt werden.
+Durch die Stelle der \ac{HLR} wird den \ac{AuC} die Verwaltung der Schlüssel erleichtert.
+Der Anwender selbst meldet sich im \ac{BSS} bei GSM oder dem \ac{RNC} bei UMTS an \cite{spitz11},
+die wiederum über das \ac{MSC} verbunden sind. Eine Illustration dieser Hierarchie
+befindet sich unter \Anhang{abb:teilnehmer_telefonnetz}
+
+\paragraph{GSM}
+Möchte sich ein Teilnehmer im GSM-Mobilfunknetz anmelden, wird zuerst dessen Identität
+gesichert in Form der \ac{TMSI} ausgehend von der SIM-Karte über das \ac{VLR} an das
+\ac{HLR} übertragen. Aus der \ac{TMSI} und dem Standort, der sich aus dem \ac{VLR}
+ergibt kann dann die \ac{IMSI} ermittelt werden \cite{spitz11}. In der
+nachfolgenden Abbildung wird der Zusammenhang dargestellt.
+
+\begin{figure}[htp]
+ \begin{center}
+  \includegraphics[width=180pt]{simauth_chipkartensicherheit}
+ \end{center}
+ \caption[Ablauf der GSM-Authentisierung]{Ablauf der GSM-Authentisierung \cite{spitz11}}
+ \label{abb:simauth}
+\end{figure}
+
+Das \ac{HLR} überprüft dann mittels \ac{IMSI} die Benutzerrechte des Teilnehmers und
+stößt den Authentifizierungsvorgang an. Selbiger wird dann auf Seite des
+Mobilfunkteilnehmers sowie Providers ausgeführt und das Ergebnis verglichen.
+Stimmen beide Ergebnisse überein werden weiterführend Sitzungsschlüssel erzeugt,
+mit welchen die Nutzdaten (z.B. Sprache) sicher übertragen werden können.
+
+\paragraph{UMTS} weist einige Unterschiede zum GSM-Mobilfunknetz auf, wobei die
+vorhergehende Architektur aus Gründen der Abwärtskompatibilität weiterhin bestehen bleibt
+(\ac{VLR},\ac{HLR},\ac{AuC}). Ebenfalls die Variante der USIM als zentrale Chipkarte
+eingesetzt. Der Ablauf der Authentisierung hingegen weicht vom Vorgänger etwas ab.
+Dieser wird dadurch erweitert, dass das \ac{AuC} sich nun auch gegenüber der \ac{USIM}
+authentisiert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
+geprüft wird, ob eine valide Gegenstelle vorliegt. \ac{IMSI}-Catchern wird es damit
+schwerer gemacht eine Form des \textit{Man-In-The-Middle}-Angriffs zu ermöglichen.
+Dementsprechend wird auch das Mitschneiden von Gesprächen erschwert. Weiterführend
+wird im Gegensatz zu \ac{GSM} nun auch der Verkehr zwischen \ac{HLR} und \ac{VLR}
+verschlüsselt realisiert \cite{spitz11}.
+Die Authentisierung selbst über den Milenage-Algorithmus ist ebenfalls ausgebaut
+und verfügt nun über weitere Vektoren, die im nachfolgenden Kapitel näher
+erläutert werden.
+%% TODO #edit hier vielleicht noch die abbildung für umts einfügen!?
 
 %% Authentifizierungsvorgang %%
 \subsection{Authentifizierungsvorgang}
