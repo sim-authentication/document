@@ -87,8 +87,8 @@ Eine Darstellung des Authentifizierungsvorgangs ist in \Abbildung{kommunikations
 sehen. Diese beschreibt nur die Authentifizierung einer \ac{USIM}-Karte, aber nicht einer
 GSM \ac{SIM}-Karte. \\
 Die Authentifizierung ist recht umfangreich und soll hier anhand des Diagramms näher
-erläutert werden. Anschließend wird auf die Stärken und Schwächen des Authentifizierungs\-
-vorgangs eingegangen.
+erläutert werden. Anschließend wird auf die Stärken des Authentifizierungs\-
+vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
 
  \subsubsection{Ablauf}
  
@@ -103,10 +103,9 @@ vorgangs eingegangen.
  Die Authentifizierung mit \ac{USIM}-Karten geschieht in zwei Richtungen. Es muss nicht nur die
  USIM verifizieren können, dass sie eine valide Karte ist, sondern der Netzprovider muss sich auch
  gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten schickt sie
- Registrierungsanfrage an den nächsten \ac{SGSN}, also beispielsweise eine Mobilfunkantenne mit
- einer Funknetzwerk-Steuereinrichtung. Diese fragt daraufhin beim \ac{AuC} des Netzproviders
- nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel \ref{milenage} auf S.
- \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
+ Registrierungsanfrage an den nächsten \ac{SGSN}. Diese fragt daraufhin beim \ac{AuC} des
+ Netzproviders nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel
+ \ref{milenage} auf S. \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
  Der AV ist ein Quintett und besteht aus
  
  \begin{description}
@@ -158,8 +157,31 @@ vorgangs eingegangen.
   
   Als Quelle für dieses Kapitel und für weitere Informationen dient \cite{3gpp.33.102}.
   
- \subsubsection{Stärken und Schwächen}
- Irgendwas à la Man-in-the-Middle und keine Nutzung schon versendeter Daten möglich.
+ \subsubsection{Stärken der UMTS Authentifizierung}
+ Der Aufbau der \ac{UMTS}-Struktur beruht auf der selben Struktur, wie bereits \ac{GSM}.
+ Denn auch wenn GSM einige Schwächen hat, zeigen die zehnjährige Existenz von GSM,
+ dass die Sicherheitsarchitektur gut ist \cite{putz01}. Deshalb hat sich die \ac{3GPP} auch
+ dazu entschieden, dass die Basis\-sicherheits\-features erhalten bleiben in UMTS. Konkret
+ nennen Pütz, Schmitz und Martin (s. \cite{putz01}) unter anderem die folgenden Punkte:
+ 
+ \begin{itemize}
+  \item Vertraulichkeit der Teilnehmeridentität
+  \item Teilnehmerauthentifizierung gegenüber dem Netzwerk
+  \item Authentifizierung des Teilnehmers gegenüber der SIM
+  \item Sicherheitsfunktionen ohne Aktion des Nutzers
+  \item Eine Authentifizierungsmethode, die vom \ac{SN} durchgeführt wird, aber der gleichzeitig nur minimal vertraut werden muss
+  \item Die Möglichkeit für jeden Provider eigene Authentifizierungsalgorithmen zu nutzen
+ \end{itemize}
+ 
+ Zusätzlich zu den Sicherheitsfeatures, die aus GSM übernommen wurden hat UMTS einige
+ Schwächen aus GSM beseitigt oder zumindest das Ausnutzen eben jener erschwert. \\
+ So können abgefangene \acp{AV} von Angreifern nicht wiederverwendet werden, da
+ die SQN eingeführt wurde. \cite{putz01}\\
+ Außerdem muss sich nun auch der Netzprovider der USIM gegenüber verifizieren, was
+ Man-in-the-Middle Angriffe erschwert. \cite{putz01} \\
+ Als letzter Punkt ist zu erwähnen, dass Daten noch länger verschlüsselt bleiben, als noch
+ bei GSM, was die Angriffspunkte an denen man an die unverschlüsselten Daten direkt
+ kommt weiter minimiert. \cite{spitz11}
 
 %% Milenage Algorithmus %%
 \subsection{Milenage Algorithmus}
