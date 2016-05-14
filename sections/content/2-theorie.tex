@@ -109,6 +109,8 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
     \hline
     \end{tabularx}
 
+%% TODO #edit bei bedarf hier noch formfaktoren einbringen
+
 \paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
 und Zählvariablen unterschieden\cite{spitz11}. Einzelne Kommandos, die in diese
 Klassen eingeteilt sind, werden immer als \ac{APDU} versandt sowie empfangen.
@@ -124,6 +126,29 @@ Filesystem. So werden beispielsweise die Kryptoalgorithmen A3, A5 und A8
 auf SIM-Karten ausgeliefert, die zum Nachweis der Authentizität des Benutzers dienen.
 Diese werden in Abschnitt \Verweis{authentifizierungsvorgang}
 näher erläutert.
+
+\paragraph{Angriffe} auf die Architektur waren vor allem vor den aktuell durch UMTS
+integrierten Funktionen möglich. Hierzu gilt die Implementierung des \textit{COMP128}-Algorithmus.
+Er ist dazu entwickelt dem A3- und A8-Algorithmus bei der GSM-Architektur zu realisieren.
+Bei der Authentifikation des \ac{MS} beim \ac{AuC} erweist sich das eingesetzte Hashverfahren
+als problematisch, da kleine Veränderungen in der Eingabe nicht ausreichend streuen. Somit
+ist es möglich, dass auf der SIM-Karte gespeicherte geheime Schlüssel durch Kollisionsagriffe
+ausgelesen werden können.
+
+Ebenso ist es begingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
+Sicherheitsmechanismen steigt die Herausforderung an den Klonprozess. So reicht es mittlerweile
+nicht mehr aus nur Informationen auszulesen und zu klnen.
+Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen
+ausliefern, sondern auch eigene Funktionen integrieren.
+Dazu gehört beispielsweise das ableiten des Sitzungsschlüssels
+mittels abgelegter und mit dem \ac{AuC} ausgetauschter Informationen. Ebenso wird das auslesen
+von Informationen durch das bereits erwähnte Berechtigungssystem erschwert.
+
+\paragraph{\ac{USIM}} ist die Weiterentwicklung der vorhergehenden normalen \ac{SIM}-Karte. Sie wird
+im 3G- bzw. UMTS-Netz verwendet und erweitet das ursprüngliche Modell um einige Funktionen.
+Diese Funktionen werden verwendet sofern das Gerät, in die sie eingesetzt wird den Standard
+von USIM-Karten unterstützt. Manche Ausprägungen dieser Kartenvariante erlauben auch das Ablegen
+von Mailadressen zu Kontakten. Der Hardwarekern dieser Architektur ist die \ac{UICC}.
 
 
 \subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
@@ -164,7 +189,7 @@ mit welchen die Nutzdaten (z.B. Sprache) sicher übertragen werden können.
 
 \paragraph{UMTS} weist einige Unterschiede zum GSM-Mobilfunknetz auf, wobei die
 vorhergehende Architektur aus Gründen der Abwärtskompatibilität weiterhin bestehen bleibt
-(\ac{VLR},\ac{HLR},\ac{AuC}). Ebenfalls die Variante der USIM als zentrale Chipkarte
+(\ac{VLR},\ac{HLR},\ac{AuC}). Es wird die Variante der USIM als zentrale Chipkarte
 eingesetzt. Der Ablauf der Authentisierung hingegen weicht vom Vorgänger etwas ab.
 Dieser wird dadurch erweitert, dass das \ac{AuC} sich nun auch gegenüber der \ac{USIM}
 authentisiert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
