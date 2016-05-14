@@ -76,6 +76,39 @@ der Body die Nutzdaten trägt, wird im Header der Dateityp und Zugriffsregeln
 angegeben. Die Dateitypen beschreiben die genaue Struktur der Daten (zyklisch, linear fest,
 linear flexibel,...).
 
+\paragraph{Informationen} in Dateien auf SIM-Karten können entweder read-only- oder read-write-
+Berechtigungen aufweisen. Je nach Art der Information. Sicherheits- und Identitätsbezogene
+Dateien sind in der Regel read-only abgelegt, wobei SMS-Nachrichten sowie Kontaktdaten
+read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf der SIM-Karte gespeichert:
+
+    \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+      \textbf{Name} & \textbf{Beschreibung} \\
+      \ac{PIN} & Sicherheitscode zur Freischaltung der SIM-Karte \\
+    \hline
+    \hline
+          \ac{PUK} & Sicherheitscode bei Wiederfreischaltung der SIM-Karte \\
+    \hline
+    \hline
+      K\textsubscript{i} & Eindeutiger Authentisierungsschlüssel. Teilnehmer und Provider verfügen über ihn. \\
+    \hline
+    \hline
+      \ac{IMSI} & Identifiziert einen Netzteilnehmer weltweit anhand dieser Zeichenfolge \\
+    \hline
+    \hline
+      \ac{ICCID} & Identifiziert eine SIM-Karte weltweit anhand dieser Zahlenfolge (19-20 Stellen) \\
+    \hline
+    \hline
+      \ac{LAI} & nimmt den aktuellen Locationcode beim eingewählten Punkt auf \\ 
+    \hline
+    \hline
+      \ac{SMS} & Vom Teilnehmer empfangene oder versandte Nachrichten \\
+    \hline
+    \hline
+      Kontakte & Vom Teilnehmer verwaltete Kontakte \\
+    \hline
+    \end{tabularx}
+
 \paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
 und Zählvariablen unterschieden\cite{spitz11}. Einzelne Kommandos, die in diese
 Klassen eingeteilt sind, werden immer als \ac{APDU} versandt sowie empfangen.
@@ -1015,7 +1048,7 @@ Veröffentlicht wurde pyscard als freie Software unter der
  \subsubsection{Was umsetzen}
 - Umsetzung der UMTS Authentifizierungsmethode
 - kein SGSN
-- keine Verifizierung der RES & MAC-S
+- keine Verifizierung der RES \& MAC-S
 
  \subsubsection{Unterstützende Tools}
  - Trello
