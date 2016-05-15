@@ -1,10 +1,69 @@
 \section{Einleitung}
 \label{einleitung}
+\begin{quote}
+"[...] Seit der Einführung der Telefonkarte im Jahr 1985 in Deutschland sind Chipkarten ein Mas-
+senartikel. [...] "\cite{spitz11}
+\end{quote}
 
-"Seit der Einführung der Telefonkarte im Jahr 1985 in Deutschland sind Chipkarten ein Mas-
-senartikel."\cite{spitz11}
+Laut Spitz begann die weite Verbreitung von Chipkarten etwa ein Jahrzent nachdem erste Patente
+zu 'Identitätskarten mit Mikroprozessor' eingereicht wurden. Seit dieser Entwicklung
+werden Chipkarten in unterschiedlichen Formfaktoren, Funktionsumfang und Einsatzgebieten
+verwendet.
 
- \subsection{Idee zur Arbeit}
- \subsection{Geschichte der USIM}
- \label{geschichte-usim}
+Chipkarten, die oft auch als SmartCard oder Integrated Circuit Card bezeichnet werden existieren
+allgemein zu dem Zweck eine Identität bzw. Berechtigung (z.B. auch in Form von Guthaben) nachzuweisen.
+Die beiden populärsten Vertreter sind die elektronische Krankenversichertenkarte im Gesunheitsbereich
+sowie die \ac{SIM}-Karte im Bereich des Mobilfunk.
+
+Eine bestimme Ausprägung einer Chipkarte wird dann einem Mobilfunkvertrags- bzw. Versicherungs-teilnehmer
+ausgeliefert, damit dieser sich über selbige 'ausweisen' kann. Der reine Identitätsnachweis ist
+allerdings nicht die einzige Funktion, die eine Chipkarte liefern kann. Neben reinen Speicherkarten
+existieren auch Prozessorkarten, die über das reine liefern (meist sensitiver) Informationen hinaus,
+Algorithmen integrieren. Diese Algorithmen dienen unter anderem zur Sicherstellung der Geheimhaltung
+sensitiver Informationen.
+
+Der Ursprung der Chipkarten im Bereich des Mobilfunk liegt bei der 1985 in Deutschland eingeführten
+Telefonkarte. Sie setzten sich aufgrund ihrer Robustheit und Fälschungssicherheit gegen ebenfalls
+geprüfte Magnetkarten sowie Lochkarten durch. Als sich Ende der 90er-Jahre der Mobilfunk stark
+ausbreitete, sank die Nachfrage nach Telefonkarten und wurde durch \ac{SIM}-Karten abgelöst.
+Sowohl bei Prepaid- als auch bei gewöhnlichen Telefonverträgen ist es notwendig, dass der Teilnehmer
+eine Chipkarte vom Provider erhält und diese in sein Mobiltelefon einsetzt.
+
+Diese \ac{SIM}-Karte ist optional mit einer Zahlenkombination (\ac{PIN}) vor Zugriff von Fremden geschützt.
+Ist die Karte erst freigeschaltet, kann das Mobiltelefon den Authentisierungsprozess (unter Verwendung der
+auf der Karte integrierten Kryptoalgorithmen) mit dem Provider initiieren. Nach erfolgreicher Durchführung
+dieses Prozesses, also Identifizierung durch den Provider, ist der Mobilfunknehmer dazu berechtigt
+im Rahmen seines Vertrages das Mobilfunknetz zu benutzen.
+
+Welche Applikationen wie auf der Prozessorchipkarte laufen ist von Hersteller zu Hersteller unterschiedlich.
+Eine Standardisierung findet durch dir Norn \textit{ISO 7816} statt. Sie definiert vor allem physikalische
+und elektrische Eigenschaften von Chipkarten.
+
+Mit dieser Grundlage entstand die Idee zu dieser Studienarbeit.
+
+\subsection{Idee zur Arbeit}
+Ziel dieser Studienarbeit ist es die Freischaltung eines Netzzugangspunktes unter Verwendung einer 
+gebräuchlichen \ac{SIM}-Karte zu realisieren. Der Vorteil hierbei ist, dass nahezu jeder
+Vertragsnehmer bei einem Provider für Breitbandanschlüsse über einen Mobilfunkvertrag verfügt.
+Sogar Senioren besitzen in der Regel ein Handy oder gar Smartphone und somit zwingend auch eine
+\ac{SIM}-Karte. Nach einer Umfrage durch Pro Senectute\footnote{\url{https://www.prosenectute.ch/de.html}}
+im Jahr 2014 sind dies über 70\% der ab 65-Jährigen.
+
+Nicht nur als Ergänzung des heimischen Anschlusses, sondern auch als zuverlässige und sichere Lösung
+für Hotels oder ähnliche Institutionen ist dieses Setup denkbar.
+
+Es soll gezeigt werden, dass dies durch Kombination bereits bestehender technischer Mittel und
+eigener Implementierung umgesetzt werden kann. Grundlage dieser Umsetzung is eine von Herrn Prof. Müller
+bereitgestellte \ac{SIM}-Karte, deren Geheimnisse bekannt sind. Weiterführend wird ein Kleincomputer
+(Raspberry Pi\footnote{\url{https://www.raspberrypi.org/}}) als Endgerät (\ac{MS}) sowie eine virtuelle
+Maschine zur Simulation des Netzproviders (\ac{AuC}) eingesetzt. 
+
+Der Raspberry Pi bietet sich besonders für dieses Vorhaben an, da dieser preisgünstig in der Anschaffung
+und sehr gut in Bezug auf erweiterbarkeit konstruiert ist. Das Lesen der \ac{SIM}-Karte
+wird durch einen entsprechenden Kartenleser via USB-Technologie ermöglicht. Um möglichst nah
+an der realen Umgebung zu bleiben soll die Verbindung zwischen \ac{MS} und \ac{AuC} über eine
+\ac{PPPoE}-Verbindung (\ac{PPP} über Ethernet) realisiert werden.
+
+\subsection{Geschichte der USIM}
+\label{geschichte-usim}
 \clearpage
