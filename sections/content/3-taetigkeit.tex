@@ -1,2 +1,85 @@
 \section{Tätigkeit}
+	\subsection{Erstellen des Netzproviders}
+		\subsubsection{Ubuntu}
+		Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
+		der Linuxdistribution Ubuntu installiert. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
+		für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine installiert.
+		Diese weist folgende Eigenschaften auf:
+
+		\begin{tabularx}{\textwidth}{|l|X|}
+    	\hline
+      		\textbf{Gerät} & \textbf{Typ} \\
+    	\hline
+    	\hline
+    		CPU & 1x 64 Bit \\
+    	\hline
+    	\hline
+    		RAM & 1x 1024 MB \\
+    	\hline
+    	\hline
+    		HDD & 1x 10 GB \\
+    	\hline
+    	\hline
+    		NIC & 2x Bridged (1x auf enp0s25; 1x auf wlp3s0) \\
+    	\hline
+    	\end{tabularx}
+
+    	Aufgrund der Tatsache dass nur ein einziger Client übder den Zugang von \textit{PPPoE}
+    	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher
+    	recht gering. Wichtig ist das Vorhandensein zweier Netzwerkschnittstellen, die
+    	auf jeweils eine physikalisch Schnittstelle geleitet werden. Dies ist notwendig,
+    	da sowohl die \ac{MS} über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein,
+    	als auch eine Dauerhafte Internetverbindung mit der verbleibenden Schnittstelle
+    	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentisierung
+    	des \ac{MS} den Zugang zum Internet freizuschalten.
+
+    	\subsubsection{PPPoE}
+    	kann nach der vollständigen Ubuntuinstallation durchgeführt werden. Hierzu wird die aktuelle
+    	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
+    	heruntergeladen und auf dem Server entpackt. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
+    	des Point-To-Point-Protocol (als \textit{ppp} erhältlich) benötigt. Sind diese beiden Grundvoraussetzungen
+    	abgedeckt wird der Roaring Penguin PPPoE-Server ohne spezielle Änderungen kompiliert.
+
+    	In der Datei \textit{/etc/ppp/pppoe-server-options} werden die Parameter gesetzt. Anzugeben
+    	sind die DNS-Server sowie die CHAP-Authentifizierung. Der User für die Authentifizierung
+    	wird unter \textit{/etc/ppp/chap-secrets} definiert.
+
+    	Der zu verwendende Adresspool an IP-Adressen ist unter \textit{/etc/ppp/allip} anzugeben.
+
+    	Abschließend fehlt noch die Deklaration der zu verwendenden Netzwerkschnittstelle (unter \textit{/etc/network/interfaces}),
+    	die zum Betrieb mit PPPoE eingesetzt werden soll. Ihr muss eine valide IP-Adresse aus dem definierten
+    	Pool sowie eine Subnetzmaske zugewiesen werden.
+
+    	Alle Konfigurationsdateien befinden sich im Anhang. %TODO: #edit Anhang pflegen
+
+    	Damit die Internetverbindung nach erfolgreicher Authentifizierung des \ac{MS} auch
+    	korrekt von Provider freigeschaltet und weitergeleitet wird, muss eine IPTables-Regel
+    	eingerichtet werden:
+
+    	\begin{lstlisting}[language=bash]
+  			$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
+		\end{lstlisting}
+
+		Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (\ac{NAT}) diesen
+		für den weiteren Betrieb (wie es bei einem realen Provider auch wäre). Dies geschieht
+		für eingehenden sowie ausgehenden Verkehr. Die auf den zweiten Netzwerkadapter geleitete
+		Netzwerkschnittstelle bleibt mit Defaultwerten konfiguriert und fungiert als Zugangspunkt
+		zum Internet.
+
+		Nun kann der Server auf der gewünschten Netzwerkschnittstelle mit einer eigenen IP-Adresse
+		gestartet und genutzt werden:
+		\begin{lstlisting}[language=bash]
+		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
+		\end{lstlisting}
+
+		\subsubsection{Implementierung Milenage}
+		\subsubsection{Implementierung AES}
+			\paragraph{'Unter'-Algorithmen}
+	\subsection{Erstellen des UE}
+		\subsubsection{Aufsetzen des Pis}
+			\paragraph{rasbian}
+			\paragraph{pysim}
+	\subsection{Integration mit PPPoE}
+		 \subsubsection{roaring penguin pppoe}
+
 \clearpage

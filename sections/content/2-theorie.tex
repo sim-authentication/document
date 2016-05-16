@@ -76,6 +76,43 @@ der Body die Nutzdaten trägt, wird im Header der Dateityp und Zugriffsregeln
 angegeben. Die Dateitypen beschreiben die genaue Struktur der Daten (zyklisch, linear fest,
 linear flexibel,...).
 
+\paragraph{Informationen} in Dateien auf SIM-Karten können entweder read-only- oder read-write-
+Berechtigungen aufweisen. Je nach Art der Information. Sicherheits- und Identitätsbezogene
+Dateien sind in der Regel read-only abgelegt, wobei SMS-Nachrichten sowie Kontaktdaten
+read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf der SIM-Karte gespeichert:
+
+    \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+      \textbf{Name} & \textbf{Beschreibung} \\
+    \hline
+    \hline
+      \ac{PIN} & Sicherheitscode zur Freischaltung der SIM-Karte \\
+    \hline
+    \hline
+          \ac{PUK} & Sicherheitscode bei Wiederfreischaltung der SIM-Karte \\
+    \hline
+    \hline
+      K\textsubscript{i} & Eindeutiger Authentisierungsschlüssel. Teilnehmer und Provider verfügen über ihn. \\
+    \hline
+    \hline
+      \ac{IMSI} & Identifiziert einen Netzteilnehmer weltweit anhand dieser Zeichenfolge \\
+    \hline
+    \hline
+      \ac{ICCID} & Identifiziert eine SIM-Karte weltweit anhand dieser Zahlenfolge (19-20 Stellen) \\
+    \hline
+    \hline
+      \ac{LAI} & nimmt den aktuellen Locationcode beim eingewählten Punkt auf \\ 
+    \hline
+    \hline
+      \ac{SMS} & Vom Teilnehmer empfangene oder versandte Nachrichten \\
+    \hline
+    \hline
+      Kontakte & Vom Teilnehmer verwaltete Kontakte \\
+    \hline
+    \end{tabularx}
+
+%% TODO #edit bei bedarf hier noch formfaktoren einbringen
+
 \paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
 und Zählvariablen unterschieden\cite{spitz11}. Einzelne Kommandos, die in diese
 Klassen eingeteilt sind, werden immer als \ac{APDU} versandt sowie empfangen.
@@ -91,6 +128,29 @@ Filesystem. So werden beispielsweise die Kryptoalgorithmen A3, A5 und A8
 auf SIM-Karten ausgeliefert, die zum Nachweis der Authentizität des Benutzers dienen.
 Diese werden in Abschnitt \Verweis{authentifizierungsvorgang}
 näher erläutert.
+
+\paragraph{Angriffe} auf die Architektur waren vor allem vor den aktuell durch UMTS
+integrierten Funktionen möglich. Hierzu gilt die Implementierung des \textit{COMP128}-Algorithmus.
+Er ist dazu entwickelt dem A3- und A8-Algorithmus bei der GSM-Architektur zu realisieren.
+Bei der Authentifikation des \ac{MS} beim \ac{AuC} erweist sich das eingesetzte Hashverfahren
+als problematisch, da kleine Veränderungen in der Eingabe nicht ausreichend streuen. Somit
+ist es möglich, dass auf der SIM-Karte gespeicherte geheime Schlüssel durch Kollisionsagriffe
+ausgelesen werden können.
+
+Ebenso ist es begingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
+Sicherheitsmechanismen steigt die Herausforderung an den Klonprozess. So reicht es mittlerweile
+nicht mehr aus nur Informationen auszulesen und zu klnen.
+Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen
+ausliefern, sondern auch eigene Funktionen integrieren.
+Dazu gehört beispielsweise das ableiten des Sitzungsschlüssels
+mittels abgelegter und mit dem \ac{AuC} ausgetauschter Informationen. Ebenso wird das auslesen
+von Informationen durch das bereits erwähnte Berechtigungssystem erschwert.
+
+\paragraph{\ac{USIM}} ist die Weiterentwicklung der vorhergehenden normalen \ac{SIM}-Karte. Sie wird
+im 3G- bzw. UMTS-Netz verwendet und erweitet das ursprüngliche Modell um einige Funktionen.
+Diese Funktionen werden verwendet sofern das Gerät, in die sie eingesetzt wird den Standard
+von USIM-Karten unterstützt. Manche Ausprägungen dieser Kartenvariante erlauben auch das Ablegen
+von Mailadressen zu Kontakten. Der Hardwarekern dieser Architektur ist die \ac{UICC}.
 
 
 \subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
@@ -131,7 +191,7 @@ mit welchen die Nutzdaten (z.B. Sprache) sicher übertragen werden können.
 
 \paragraph{UMTS} weist einige Unterschiede zum GSM-Mobilfunknetz auf, wobei die
 vorhergehende Architektur aus Gründen der Abwärtskompatibilität weiterhin bestehen bleibt
-(\ac{VLR},\ac{HLR},\ac{AuC}). Ebenfalls die Variante der USIM als zentrale Chipkarte
+(\ac{VLR},\ac{HLR},\ac{AuC}). Es wird die Variante der USIM als zentrale Chipkarte
 eingesetzt. Der Ablauf der Authentisierung hingegen weicht vom Vorgänger etwas ab.
 Dieser wird dadurch erweitert, dass das \ac{AuC} sich nun auch gegenüber der \ac{USIM}
 authentisiert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
@@ -821,6 +881,23 @@ das tty\textit{X}-Device weitergeleitet.
 Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
 Ethernet-Devices ausgetauscht werden.
 
+\subsection{Ubuntu} % TODO: #edit vielleicht noch verschieben
+\label{subsec:ubuntu}
+Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
+gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
+Unter anderem, da eines der Ziele des Projektes ist eine stabile
+'Out-Of-The-Box'-Installation zu liefern. Neben der intuitiven Installation und dem
+Betrieb wird auch jeweils eine \textit{LTS}-Version der aktuellen Veröffentlichung angeboten.
+Hierbei steht das Akronym \textit{LTS} für Long Term Support und garantiert dem Anwender eine
+Updateversorgung (an Paketen) über insgesamt fünf Jah-
+re hinweg. Ebenso kann bei Bedarf separat technicher Support direkt von Canonical
+Ltd. bezogen werden. Ubuntus initiale Veröffentlichung (Version 4.10) geht bis ins Jahr
+2004 (20. Oktober) zurück und stammt von Debian GNU/Linux ab - es zeichnet sich
+allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paketauswahl aus.
+
+Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
+mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11).
+
 \subsection{Raspberry Pi}
 
 Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
@@ -954,8 +1031,41 @@ Neben diversen Linux-Distributionen werden auch Mac OSX und diverse
 BSD- sowie Unix-Derivate unterstützt.
 
 \subsection{Die Sprache Python}
+\subsubsection{Grundlagen}
+\textit{Python} ist eine seit 1991 frei veröffentlichte Programmiersprache. Sie zählt
+zu den interpretierten Programmiersprachen. Primäre Ziele der Sprache sind zusammengefasst:
+\begin{itemize}
+\item Lesbarkeit
+\item Kompaktheit
+\end{itemize}
+Somit wird neben etablierten Sprachen eine Alternative für sowohl umfangreiche Softwareprojekte
+als auch kleinere Einsatzgebiete wie Skripting im Heimcomputerbereich angeboten.
 
-\subsection{pysim}
+\textit{Python} konzentriert sich nicht ausschließlich auf ein einziges Programmierparadigma.
+Es unterstützt objektorientierte, funktionale sowie prozedurale Programmierung. Zusätzliche
+Paradigmen (unter anderem auch logische) können über Erweiterungen nachgerüstet werden.
+Weiterhin verfügt \textit{Python} dynamische Typisierung und automatisches Speichermanagement. Aus
+diesen Gründen ist \textit{Python} vor allem auch für Einsteiger in das Thema der Programmierung
+gut geeignet. Nichts desto Trotz ist \textit{Python} auch aufgrund seiner hohen Flexibilität
+bei erfahrenen Entwicklern verbreitet.
+
+In vielen Linux-Distributionen gehört \textit{Python} im gewissem Umfang zur Standardinstallation.
+Mit dem ausgelieferten Interpreter können plattformübergreifend Programme ausgeführt werden. Bei
+Bedarf ist es möglich auf eine Große Anzahl von Paketen in Standardbibliotheken zuzugreifen.
+
+In seltenen Fällen kann es auch notwendig sein Binärcode auszuliefern, ohne den
+\textit{Python}-Interpreter zu installieren. Hierfür existieren Tools von Drittanbietern,
+die aus vorliegendem \textit{Python}-Code ausführbare Programme generieren. Ein Beispiel hierfür
+ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
+
+\subsubsection{Motivation zur Nutzung}
+Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
+Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
+(also auf der Seite der \ac{MS}) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
+Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
+in ihrer Funktion erweitert.
+
+\subsection{pysim} % TODO #edit bei bedarf noch syntax etc nachtragen
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
 python-Skript, geschrieben von Kevin Prince,
 welches Operationen direkt auf der SIM-Karte implementiert.
@@ -1022,7 +1132,7 @@ Veröffentlicht wurde pyscard als freie Software unter der
  \subsubsection{Was umsetzen}
 - Umsetzung der UMTS Authentifizierungsmethode
 - kein SGSN
-- keine Verifizierung der RES & MAC-S
+- keine Verifizierung der RES \& MAC-S
 
  \subsubsection{Unterstützende Tools}
  - Trello
