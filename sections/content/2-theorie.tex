@@ -253,41 +253,42 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
 \subsection{Milenage Algorithmus}
 \label{milenage}
 Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und
-Kommunikation gewährleistet werden können. Dies war wie in Kapitel \Verweis{geschichte-usim}
-bereits beschrieben mit dem ersten entwickelten Algorithmus des \ac{3GPP} nicht mehr
-gewährleistet, weshalb mit der Entwicklung des neuen Netzstandards auch ein neuer
-Algorithmus entwickelt wurde, namentlich der Milenage Algorithmus. \\
+Kommunikation gewährleistet werden können. Dies war, wie in Kapitel \Verweis{geschichte-usim}
+bereits beschrieben, mit dem zuvor entwickelten Algorithmus des \ac{3GPP} nicht mehr
+gewährleistet. Mit der Entwicklung des neuen Netzstandards wurde deshalb entschieden
+auch einen neuen Algorithmus zu entwickeln, namentlich der Milenage Algorithmus. \\
 Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3},
 \emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und
 Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei lediglich für die
 Re-synchonisation nötig. \\
 3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht
-den Netzprovidern eigenen Lösungen zu implementieren. Stattdessen wird beschrieben in
-welchem Kontext diese Funktionen Anwendung finden und definieren generelle Anforderungen
-an diese Algorithmen \cite{3gpp.35.205}.
+den Netzprovidern eigene Lösungen zu implementieren. Deshalb wird nur beschrieben in
+welchem Kontext diese Funktionen Anwendung finden und generelle Anforderungen
+an diese Algorithmen definiert \cite{3gpp.35.205}.
 
 Der Milenage Algorithmus hat wie erwähnt zwei Hauptaufgaben, nämlich einerseits die
-Authentifizierung, als auch die Generierung eines Schlüssel, um die versendeten Nachrichten zu
-ver- und entschlüsseln. Wenn es um die Authentifizierung geht muss sich einerseits die SIM
-Karte, bzw. das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits
-muss sich auch das Netzwerk gegenüber der SIM-Karte authentifizieren. Damit soll die
-Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden
-erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor
-aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
+Authentifizierung und anderereits die Generierung eines Schlüssel, um die versendeten Nachrichten zu
+ver- und entschlüsseln.
+% Wenn es um die Authentifizierung geht muss sich einerseits die USIM
+% beziehungsweise das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits
+% muss sich auch der Netzprovider gegenüber der USIM authentifizieren. Damit soll die
+% Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden
+% erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor
+% aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
 
 In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des
-Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erläutert.
+Algorithmus, erläutert.
 
  \subsubsection{Warum Milenage sicher ist}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass das die Mechanismen
  zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige
  Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur
  Berechnung der Daten weißt einige Vorteile auf. \\
- Ein wichtiger Punkt dabei ist, dass der Vorgänger geheim war und Milenage nicht, denn ein
- solcher Algorithmus sollte öffentlich sein, damit möglichst viele Leute drüber gucken können und
- eventuelle Schwachstellen rechtzeitig bemerkt werden. 
+ Ein wichtiger Punkt dabei ist, dass der Vorgänger geheim war, aber Milenage wurde öffentlich
+ diskutiert. Der Vorteil der Offenlegung ist, dass auf diesem Weg Schwachstellen bemerkt werden
+ bevor der Algorithmus implementiert ist. 
  
- Stephan Spitz zeigt in seinem Buch ``Kryptographie und IT-Sicherheit''  \cite{spitz11} drei
+ Stephan Spitz zeigt in seinem Buch ``Kryptographie und IT-Sicherheit'' \cite{spitz11} drei
  wesentliche Gründe auf, die den Algorithmus sicher machen:
  
  \paragraph{Ergebnisse mit hoher Entropie}
@@ -304,7 +305,7 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  
  \paragraph{Schlüssellänge}
  Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der
- Schlüssellänge von 128 Bits zu aufwändig mit aktuellen Rechnern.
+ Schlüssellänge von 128 Bits dauert mit aktuellen Computern zu lange.
  
  \textbf{Kapitel über die Vorraussetzungen an einzelne Parameter, bzw. wie diese angepasst
  werden können?}
@@ -327,8 +328,8 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  
  In \Abbildung{funktionsubersicht} ist zu sehen, dass zu Beginn die \ac{SQN} generiert wird.
  Diese ist insgesamt 48 Bits lang und besteht aus den beiden Teilen SEQ und IND, mit SEQ als
- der die eigentliche Sequenznummer und IND als Arrayindex. Dieser Index wird benötigt, da auf
- der SIM-Karte sind die letzten SQNs in einem Array gespeichert. Die empfohlene Arraygröße ist
+ die eigentliche Sequenznummer und IND als Arrayindex. Dieser Index wird benötigt, da auf
+ der SIM-Karte die letzten SQNs in einem Array gespeichert sind. Die empfohlene Arraygröße ist
  32, was für IND eine Länge von fünf Bits bedeutet. Mit diesem Index kann nachher die
  Aktualität der SEQ überprüft werden.\cite{3gpp.33.102} \\
  Für die Bildung der SEQ selbst gibt es drei verschiedene Möglichkeiten:
@@ -339,22 +340,24 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  \end{itemize}
  
  Die einfachste Variante ist die nicht zeitbasierte Lösung, bei der lediglich ein Zähler hochgezählt
- wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt und
- gleichzeitig vom \ac{AuC} in einer Datenbank gespeichert \cite{3gpp.33.102}. Auf die anderen
- Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit keine Anwendung
- fanden.
+ wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt. Das
+ \ac{AuC} speichert in einer Datenbank \cite{3gpp.33.102} zu jeder USIM die aktuelle SQN.
+ Auf die anderen  Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit
+ keine Anwendung fanden und deutlich komplexer sind.
  
  Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND
- generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde.
- Generell handelt es sich dabei um eine 128-bit lange Zufallszahl, die für jede Funktion benötigt wird.
+ generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Die
+ Spezifikation gibt deshalb für die Generierung der RAND keine Empfehlung, wie für die anderen
+ Werte. Generell handelt es sich bei der RAND um eine 128-bit lange Zufallszahl, die für alle
+ anderen Funktion benötigt wird.
  
  \Abbildung{funktionsubersicht} zeigt zwar, welche Variablen in die Funktionen einfließen und
- welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun verarbeitet
- werden. Dies zeigt \Abbildung{schematisch_milenage} besser. Dort ist zu erkennen, dass
- \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und \emph{f1},
- sowie \emph{f1*} noch einige zusätzliche Parameter haben.
+ welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun in den einzelnen
+ Funktionen angewendet werden. Dies zeigt \Abbildung{schematisch_milenage} besser. Dort ist
+ zu erkennen, dass \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und
+ \emph{f1}, sowie \emph{f1*} noch einige zusätzliche Parameter benötigen.
  
- Zunächst die Erklärung der Symbole sowie einiger weiterer Abkürzungen. \ac{OPc} wird durch
+ Zunächst die Erklärung der Symbole sowie einiger weiterer Abkürzungen. OPc wird durch
  folgende Formel generiert:
  \begin{center}
   $OP_{C} = OP \oplus E(OP)_{K}$
@@ -380,8 +383,8 @@ Algorithmus, sowie die Funktionsweise der eingesetzten Blockchiffre \ac{AES} erl
  Rotationswert r von 2: 011101.
  
  Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*}
- ausgehen von einem verschlüsselten $RAND \oplus OP_{C}$, welcher in der Dokumentation
- auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ {C}$ verknüpft
+ ausgehen von einem verschlüsselten $RAND \oplus OP_C$, welcher in der Dokumentation
+ auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ C$ verknüpft
  und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR
  Verknüpfung mit der speziellen XOR-Konstante c und die Chiffrierung des Ausgabewertes. Im
  letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
@@ -587,7 +590,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 %% Point-to-Point %%
 \subsection{PPP}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
-wird von Providern (\ac{ISP}) Implementierungen eines
+wird von Providern (\ac{ISP}) die Implementierungen eines
 \ac{PPP} verwendet. Mit Protokollen dieser Art wurden zum Beispiel schon Modem- oder ISDN-Verbindungen
 aufgebaut. Heutige Szenarien sind unter anderem auch GPRS- und UMTS-Datenverbindungen -
 hier hauptsächlich in
@@ -596,30 +599,32 @@ genauer eingegangen.
 
 \subsubsection{Architektur PPP}\label{subsubsection:architecture_ppp}
 \ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
-Datalink-Layers und wurde speziell für den Betrieb von Modems etc. entwickelt.
+Datalink-Layers. Es wurde speziell für den Betrieb von Modems, ???,  etc. entwickelt.
 Jede Maschine, die ein Modem in Betrieb hatte, nutzte bereits \ac{PPP} um z.B.
 Internet im lokalen Netzwerk freizuschalten und zu verteilen.
-Neben der Freischaltung von Internetverbindungen wird \ac{PPP} von vielen \ac{ISP}
-auch dazu verwendet Zugriffe zu monitoren sowie Angriffe durch Intrusion Detection zu vermeiden.
+Neben der Freischaltung von Internetverbindungen wird \ac{PPP} von vielen \acp{ISP}
+auch dazu verwendet Zugriffe zu monitoren, sowie Angriffe durch Intrusion Detection zu vermeiden.
 In üblichen \ac{LAN}-Umgebungen ist es notwendig, dass eingesetzte Technologien die Datalink-Layer-Funktion
-implementieren und darüberhinhaus über einen MAC-Meschanismus verfügen, da verschiedene
+implementieren und darüber hinhaus über einen MAC-Mechanismus verfügen, da verschiedene
 Quellen/Ziele das selbe Medium teilen könnten. Dieser Regulierungsmechanismus ist bei \ac{PPP}
 nicht notwendig, da es sich um eine Punkt-zu-Punkt bzw. Ende-zu-Ende-Verbindung handelt.
 In jedem Fall handelt es sich um genau zwei Teilnehmer:
+%TODO: Statt itemize description nutzen und Quelle/Ziel kurz erklären?
 \begin{itemize}
 	\item Quelle
 	\item Ziel
 \end{itemize}
 
-Neben dem Datalink-Layer baut \ac{PPP} notwendigerweise auch auf der bestehenden Verbindung
-auf dem Physical-Layer auf.
+%TODO: ist überflüssig
+%Neben dem Datalink-Layer baut \ac{PPP} notwendigerweise auch auf der bestehenden Verbindung
+%auf dem Physical-Layer auf.
 
 \paragraph{Motivation} Die Architektur ist gezielt sehr simpel gewählt. Es werden lediglich IP-Datagramme zwischen den
-Endgeräten enkapsuliert. Vergleichbar ist der Aufbau mit dem von Ethernet, jedoch ohne
+Endgeräten gekapselt. Vergleichbar ist der Aufbau von PPP mit dem von Ethernet, jedoch ohne
 die notwendige Behandlung vieler Probleme die in sonstigen \ac{LAN}- und Breitbandumgebungen
 auftreten können. So ist der Header z.B. nur 8 Byte statt 16 Byte lang. Doch dazu später mehr.
 \ac{PPP} wurde als Alternative zum bereits bestehenden \ac{SLIP} implementiert, welches neben den notwendigen
-Methoden, dem multiplexen verschiedener Netzwerklayer-Protokolle sowie mehrere Authentifizierungsmethoden noch zusätzliche Funktionen ermöglichte, die nicht benötigt werden.
+Methoden, dem multiplexen verschiedener Netzwerklayer-Protokolle, sowie mehrere Authentifizierungsmethoden noch zusätzliche Funktionen ermöglichten, die von PPP nicht benötigt werden.
 
 \paragraph{PPP Frame}
 Ein \ac{PPP}-Frame ist wie folgt aufgebaut:
@@ -652,7 +657,7 @@ Diverse oben genannte Felder können in ihrer Länge variieren, da
 diese während des Verbindungsaufbaus vom \ac{LCP} ausgehandelt werden.
 
 \paragraph{LCP Frame} Um die effizienteste Verbindungsart zu finden, benutzen PPP-Systeme
-immer \ac{LCP} um die korrekten Parameter auszuhandeln. LCP-Nachrichten in ausgetauschten
+immer \ac{LCP}, um die korrekten Parameter auszuhandeln. LCP-Nachrichten in ausgetauschten
 PPP-Frames enthalten somit alle Konfigurationsoptionen für die sich gerade aufbauende
 Verbindung. Ist eine Konfiguration gefunden, die beide Knoten unterstützen folgt der
 Link-Establishment-Prozess. Ist dieser erreicht müssen danach keine weiteren redundanten
@@ -673,8 +678,9 @@ selbige explizit über \ac{IANA} spezifizieren zu müssen. Dokumentiert ist dies
 PPP-Protokolls erläutert. Im \Anhang{abb:aufbauphasen_pppverbindung} befindet
 sich eine Abbildung, die diesen Vorgang illustriert.
 
+%TODO: erst den Sinn der Phasse und dann wie das erzielt wird?
 \textbf{Link Dead Phase:}
-Beide Systeme fangen mit dieser Phase an und enden hiermit wieder.
+Quell- und Zielsystem fangen mit dieser Phase an und enden hiermit wieder.
 Grundlage ist, dass außer (maximal) dem Link auf physischer Ebene,
 keine Verbindung zwischen beiden Endpunkten besteht. Normalerweise
 wird nach sicherstellen des physischen Links von einer Seite der
@@ -682,7 +688,7 @@ Aufbau der Verbindung initiiert. Dies geschieht meist mit einer Form von Modem.
 Nach Abschluss der Initiierung beginnt die nachfolgende Phase.
 
 \textbf{Link Establishment Phase:}
-Das initiierende System System sendet eine \ac{LCP}-Nachricht an das Zielsystem,
+Das initiierende System sendet eine \ac{LCP}-Nachricht an das Zielsystem,
 um Optionen anzufordern, die gesetzt werden sollen. Dazu gehören
 Netzwerklayer-Protokoll, Authentifizierungsmethode und andere optionale
 Funktionen. Sofern das Zielsystem alle angeforderten Optionen beherrscht,
@@ -694,17 +700,17 @@ Verbindung initiieren kann, die in jedem Fall von beiden Seiten unterstützt
 wird. Das erfolgreiche Abschließen dieser Phase führt zur nächsten Phase.
 
 \textbf{Authentication Phase:}
-Diese Phase ist optional. Ausgelöst wird sie durch das vorhandensein einer
+Diese Phase ist optional. Ausgelöst wird sie durch das Vorhandensein einer
 Authentifizierungsoption in der LCP-Konfigurationsnachricht.
 Zur Auswahl stehen z.B. \ac{PAP} oder \ac{CHAP}.
-Hierbei greift PAP auf Username und Passwort, CHAP auf eines komplexeren Informationsaustausch
-mit einem Challenge-Response-Verfahren zurück. Wobei der Erfolg immer zur nächsten
-Phase führt ist die Reaktion bei Misserfolg des Vorgangs protokollabhängig.
+Hierbei greift PAP auf Username und Passwort, CHAP auf einen komplexeren Informationsaustausch
+mit einem Challenge-Response-Verfahren zurück. Der Erfolg führt immer zur nächsten
+Phase führt, aber die Reaktion bei Misserfolg des Vorgangs ist protokollabhängig.
 
 \textbf{Link Quality Monitoring:}
 Diese Phase ist wie ihr Vorgänger ebenfalls optional - ebenfalls ausgelöst durch
 die gewählt Option in der LCP-Nachricht.
-Hier aus mehreren Protokollen gewählt werden. Eines davon ist standardisiert:
+Hier wird aus mehreren Protokollen gewählt. Eines davon ist standardisiert:
 das 'Link Quality Report Protocol'. Registriert werden unter anderem der Linktraffic
 sowie Fehlermeldungen.
 
@@ -722,7 +728,7 @@ Link in beide Richtungen ausgetauscht werden.
 
 \textbf{Link Termination Phase:}
 Wird die Verbindung absichtlich (Ablauf der Session, Authentifizierungsfehler)
-oder durch Fehler o.ä. physikalisch getrennt, wird im Regelfall über \ac{LCP}
+oder durch Fehler o.ä. getrennt, wird im Regelfall über \ac{LCP}
 eine 'Terminate Request Message' versandt. Diese kann von der Gegenseite
 angenommen (\textit{AKC}) werden, sofern die grundlegende Verbindung noch aktiv ist.
 Beide Systeme sind dann wieder in der ursprünglich genannten 'Link Dead Phase'.
@@ -731,23 +737,23 @@ damit die PPP-Verbindung trotz 'Terminierung' bestehen bleibt.
 
 
 \subsubsection{Architektur PPPoE}\label{subsubsection:architecture_pppoe}
-Zur Realisierung der Verbindung zwischen Authentifizierungsstelle und
-Endgerät wurde aufgrund der Beschaffenheit des Raspberry Pis eine
+Zur Realisierung der Verbindung zwischen Authentication Center und
+Endgerät wurde in diesem Projekt aufgrund der Beschaffenheit des Raspberry Pis eine
 Ethernetverbindung gewählt. Dieser wird das im vorangegangenen
 Abschnitt erläuterte \ac{PPP}-Protokoll zugrunde gelegt.
 In Ethernetframes werden PPP-Daten als Nutzdaten gekapselt.
-Diese Methode wurde auch im realen Umfeld dazu entwickelt \ac{ISP}s die
+Diese Methode wurde auch im realen Umfeld dazu entwickelt \acp{ISP} die
 Möglichkeit zu geben Verbindungen über Kabelmodem oder DSL in Form
 von Bridged-Topologien zu realisieren. Provider bewerkstelligen
-so auch die Endpunktidentifikation, Accounting und Rechnungserstellung.
-(Beschrieben wird der Standard in RFC2516)
+so auch die Endpunktidentifikation, Accounting und Rechnungserstellung
+(beschrieben wird der Standard in RFC2516).
 
 \paragraph{Aufbauphasen}
-im Kontext einer PPPoE-Verbindung sind Discovery und Session.
+Diese sind im Kontext einer PPPoE-Verbindung Discovery und Session.
 Beide werden nachfolgend erläutert.
 
 \paragraph{Discovery}
-ist die Phase, in der der Client PPPoE-Frames dazu verwendet einen
+Der Client verwendet PPPoE-Frames in der Discovery-Phase dazu einen
 Zugangspunkt zu finden.
 
 Dies geschieht in den folgenden Schritten bzw. Frames:
@@ -775,9 +781,9 @@ Dies geschieht in den folgenden Schritten bzw. Frames:
 \end{enumerate}
 
 \paragraph{Session}
-ist die Phase, in der die PPPoE-Verbindung bereits erfolgreich
-aufgebaut ist und Daten ausgetauscht werden können.
-Dieser Zustand ist erreicht, sobald die PPPoE-Discovery-Phase
+In der Sessionn-Phase, ist die PPPoE-Verbindung bereits erfolgreich
+aufgebaut und Daten können ausgetauscht werden.
+Dieser Zustand ist erreicht, sobald die Discovery-Phase
 erfolgreich abgeschlossen ist.
 
 \subsubsection{Roaring Penguin PPPoE}
@@ -790,11 +796,11 @@ Dementsprechend ist es nicht notwendig hierfür den Kernel zu patchen und neu zu
 Ein einfaches installieren und konfigurieren genügt.
 
 \paragraph{pppd}
-ist der im Userland installierte Dienst. Um eine Verbindung aufzubauen
+Der im Userland installierte Dienst heißt pppd. Um eine Verbindung aufzubauen
 erstellt er ein Network-Device (der Form ppp\textit{X}) und verknüpt dieses
-mit einem beliebigen tty.
+mit einem beliebigen tty. %TODO: Abkürzung? Was ist tty
 Typischerweise handelt es sich hier um einem seriellen Port \cite{roaringpenguinpres}).
-Daten, die von diesem tty-Device empfangen erscheinen durch das ppp\textit{X}-Device.
+Daten, die von diesem tty-Device empfangen werden, erscheinen durch das ppp\textit{X}-Device.
 
 Logisch unterhalb des tty-Device wird dann über PPPoE mit einem ebenfalls durch den Server
 asoziierten Ethernet-Interface kommuniziert (eth\textit{X}).
@@ -834,7 +840,7 @@ entwickelt. Die Bezeichnung A(+) bzw. B(+) gibt jeweils Aufschluss
 über die jeweilige Ausführung.
 
 \subsubsection{Hardware Modell B}
-Das eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
+Das in diesem Projekt eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
 \begin{itemize}
 \item CPU - 700 MHz Singlecore ARM1176JZF-S
 \item RAM - 512 MB
@@ -882,6 +888,7 @@ lizensiert und durch die Raspbian-Community unabhängig entwickelt.
 
 %% PC/SC %%
 \subsection{PC/SC}
+%TODO: Die Kausalkette ist für mich nicht logisch
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
 dementsprechend zu organisieren. Ein Standard, der sich mit genau
@@ -891,12 +898,12 @@ dass die Anwendung keine genaueren speziellen Informationen zur verwendeten
 Karte benötigt. Lediglich die Kommunikation mit dem Standard
 konformen Lesegerät muss durch den Treiber sichergestellt werden.
 
-\subsubsection{Die PC/SC-Workgroup}
+% \subsubsection{Die PC/SC-Workgroup}
 Entwickelt wurde PC/SC von verschiedenen Herstellern. Hauptsächlich
 Gemalto, Microsoft, Infineon und Toshiba.
 
 \subsubsection{Spezifikation und Aufbau der Schnittstelle}
-Die Spezifikation definiert Schnittstellen, die dem Zugriff auf Chipkarten ausgehend
+Die Spezifikation definiert Schnittstellen, die den Zugriff auf Chipkarten ausgehend
 von mehreren Applikationen beziehungsweise Nutzern ermöglichen. Grundlegend
 dafür benötigt werden neben dem Standardkonformen Treiber ein \ac{IFD} und
 eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
@@ -968,7 +975,7 @@ python-Shell verwendbar.
 
 \subsection{osmo-sim-auth}
 \textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
-überschneidet sich im Unfang angebotener Funktionen. Hauptsächlich ist es,
+überschneidet sich im Unfang angebotener Funktionen mit \textit{pysim}. Hauptsächlich ist es,
 genau wie \textit{pysim} eine Implementierung in python, um den Authentifizierungsprozess
 einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
 \textit{PCSClite}-Treibers und der \textit{pyscard}-Library.
