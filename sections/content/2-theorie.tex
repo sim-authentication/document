@@ -84,6 +84,8 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
     \begin{tabularx}{\textwidth}{|l|X|}
     \hline
       \textbf{Name} & \textbf{Beschreibung} \\
+    \hline
+    \hline
       \ac{PIN} & Sicherheitscode zur Freischaltung der SIM-Karte \\
     \hline
     \hline
@@ -872,6 +874,23 @@ das tty\textit{X}-Device weitergeleitet.
 
 Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
 Ethernet-Devices ausgetauscht werden.
+
+\subsection{Ubuntu} % TODO: #edit vielleicht noch verschieben
+\label{subsec:ubuntu}
+Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
+gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
+Unter anderem, da eines der Ziele des Projektes ist eine stabile
+'Out-Of-The-Box'-Installation zu liefern. Neben der intuitiven Installation und dem
+Betrieb wird auch jeweils eine \textit{LTS}-Version der aktuellen Veröffentlichung angeboten.
+Hierbei steht das Akronym \textit{LTS} für Long Term Support und garantiert dem Anwender eine
+Updateversorgung (an Paketen) über insgesamt fünf Jah-
+re hinweg. Ebenso kann bei Bedarf separat technicher Support direkt von Canonical
+Ltd. bezogen werden. Ubuntus initiale Veröffentlichung (Version 4.10) geht bis ins Jahr
+2004 (20. Oktober) zurück und stammt von Debian GNU/Linux ab - es zeichnet sich
+allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paketauswahl aus.
+
+Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
+mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11).
 
 \subsection{Raspberry Pi}
 
