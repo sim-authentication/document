@@ -659,7 +659,7 @@ genauer eingegangen.
 
 \subsubsection{Architektur PPP}\label{subsubsection:architecture_ppp}
 \ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
-Datalink-Layers. Es wurde speziell für den Betrieb von Modems, ???,  etc. entwickelt.
+Datalink-Layers. Es wurde hauptsächlich für den Betrieb von Modems entwickelt. % weitere Geräte??
 Jede Maschine, die ein Modem in Betrieb hatte, nutzte bereits \ac{PPP} um z.B.
 Internet im lokalen Netzwerk freizuschalten und zu verteilen.
 Neben der Freischaltung von Internetverbindungen wird \ac{PPP} von vielen \acp{ISP}
@@ -684,7 +684,7 @@ Endgeräten gekapselt. Vergleichbar ist der Aufbau von PPP mit dem von Ethernet,
 die notwendige Behandlung vieler Probleme die in sonstigen \ac{LAN}- und Breitbandumgebungen
 auftreten können. So ist der Header z.B. nur 8 Byte statt 16 Byte lang. Doch dazu später mehr.
 \ac{PPP} wurde als Alternative zum bereits bestehenden \ac{SLIP} implementiert, welches neben den notwendigen
-Methoden, dem multiplexen verschiedener Netzwerklayer-Protokolle, sowie mehrere Authentifizierungsmethoden noch zusätzliche Funktionen ermöglichten, die von PPP nicht benötigt werden.
+Methoden, dem multiplexen verschiedener Netzwerklayer-Protokolle, sowie mehrere Authentifizierungsmethoden noch zusätzliche Funktionen ermöglichen, die von PPP nicht benötigt werden.
 
 \paragraph{PPP Frame}
 Ein \ac{PPP}-Frame ist wie folgt aufgebaut:
@@ -857,8 +857,8 @@ Ein einfaches installieren und konfigurieren genügt.
 
 \paragraph{pppd}
 Der im Userland installierte Dienst heißt pppd. Um eine Verbindung aufzubauen
-erstellt er ein Network-Device (der Form ppp\textit{X}) und verknüpt dieses
-mit einem beliebigen tty. %TODO: Abkürzung? Was ist tty
+erstellt er eine virtuelle Netzwerkschnittstelle (der Form ppp\textit{X}) und verknüpft diese
+mit einem Pseudo-\ac{tty}. %TODO: Abkürzung? Was ist tty #CHECK
 Typischerweise handelt es sich hier um einem seriellen Port \cite{roaringpenguinpres}).
 Daten, die von diesem tty-Device empfangen werden, erscheinen durch das ppp\textit{X}-Device.
 
@@ -965,10 +965,10 @@ lizensiert und durch die Raspbian-Community unabhängig entwickelt.
 
 %% PC/SC %%
 \subsection{PC/SC}
-%TODO: Die Kausalkette ist für mich nicht logisch
+%TODO: Die Kausalkette ist für mich nicht logisch #CHECK
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
-dementsprechend zu organisieren. Ein Standard, der sich mit genau
+mit mehreren (parallel arbeitenden) Teilnehmern zu organisieren. Ein Standard, der sich mit genau
 dieser Problemstellung befasst ist der \textit{\ac{PC/SC}}-Standard.
 Er abstrahiert die Kommunikation mit der Chipkarte so,
 dass die Anwendung keine genaueren speziellen Informationen zur verwendeten

@@ -60,7 +60,7 @@
   			$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
 		\end{lstlisting}
 
-		Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (\ac{NAT}) diesen
+		Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (vgl. \ac{NAT}) diesen
 		für den weiteren Betrieb (wie es bei einem realen Provider auch wäre). Dies geschieht
 		für eingehenden sowie ausgehenden Verkehr. Die auf den zweiten Netzwerkadapter geleitete
 		Netzwerkschnittstelle bleibt mit Defaultwerten konfiguriert und fungiert als Zugangspunkt
@@ -72,14 +72,68 @@
 		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
 		\end{lstlisting}
 
+        Korrekt konfigurierte Clients, die über die Zugangsdaten verfühen können sich über
+        diese Verbindung anmelden und Internetzugriff erhalten.
+
 		\subsubsection{Implementierung Milenage}
 		\subsubsection{Implementierung AES}
 			\paragraph{'Unter'-Algorithmen}
+
 	\subsection{Erstellen des UE}
-		\subsubsection{Aufsetzen des Pis}
-			\paragraph{rasbian}
-			\paragraph{pysim}
+		\subsubsection{Aufsetzen des Raspberry Pis}
+			\paragraph{Raspbian} wird über die von der Webpräsenz\footnote{\url{https://www.raspberrypi.org/downloads/raspbian/}}
+            des Projekts gehosteten vorgefertigten Builds aufgesetzt.
+
+            Die SD-Karte muss nicht weiter formatiert und für die Installation vorbereitet werden. Das
+            bereitstehende ISO-Image ist ein Abbild eines bereits korrekt formatierten sowie installierten
+            Raspbian (Jessie). Nach kopieren (blockweise) des Images auf die SD-Karte kann von dieser direkt
+            gebootet werden.
+
+            Nach dem initialen Bootvorgang können Userspezifische Änderungen durchgeführt werden. Hierzu
+            gehört das anpassen von Netzwerk- und Hostinformationen. Um später eine Administation via
+            \ac{ssh}-Remotezugang zu ermöglichen wird auch dieser in der entsprechenden Konfigurationsdatei
+            zum automatischen starten aktiviert.
+
+            Für den weiteren Betrieb müssen Pakete aus dem offiziellen Resporitory
+            nachinstalliert werden. Spezielle Pakete, die dort nicht verfügbar sind werden
+            manuell kompiliert.
+
+            \paragraph{SIM-Kartenleser} Der benötigte (herstellerspezifische)
+            Cherry-Treiber ist nicht im offiziellen Repository enthalten, kann jedoch
+            manuell kompiliert werden. Auf der Webpräsenz des Herstellers\footnote{\url{http://www.cherry.de/cid/download.php}}
+            wird ein Treiber für den Betrieb mit 64-Bit Linuxdistributionen zu Verfügung gestellt.
+            Selbiger kann nach Installation der nativen \textit{pcsc}-Pakete (aus dem Repository)
+            kompiliert und eingesetzt werden.
+
+            Sind diese Softwarepakete eingerichtet kann die SIM-Karte eingesetzt
+            und erste Kommunikationsversuche durchgeführt werden. Hier bietet sich der vom
+            Treiber mitgelieferte Scanmechanismus für neue Devices an. Da der Treiber
+            Hotplugfähig ist kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
+            eingesetzt wird.
+
+			\paragraph{pysim} kann von Kevin Prince's Githubrepository\footnote{\url{https://github.com/kevinprince/pysim}} bezogen werden. Es benötigt ebenso
+            wie andere nachfolgend genannte Python-Skripte noch das Paket \textit{pysim}, welches
+            in den offiziellen Raspbian Paketquellen zur Verfügung steht. Nach erfolgreicher Installation
+            von Pysim und pullen des Skriptes wird selbiges über Python verwendet.
+
+            \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth} des Projekts Osmocom zu  beziehen.
+
 	\subsection{Integration mit PPPoE}
-		 \subsubsection{roaring penguin pppoe}
+        Um den Verbindungsaufbau zwischen \ac{MS} und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
+        als auch der Server für \ac{PPPoE} konfiguriert sowie gestartet sein.
+
+		 \subsubsection{Server}
+         Hier muss initial der Daemon für den \ac{PPPoE}-Server gestartet sein. Anzugeben ist das gewünschte
+         Netz mit zugehöriger Netzwerkschnittstelle. Ebenso muss die IPTables-Regel zur Weiterleitung
+         des Internetverkehrs gesetzt sein.
+
+         \subsubsection{Client}
+         Hier müssen einmalig über das Tool \textit{pppoe-conf} die Parameter und Authentifizierungsdaten
+         für die \ac{PPPoE}-Verbindung eingepflegt werden.
+
+         Das Tool bietet die Möglichkeit selbige Informationen
+         zu speichern und automatisch den Verbindungsaufbau mit dem Server aufzunehmen. Bei Neustart
+         des Systems oder Verbindungsabbruch (regulär oder durch technische Zwischenfälle) greift dieser
+         Mechanismus ebenfalls.
 
 \clearpage
