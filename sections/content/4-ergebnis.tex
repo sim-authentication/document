@@ -7,13 +7,34 @@
 	\subsection{Fehler}
 		\subsubsection{Einrichtung verwendeter Werkzeuge}
 			\paragraph{Raspbian} konnte ohne Probleme installiert und in
-			Betrieb genommen werden. Der einzige Zwischenfall ist auf eine
+			Betrieb genommen werden (vgl. \Verweis{subsubsec:installpi}). Der einzige Zwischenfall ist auf eine
 			defekte SD-Speicherkarte zurückzuführen. Nach wenigen Wochen
 			des Betriebes ist diese ausgefallen, was ein starten des
 			Raspberry Pis unmöglich machte. Ebenfalls konnten die auf der
 			Speicherkarte enthaltenen Daten nicht wieder hergestellt werden.
-			\paragraph{Ubuntu}
-			\paragraph{fabricio}
-			\paragraph{pysim}
+
+			Aus diesem Grund war es notwendig das Betriebssystem erneut aufzusetzen.
+			Eingeleitete Gegenmaßnahme für zukünftige Ausfälle war ein regelmäßiges Backup
+			nach Änderungen am System. Via \textit{dd} wurde immer blockweise ein komplettes Abbild
+			des aktuellen Systems auf externen Festplattenspeicher übertragen.
+
+			Es blieb bei einem einzigen Hardwareausfall der SD-Karte.
+
+			\paragraph{Ubuntu} konnte ohne Probleme installiert sowie betrieben werden.
+
+			\paragraph{Milenage-Prüfsoftware} wurde während der Implementierungsphase des
+			Milenage-Algorithmus mit Empfehlung von Herrn Prof. Müller eingesetzt.
+			Durch das Eintragen der gewählten sowie festen (geheimen) Werte konnte
+			die eigene Implementierung des Milenage-Algorithmus überprüft werden.
+
+			\paragraph{pysim} stellte sich während der Implementierungsphase als
+			problematisch heraus, da es nicht über alle der benötigten Funktionalitäten
+			verfügt. Den Verfassern dieser Studienarbeit war bei der ersten Auswahl
+			der Pythonbibliothek nicht klar, ob die reine Unterstützung für \ac{GSM}-Karten
+			ausreicht.
+
+			Nachdem sich herausstellte, dass \ac{UMTS}-Kartensupport ebenfalls notwendig ist, fiel die
+			Wahl auch \textit{osmo-sim-auth} von Osmocom (vgl. \Verweis{subsec:osmosim}). Über diese Bibliothek konnten
+			alle Funktionen auf der Seite des \ac{MS} in der Sprache Python implementiert werden.
 		\subsubsection{Fehleinschätzungen}
 \clearpage
