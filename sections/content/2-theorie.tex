@@ -367,8 +367,7 @@ Algorithmus, erläutert.
  Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der
  Schlüssellänge von 128 Bits dauert mit aktuellen Computern zu lange.
  
- \textbf{Kapitel über die Vorraussetzungen an einzelne Parameter, bzw. wie diese angepasst
- werden können?}
+%% TODO #edit bei bedarf hier noch die Vorraussetzungen an die Parameter bzw. wie diese modifiziert werden können
 
  \subsubsection{Funktionsweise}
  \label{milenage-funktion}
@@ -738,7 +737,7 @@ selbige explizit über \ac{IANA} spezifizieren zu müssen. Dokumentiert ist dies
 PPP-Protokolls erläutert. Im \Anhang{abb:aufbauphasen_pppverbindung} befindet
 sich eine Abbildung, die diesen Vorgang illustriert.
 
-%TODO: erst den Sinn der Phasse und dann wie das erzielt wird?
+%TODO: erst den Sinn der Phasen und dann wie das erzielt wird?
 \textbf{Link Dead Phase:}
 Quell- und Zielsystem fangen mit dieser Phase an und enden hiermit wieder.
 Grundlage ist, dass außer (maximal) dem Link auf physischer Ebene,
@@ -1101,7 +1100,7 @@ Dementsprechend verfügt \textit{osmo-sim-auth} auch über die Funktion der
 Resynchronisation bezüglich der \ac{SQN}-Nummer\cite{osmosimweb}.
 
 Entwickelt wird es vom Osmocom OpenBSC-Project, welches sich damit
-beschäftigt eine (A)GPL-lizensierte Implementierung für den
+beschäftigt eine (A)GPL-lizenzierte Implementierung für den
 GSM/3GPP-Protokollstack zu erzielen. Neben der Authentifizierung
 in direkter Kommunikation mit der SIM-Karte werden auch folgende
 Funktionalitäten durch das Projekt realisiert:
@@ -1129,12 +1128,57 @@ Veröffentlicht wurde pyscard als freie Software unter der
 - Allgemein (imperativ/prozedural/compilieren/...)
 - Besonderheiten (Pointer/manuelle Speicherallokation)
 
-\subsection{Projektspecs}
- \subsubsection{Was umsetzen}
-- Umsetzung der UMTS Authentifizierungsmethode
-- kein SGSN
-- keine Verifizierung der RES \& MAC-S
+\subsection{Projektumsetzung}
+ \subsubsection{Anforderungen}
+ Zu Beginn, und teilweise auch während des Projektes, wurden Anforderungen
+ an das Projekt gestellt, die umgesetzt werden sollen und Grenzen gesetzt, die
+ dem Projekt einen Rahmen vorgeben. Außerdem wurden Meilensteine definiert,
+ um der Projektumsetzung mehr Struktur zu geben.
+ 
+ In Kapitel \Verweis{idee-arbeit} wurde bereits angesprochen, dass hardwareseitig
+ ein Raspberry Pi mit einem Kartenleser als \ac{UE} dienen soll und der Netzprovider
+ simuliert wird auf einer virtuellen Maschine. Die Kommunikation der beiden Geräte
+ wird über eine \ac{PPPoE}-Verbindung realisiert. Was nicht simuliert wird, ist der
+ \ac{SGSN}, da dafür eine weitere virtuelle Maschine aufgesetzt werden muss und die
+ Funktionalität des Knotens darauf reduziert wäre RES und XRES (vgl. Kapitel \ref{authentifizierungsvorgang})
+ miteinander zu vergleichen.
+ 
+ Der Vergleich der beiden Werte RES und XRES wird allerdings auch nicht an anderer
+ Stelle umgesetzt, sondern fällt weg, ebenso wie bei der Resnchronisation der Vergleich
+ von MAC-S mit XMAC-S. Beide Vergleiche werden gemacht um sicher zu stellen, dass
+ der jeweils andere Kommunikationspartner nicht korrupt ist. Da in diesem Projekt eine
+ PPPoE-Verbindung genutzt wird, ist sichergestellt, dass beide Partner nicht korrupt sind
+ und eine Überprüfung deshalb überflüssig.
+ 
+ Da das Kernziel eine erfolgreiche Authentifizierung ist, werden die nötigen Funktionen
+ für sowohl die Synchronisation, als auch die Resynchronisation umgesetzt. Die Datenbank
+ in der der aktuelle SQN, beziehungsweise SEQ, gespeichert werden fällt jedoch weg, da
+ diese bei nur einer USIM wieder zusätzlicher Aufwand bedeutet. \\
+ Da es außerdem nur um die Authentifizierung geht, aber nicht die Kommunikation zwischen
+ beiden Seiten, wird vom simulierten AuC kein CK oder IK generiert. \\
+ Damit bleibt, dass bis auf \emph{f3} und \emph{f4}, alle Funktionen, die in Kapitel \Verweis{milenage}
+ genannt wurden, korrekt umgesetzt werden sollen.
+ 
+ Zur korrekten Umsetzung der Milenage-Funktionen gehört ebenfalls eine Eigen\-implementierung
+ des AES-Algorithmus, aber nur für eine Blocklänge von 128 Bits, da der Milenage-Algorithmus
+ keine anderen Blocklängen benötigt.
+ 
+ Bei beiden Algorithmen geht es zudem nicht um Geschwindigkeit oder Ressourcenverbrauch.
+ Das soll heißen, dass bei der Implementierung dieser nicht daraufhin optimiert wird, dass wenig
+ Speicherplatz benötigt wird oder das Programm besonders schnell ist. Stattdessen ist lediglich
+ wichtig, dass beide Algorithmen korrekt implementiert werden und am Ende die Werte generieren
+ die für die Eingabeparameter zu erwarten sind.
+ 
+ \paragraph{Meilensteine} Die Meilensteine, die für das Projekt definiert wurden lauten wie folgt:
+ \begin{description}
+ \item [27.10.2015] Die Grundlagen für die Authentifizierungs\-algorithmen sollen bekannt und verstanden sein
+ \item [07.12.2015] Das Auslesen einer USIM soll funktionieren, alternativ soll eine USIM emuliert werden können
+ \item [01.02.2016] Der virtuelle Netzbetreiber soll gemäß der Spezifikationen funktionieren, für die nötigen Funktionen
+ \item [29.02.2016] Die USIM soll in den Authentifizierungsprozess eingebunden werden, also mit dem virtuellen Netzbetreiber kommunizieren
+ \item [17.04.2016] Die Studienarbeit ist bis zu diesem Zeitpunkt fertig geschrieben
+ \item [30.05.2016] Die Studienarbeit muss abgegeben werden
+ \end{description}
 
  \subsubsection{Unterstützende Tools}
- - Trello
- - Git
+  \paragraph{Trello}
+  \paragraph{Git}
