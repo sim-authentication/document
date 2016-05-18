@@ -111,6 +111,7 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
     \hline
     \end{tabularx}
 
+% TODO: #edit poor citation
 \paragraph{IMSI} Wie bereits aus der Tabelle hervorgeht identifiziert die \ac{IMSI} weltweit
 einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
 \ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
@@ -131,6 +132,49 @@ In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusa
       Vodafone & 262 & 02 & ...\\
     \hline
     \end{tabularx}%WIP
+
+Nach dem \ac{MCC} und \ac{MNC} identifiziert die \ac{MSIN} letztendlich
+den Teilnehmer im jeweiligen Providerteil des Landes.
+
+Eine \ac{IMSI} wird in jedem Mobilfunknetz benötigt: \ac{GSM}, \ac{UMTS}
+und \ac{LTE}. Sie ist auf der SIM-Karte gespeichert und wird beim
+initiieren des Authentifizierungsvorgangs (mit weiteren Werten) an
+den Provider geschickt. Da diese Nummer benötigt wird um einen Netzteilnehmer
+zu identifizieren, besteht hier Angriffsfläche für einen Man-In-The-Middle-Angriff. Diese finden in Form von \textit{IMSI-Catchern} statt.
+Aus diesem Grund wird gemieden die IMSI öfter als tatsächlich notwenidg
+zu versenden. Damit diese nicht immer benötigt wird, generiert das
+\ac{VLR} immer eine vorübergehend gültige \ac{TMSI} \cite{3gpp.33.003}.
+
+% TODO: #edit poor citation
+\paragraph{TMSI} Diese Zahl wird generiert, damit Teilnehmer nicht
+durch die Übermittlung ihrer \ac{IMSI} identifiziert und abgehört werden.
+Ist ein mobiles Endgerät im Mobilfunknetz angemeldet, bekommt es vom
+\ac{VLR}, bei dem es örtlich angemeldet ist, eine \ac{TMSI} zugewiesen.
+Diese ist in einem begrenzten Zeitraum gültig und kann statt der
+tatsächlichen \ac{IMSI} übermittelt werden, bis diese erneuert wird.
+Die Erneuerung kann von beiden Seiten initiiert werden \cite{3gpp.33.003}.
+
+\paragraph{IMSI-Catcher} Machen sich zu Nutze, dass der
+Authentisierungsvorgang nur den Mobilfunkteilnehmer, nicht aber den 
+Provider, verifiziert. Dies wurde erst mit der Einführung von \ac{UMTS}
+nachgerüstet.
+
+Ein IMSI-Catcher gibt sich als \ac{VLR} aus und triggert beim neu
+erkannten mobilen Endgerät das erneuern bzw. versenden der \ac{TMSI}
+bzw. \ac{IMSI} sowie unter Umständen auch der \ac{IMEI}. Der Catcher
+kann nun mit diesen Daten als Man-In-The-Middle Gespräche abhören.
+Er leitet das Gespräch weiter, indem er die Übertragung der Daten
+vom Endgerät unverschlüsselt fordert. In Richtung des realen \ac{VLR}
+muss das Gespräch wieder verschlüsselt sein. Es muss also eine SIM-Karte
+verwendet werden. Da diese eine vom Originalabsender abweichende
+Telefonnummer aufweist, wird diese meist beim Senden unterdrückt.
+
+\paragraph{IMEI} Sie wird dazu verwendet ein mobiles Endgerät als
+valide Hardwarekomponente zu identifizieren. Sie folgt ebenfalls
+den \textit{3GPP}-Standards und ist sowohl physikalisch (als
+Aufschrift oder Gravur etc.) als auch mittels Software auszulesen.
+Gestohlene Geräte können auf diesem Weg von der Nutzung in
+Mobilfunknetzen ausgeschlossen werden.
 
 %% TODO #edit bei bedarf hier noch formfaktoren einbringen
 
