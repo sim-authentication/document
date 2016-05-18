@@ -111,6 +111,13 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
     \hline
     \end{tabularx}
 
+\paragraph{IMSI} Wie bereits aus der Tabelle hervorgeht identifiziert die \ac{IMSI} weltweit
+einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
+\ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
+Üblicherweise wird die \ac{IMSI} als 15-stellige Zahl angegeben, sofern das
+Land keine andere Vorgabe macht. Nach dem \ac{MCC} werden in Europa beispielsweise 2-stellige \ac{MNC}s
+verwendet. Nordamerika hingegen verwendet 3 Stellen. %WIP
+
 %% TODO #edit bei bedarf hier noch formfaktoren einbringen
 
 \paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
@@ -716,7 +723,7 @@ Diverse oben genannte Felder können in ihrer Länge variieren, da
 diese während des Verbindungsaufbaus vom \ac{LCP} ausgehandelt werden.
 
 \paragraph{LCP Frame} Um die effizienteste Verbindungsart zu finden, benutzen PPP-Systeme
-immer \ac{LCP}, um die korrekten Parameter auszuhandeln. LCP-Nachrichten in ausgetauschten
+immer \ac{LCP}, welches korrekte Parameter aushandelt. LCP-Nachrichten in ausgetauschten
 PPP-Frames enthalten somit alle Konfigurationsoptionen für die sich gerade aufbauende
 Verbindung. Ist eine Konfiguration gefunden, die beide Knoten unterstützen folgt der
 Link-Establishment-Prozess. Ist dieser erreicht müssen danach keine weiteren redundanten
