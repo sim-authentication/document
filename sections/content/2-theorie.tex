@@ -1122,11 +1122,44 @@ APDUs stattfinden.
 Veröffentlicht wurde pyscard als freie Software unter der
 \textit{GNU Lesser General Public License}.
 
-
+%% Programmiersprache C %%
 \subsection{Die Sprache C}
-- Geschichte
-- Allgemein (imperativ/prozedural/compilieren/...)
-- Besonderheiten (Pointer/manuelle Speicherallokation)
+ C ist eine prozedurale Programmiersprache, die nicht für einen speziellen
+ Anwendungsfall entwickelt wurde. Sie hat einen hohen Verbreitungsgrad
+ und ist laut \ac{IEEE} Spectrum\footnote{\url{http://spectrum.ieee.org/computing/software/the-2015-top-ten-programming-languages} [besucht am 17.05.16]}
+ und RedMonk\footnote{\url{http://redmonk.com/sogrady/2016/02/19/language-rankings-1-16/} [besucht am 17.05.16]}
+ unter den 10 beliebtesten Programmier\-sprachen. C ist eine sehr hardware\-
+ nahe Sprache und wird deshalb oft als Ersatz für Assembler eingesetzt. In
+ diesem Kapitel soll kurz auf die Geschichte eingegangen werden, was es
+ bedeutet, dass die Sprache prozedural ist und welche Besonderheiten C
+ aufweist.
+
+ \subsubsection{Geschichte}
+  Die Entwicklung von C hängt stark zusammen mit der Entwicklung des Unix-Systems.
+  Dieses wurde ursprünglich in Assembler geschrieben und nun wurde
+  überlegt den Code neu zu schreiben, allerdings in B. Mit B ließen sich jedoch
+  einige der Unix-Features nicht umzusetzen, wie beispielsweise die Byte-Adressierung.
+  
+  Deshalb wurde 1972 C von Dennies Ritchie bei Bell Labs entwickelt. Die Portabilität war
+  dabei zu Beginn nicht beabsichtigt, stattdessen war C nur für Unix-Systeme entwickelt
+  worden. Allerdings wurden schnell Compiler auch auf andere Systeme portiert. 1973
+  war C dann leistungsfähig genug, dass der Großteil des Unix Kernels in C geschrieben war.
+  
+  C wurde Ende der 70er auf verschiedenen Rechensystemen, wie Mainframecomputer und
+  Heimrechnern von implementiert. Dies bewegte vermutlich das American National Standards
+  Institude dazu, 1983 eine Komitee zu gründen, was sich um eine Standardspezifikation von
+  C kümmert. Das Komitee, X3J11, veröffentlichte 1989 seinen ersten Standard, der oft auch
+  als ANSI C, Standard C oder C89 bekannt ist.
+  
+  Nach der Weitergabe des Standards an die \ac{ISO} 1990 wurde dieser weiterentwickelt und
+  führte zu zwei weiteren Standards in 1999 (C99) und 2011 (C11). Unterstützt wird von den
+  Compilern C89 und oft auch C99, wohingegen C11 nicht sehr verbreitet ist. \nocite{ritchie93}
+ 
+ \subsubsection{Prozedurales Konzept}
+  
+
+ \subsubsection{Besonderheiten}
+ 
 
 \subsection{Projektumsetzung}
  \subsubsection{Anforderungen}
