@@ -116,7 +116,21 @@ einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus dre
 \ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
 Üblicherweise wird die \ac{IMSI} als 15-stellige Zahl angegeben, sofern das
 Land keine andere Vorgabe macht. Nach dem \ac{MCC} werden in Europa beispielsweise 2-stellige \ac{MNC}s
-verwendet. Nordamerika hingegen verwendet 3 Stellen. %WIP
+verwendet. Nordamerika hingegen verwendet 3 Stellen. 
+
+In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusammengesetzt:
+
+    \begin{tabularx}{\textwidth}{|l||l|l|X|}
+    \hline
+      \textbf{Betreiber} & \textbf{MCC} & \textbf{MNC} & \textbf{MSIN} \\
+    \hline
+    \hline
+      Telekom & 262 & 01 & ... \\
+    \hline
+    \hline
+      Vodafone & 262 & 02 & ...\\
+    \hline
+    \end{tabularx}%WIP
 
 %% TODO #edit bei bedarf hier noch formfaktoren einbringen
 
@@ -144,7 +158,7 @@ als problematisch, da kleine Veränderungen in der Eingabe nicht ausreichend str
 ist es möglich, dass auf der SIM-Karte gespeicherte geheime Schlüssel durch Kollisionsagriffe
 ausgelesen werden können.
 
-Ebenso ist es begingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
+Ebenso ist es bedingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
 Sicherheitsmechanismen steigt die Herausforderung an den Klonprozess. So reicht es mittlerweile
 nicht mehr aus nur Informationen auszulesen und zu klnen.
 Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen
