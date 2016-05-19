@@ -726,6 +726,77 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
+\subsection{VirtualBox}
+Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
+das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
+
+\subsubsection{Grundlage}
+\textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
+ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
+Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
+nach wie vor frei zugänglich (nach der GNU GPL2 Lizenz) \cite{dash13}.
+
+\textit{VirtualBox} bietet den Hypervisor für Hostplattformen, eine API und ein SDK zur
+Bereitstellung von Werkzeugen für Gäste an. Es wird als Wirtsystem auf sowohl 32-Bit als auch
+64-Bit für x86-Architekturen angeboten.
+
+Nachfolgend werden die wichtigsten Komponenten zur Realisierung der VirtualBox-Umgebung
+erläutert.
+
+\paragraph{Wirtsystem} wird das Betriebssystem genannt, welches die Grundlage für den Hypervisor
+liefert. Es gehört entweder selbst zum Hypervisor oder intergeriert diesen so, dass Gastsysteme
+aufm ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
+erläutert.
+
+\paragraph{Gastsystem} wird das Betriebssystem genannt, welches virtualisiert auf dem Hypervisor
+abgebildet wird. Es spricht die abstrahierten, virtuellen Hardwarekomponenten an, als würde
+es sich um ein physikalisches System handeln.
+
+\paragraph{Virtuelle Maschine} (VM) benennt die Instanz aus abstrahierter Hardware und einem
+darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
+definiert und dem Gastsystem bereitgestellt.
+
+\paragraph{Gasterweiterungen} werden dazu benötigt die Integration der Gastsysteme zu verbessern.
+Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
+Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
+oder dem weiterleiten von USB-Geräten.
+
+\subsubsection{Hypervisor}
+\label{subsubsec:hypervisor}
+Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
+mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
+
+Bei \textit{Hypervisorn} existieren zwei verschiedene Architekturen: \textit{Typ1} und
+\textit{Typ2} \cite{dash13}.
+
+\paragraph{Typ1} wird oft auch als 'bare metal'-\textit{Hypervisor} bezeichnet, da dieser direkt
+auf der Hadware agiert. Auf ihm werden ohne weitere Zwischenschicht die virtuellen Maschinen
+betrieben (vgl. \Anhang{abb:hypervisor_type1}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind Microsoft Hyper-V\footnote{\url{https://www.microsoft.com/en-us/server-cloud/solutions/virtualization.aspx}}
+oder VMware ESX(i)\footnote{\url{https://www.vmware.com/products/esxi-and-esx/overview}}.
+
+\paragraph{Typ2} wird oft auch als 'hosted'-\textit{Hypervisor} bezeichnet, da dieser auf
+einem Hostsystem (inklusive Betriebssystem) aufbaut. Es existiert also eine weitere Schicht
+zwischen \textit{Hypervisor} und Hardware im Vergleich zu Typ 1 (vgl. \Anhang{abb:hypervisor_type2}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind (neben Oracle VirtualBox) Microsoft
+Virtual PC\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=3702&751be11f-ede8-5a0c-058c-2ee190a24fa6=True}} und
+VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
+
+\subsubsection{Motivation}
+\textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
+zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
+zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
+werden. So egibt sich eine effiziente Ressourcennutzung.
+
+Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
+ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
+Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
+Maschinen sehr gut zu Test- und Entwicklungszwecken. Systeme können flexibel für unterschiedliche
+Situationen angepasst werden ohne dabei großen Aufwand zu generieren.
+
+Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
+kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
+
 %% Point-to-Point %%
 \subsection{PPP}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
