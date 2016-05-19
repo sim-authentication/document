@@ -1,12 +1,15 @@
 \section{Tätigkeit}
-	\subsection{Erstellen des Netzproviders}
-		\subsubsection{Ubuntu}
-		Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
-		der Linuxdistribution Ubuntu installiert. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
-		für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine installiert.
-		Diese weist folgende Eigenschaften auf:
 
-		\begin{tabularx}{\textwidth}{|l|X|}
+\subsection{Erstellen des Netzproviders}
+
+%TODO: #edit Ubuntu und PPPoE klingen eher wie eine Anleitung, als wie eine "Dokumentation"
+	\subsubsection{Ubuntu}
+	Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
+	der Linuxdistribution Ubuntu installiert. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
+	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine installiert.
+	Diese weist folgende Eigenschaften auf:
+
+	\begin{tabularx}{\textwidth}{|l|X|}
     	\hline
       		\textbf{Gerät} & \textbf{Typ} \\
     	\hline
@@ -28,7 +31,7 @@
     	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher
     	recht gering. Wichtig ist das Vorhandensein zweier Netzwerkschnittstellen, die
     	auf jeweils eine physikalisch Schnittstelle geleitet werden. Dies ist notwendig,
-    	da sowohl die \ac{MS} über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein,
+    	da sowohl die \ac{MS} über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein wird,
     	als auch eine Dauerhafte Internetverbindung mit der verbleibenden Schnittstelle
     	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentisierung
     	des \ac{MS} den Zugang zum Internet freizuschalten.
@@ -57,27 +60,40 @@
     	eingerichtet werden:
 
     	\begin{lstlisting}[language=bash]
-  			$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
-		\end{lstlisting}
+		$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
+	\end{lstlisting}
 
-		Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (vgl. \ac{NAT}) diesen
-		für den weiteren Betrieb (wie es bei einem realen Provider auch wäre). Dies geschieht
-		für eingehenden sowie ausgehenden Verkehr. Die auf den zweiten Netzwerkadapter geleitete
-		Netzwerkschnittstelle bleibt mit Defaultwerten konfiguriert und fungiert als Zugangspunkt
-		zum Internet.
+	Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (vgl. \ac{NAT}) diesen
+	für den weiteren Betrieb (wie es bei einem realen Provider auch wäre). Dies geschieht
+	für eingehenden sowie ausgehenden Verkehr. Die auf den zweiten Netzwerkadapter geleitete
+	Netzwerkschnittstelle bleibt mit Defaultwerten konfiguriert und fungiert als Zugangspunkt
+	zum Internet.
 
-		Nun kann der Server auf der gewünschten Netzwerkschnittstelle mit einer eigenen IP-Adresse
-		gestartet und genutzt werden:
-		\begin{lstlisting}[language=bash]
+	Nun kann der Server auf der gewünschten Netzwerkschnittstelle mit einer eigenen IP-Adresse
+	gestartet und genutzt werden:
+	\begin{lstlisting}[language=bash]
 		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
-		\end{lstlisting}
+	\end{lstlisting}
 
         Korrekt konfigurierte Clients, die über die Zugangsdaten verfühen können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
-		\subsubsection{Implementierung Milenage}
-		\subsubsection{Implementierung AES}
-			\paragraph{'Unter'-Algorithmen}
+%TODO: #remove
+\clearpage
+
+	\subsubsection{Implementierung AES}
+	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
+	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
+	einzelen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
+	Transformation bereitstellen. Desweiteren wurde ein eigener Variablentyp \emph{u8} definiert,
+	der einfach eine verkürzte Form des unsigned integer ist.
+
+		\paragraph{Variablen}
+		
+ 
+		\paragraph{'Unter'-Algorithmen}
+
+	\subsubsection{Implementierung Milenage}
 
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
