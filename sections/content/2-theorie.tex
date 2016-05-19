@@ -154,6 +154,7 @@ Diese ist in einem begrenzten Zeitraum gültig und kann statt der
 tatsächlichen \ac{IMSI} übermittelt werden, bis diese erneuert wird.
 Die Erneuerung kann von beiden Seiten initiiert werden \cite{3gpp.33.003}.
 
+\label{par:imsicatcher}
 \paragraph{IMSI-Catcher} Machen sich zu Nutze, dass der
 Authentisierungsvorgang nur den Mobilfunkteilnehmer, nicht aber den 
 Provider, verifiziert. Dies wurde erst mit der Einführung von \ac{UMTS}
@@ -162,7 +163,7 @@ nachgerüstet.
 Ein IMSI-Catcher gibt sich als \ac{VLR} aus und triggert beim neu
 erkannten mobilen Endgerät das erneuern bzw. versenden der \ac{TMSI}
 bzw. \ac{IMSI} sowie unter Umständen auch der \ac{IMEI}. Der Catcher
-kann nun mit diesen Daten als Man-In-The-Middle Gespräche abhören.
+kann nun mit diesen Daten (als Man-In-The-Middle) Gespräche abhören.
 Er leitet das Gespräch weiter, indem er die Übertragung der Daten
 vom Endgerät unverschlüsselt fordert. In Richtung des realen \ac{VLR}
 muss das Gespräch wieder verschlüsselt sein. Es muss also eine SIM-Karte
@@ -173,8 +174,9 @@ Telefonnummer aufweist, wird diese meist beim Senden unterdrückt.
 valide Hardwarekomponente zu identifizieren. Sie folgt ebenfalls
 den \textit{3GPP}-Standards und ist sowohl physikalisch (als
 Aufschrift oder Gravur etc.) als auch mittels Software auszulesen.
+Sie wird nicht auf der SIM-Karte gespeichert. % TODO: #edit gehört dementsprechend eigentlich nicht unter SIM
 Gestohlene Geräte können auf diesem Weg von der Nutzung in
-Mobilfunknetzen ausgeschlossen werden.
+Mobilfunknetzen ausgeschlossen werden. 
 
 %% TODO #edit bei bedarf hier noch formfaktoren einbringen
 
@@ -186,7 +188,6 @@ Unter \Anhang{abb:befehlsklassen_chipkarten} befindet sich eine genauere
 Auflistung der verschiedenen Befehle mit zugehörigen \ac{APDU}-Beispielen.
 
 \paragraph{Sicherheit}
-%% TODO EDIT
 Über Chipkarten wird in \ac{GSM}- und \ac{UMTS}-Netzen Sicherheit abgebildet.
 Sie fassen Kryptoalgorithmen auf Prozessoren sowie Kryptoschlüssel im
 Filesystem. So werden beispielsweise die Kryptoalgorithmen A3, A5 und A8
@@ -204,18 +205,32 @@ ausgelesen werden können.
 
 Ebenso ist es bedingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
 Sicherheitsmechanismen steigt die Herausforderung an den Klonprozess. So reicht es mittlerweile
-nicht mehr aus nur Informationen auszulesen und zu klnen.
+nicht mehr aus nur Informationen auszulesen und zu klonen.
 Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen
 ausliefern, sondern auch eigene Funktionen integrieren.
 Dazu gehört beispielsweise das ableiten des Sitzungsschlüssels
 mittels abgelegter und mit dem \ac{AuC} ausgetauschter Informationen. Ebenso wird das auslesen
 von Informationen durch das bereits erwähnte Berechtigungssystem erschwert.
 
+Bei der Nutzung älterer Architekturen ist ein Man-In-The-Middle-Angriff via IMSI-Catcher weiter
+zu beachten. Dieser wurde unter \Verweis{par:imsicatcher} bereits genauer beschrieben.
+
 \paragraph{\ac{USIM}} ist die Weiterentwicklung der vorhergehenden normalen \ac{SIM}-Karte. Sie wird
 im 3G- bzw. UMTS-Netz verwendet und erweitet das ursprüngliche Modell um einige Funktionen.
 Diese Funktionen werden verwendet sofern das Gerät, in die sie eingesetzt wird den Standard
 von USIM-Karten unterstützt. Manche Ausprägungen dieser Kartenvariante erlauben auch das Ablegen
 von Mailadressen zu Kontakten. Der Hardwarekern dieser Architektur ist die \ac{UICC}.
+
+\paragraph{Formfaktoren} der SIM-Karte können \textit{Full}, \textit{Mini}, \textit{Micro},
+\textit{Nano} und \textit{Embedded} sein. Sie reichen von den Abmessungen einer Kreditkarte über
+nur wenige Milimeter bis hin zur kompletten Integration in ein Gerät. Sie werden von unterschiedlichen
+Standards der ISO/IEC, ETSI und JEDEC definiert.
+
+Die meisten größeren SIM-Karten werden gezielt größer gefertigt. Bei \textit{Fullsize}-SIM-Karten
+wird das eigentliche SIM-Modul in eine Kunststoffkarte der Größe einer Kreditkarte eingefasst.
+Die Funktion entspricht trotzdem der einer gewöhnlichen \textit{Mini-} oder \textit{Micro}-SIM.
+Zur Verwendung der unterschiedlichen Formfaktoren muss lediglich der eingesetzte Kartenleser
+geeignet gewählt werden.
 
 
 \subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
@@ -710,6 +725,79 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    wieder reingeschoben. Zum Schluss wird das erste Byte noch mit einer Rundenkonstanten verrechnet. \\
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
+
+\subsection{VirtualBox}
+Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
+das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
+
+\subsubsection{Grundlage}
+\textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
+ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
+Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
+nach wie vor frei zugänglich (nach der GNU GPL2 Lizenz) \cite{dash13}.
+
+\textit{VirtualBox} bietet den Hypervisor für Hostplattformen, eine API und ein SDK zur
+Bereitstellung von Werkzeugen für Gäste an. Es wird als Wirtsystem auf sowohl 32-Bit als auch
+64-Bit für x86-Architekturen angeboten.
+
+Nachfolgend werden die wichtigsten Komponenten zur Realisierung der VirtualBox-Umgebung
+erläutert.
+
+\paragraph{Wirtsystem} wird das Betriebssystem genannt, welches die Grundlage für den Hypervisor
+liefert. Es gehört entweder selbst zum Hypervisor oder intergeriert diesen so, dass Gastsysteme
+aufm ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
+erläutert.
+
+\paragraph{Gastsystem} wird das Betriebssystem genannt, welches virtualisiert auf dem Hypervisor
+abgebildet wird. Es spricht die abstrahierten, virtuellen Hardwarekomponenten an, als würde
+es sich um ein physikalisches System handeln.
+
+\paragraph{Virtuelle Maschine} (VM) benennt die Instanz aus abstrahierter Hardware und einem
+darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
+definiert und dem Gastsystem bereitgestellt.
+
+\paragraph{Gasterweiterungen} werden dazu benötigt die Integration der Gastsysteme zu verbessern.
+Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
+Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
+oder dem weiterleiten von USB-Geräten.
+
+\subsubsection{Hypervisor}
+\label{subsubsec:hypervisor}
+Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
+mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
+
+Bei \textit{Hypervisorn} existieren zwei verschiedene Architekturen: \textit{Typ1} und
+\textit{Typ2} \cite{dash13}.
+
+\paragraph{Typ1} wird oft auch als 'bare metal'-\textit{Hypervisor} bezeichnet, da dieser direkt
+auf der Hadware agiert. Auf ihm werden ohne weitere Zwischenschicht die virtuellen Maschinen
+betrieben (vgl. \Anhang{abb:hypervisor_type1}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind Microsoft Hyper-V\footnote{\url{https://www.microsoft.com/en-us/server-cloud/solutions/virtualization.aspx}}
+oder VMware ESX(i)\footnote{\url{https://www.vmware.com/products/esxi-and-esx/overview}}.
+
+\paragraph{Typ2} wird oft auch als 'hosted'-\textit{Hypervisor} bezeichnet, da dieser auf
+einem Hostsystem (inklusive Betriebssystem) aufbaut. Es existiert also eine weitere Schicht
+zwischen \textit{Hypervisor} und Hardware im Vergleich zu Typ 1 (vgl. \Anhang{abb:hypervisor_type2}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind (neben Oracle VirtualBox) Microsoft
+Virtual PC\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=3702&751be11f-ede8-5a0c-058c-2ee190a24fa6=True}} und
+VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
+
+\subsubsection{Motivation}
+\textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
+zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
+zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
+werden. So egibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
+dedizierte Hardware erforderten und für sich alleine beanspruchten.
+
+Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
+ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
+Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
+Maschinen sehr gut zu Test- und Entwicklungszwecken. Systeme können flexibel für unterschiedliche
+Situationen angepasst (oder auch isoliert) werden ohne dabei großen Aufwand zu generieren.
+Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (provisioniert) werden.
+
+Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
+kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
 
 %% Point-to-Point %%
 \subsection{PPP}

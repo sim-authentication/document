@@ -37,7 +37,7 @@
     	des \ac{MS} den Zugang zum Internet freizuschalten.
 
     	\subsubsection{PPPoE}
-    	kann nach der vollständigen Ubuntuinstallation durchgeführt werden. Hierzu wird die aktuelle
+    	Die Einrichtung von \textit{PPPoE} kann nach der vollständigen Ubuntuinstallation durchgeführt werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
     	heruntergeladen und auf dem Server entpackt. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
     	des Point-To-Point-Protocol (als \textit{ppp} erhältlich) benötigt. Sind diese beiden Grundvoraussetzungen
@@ -116,13 +116,13 @@
             manuell kompiliert.
 
             \paragraph{SIM-Kartenleser} Der benötigte (herstellerspezifische)
-            Cherry-Treiber ist nicht im offiziellen Repository enthalten, kann jedoch
+            Cherry-Treiber für den Kartenleser TC1100 ist nicht im offiziellen Repository enthalten, kann jedoch
             manuell kompiliert werden. Auf der Webpräsenz des Herstellers\footnote{\url{http://www.cherry.de/cid/download.php}}
             wird ein Treiber für den Betrieb mit 64-Bit Linuxdistributionen zu Verfügung gestellt.
             Selbiger kann nach Installation der nativen \textit{pcsc}-Pakete (aus dem Repository)
             kompiliert und eingesetzt werden.
 
-            Sind diese Softwarepakete eingerichtet kann die SIM-Karte eingesetzt
+            Sind diese Softwarepakete eingerichtet kann der Leser via USB verbunden, die SIM-Karte eingesetzt
             und erste Kommunikationsversuche durchgeführt werden. Hier bietet sich der vom
             Treiber mitgelieferte Scanmechanismus für neue Devices an. Da der Treiber
             Hotplugfähig ist kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
@@ -133,7 +133,8 @@
             in den offiziellen Raspbian Paketquellen zur Verfügung steht. Nach erfolgreicher Installation
             von Pysim und pullen des Skriptes wird selbiges über Python verwendet.
 
-            \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth} des Projekts Osmocom zu  beziehen.
+            \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth} des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem pullen
+            über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
 	\subsection{Integration mit PPPoE}
         Um den Verbindungsaufbau zwischen \ac{MS} und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
