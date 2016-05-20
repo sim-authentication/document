@@ -89,9 +89,62 @@
 	der einfach eine verkürzte Form des unsigned integer ist.
 
 		\paragraph{Variablen}
-		
+		%% ist schon geschrieben, aber nicht gepusht vom Heimrechner in Mannheim
  
-		\paragraph{'Unter'-Algorithmen}
+		\paragraph{encrypt}
+		Die Funktion, die vom Milenage-Algorithmus aufgerufen wird ist \emph{encrypt} und
+		braucht drei Eingabeparameter. \emph{input} ist der Textblock, \emph{keyStr} der
+		Schlüssel und output die Variable, in die der chiffrierte Status am Ende geschrieben
+		werden soll. \\
+		Da Texblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen
+		wird bei beiden erst convert2array aufgerufen. Wie die Funktion erkennen lässt
+		konvertiet sie den Inhalt des ersten Eingabeparameter in ein Array und speichert das
+		Ergebnis in der zweiten übergebenen Variable. Entgegen der Spezifikation wird das
+		der Textblock und der Schlüssel aber nicht zeilenweise, sondern spaltenweise in das
+		Array umgewandelt.
+
+		\begin{lstlisting}[language=C]
+		void convert2array(u8 input[16], u8 output[4][4]) {
+    			for (j = 0; j < 4; j++) {
+        			for (i = 0; i < 4; i++) {
+            				output[i][j] = input[(j * 4 + i)];
+        			}
+    			}
+		} 
+        	\end{lstlisting}
+
+		\emph{j} ist die Spalte in dem Array und \emph{i} die Zeile. Durch die einfache
+		Rechnung $j*4+i$ kann das Array nacheinander durchgegenagen werden und spaltenweise
+		abgespeichert werden. Die Art der Speicherung hat das Programmieren der shiftRows-
+		Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
+		Umwandlung des Textblocks und Schlüssel in ein Array und zurück wäre jedoch einfacher,
+		da jediglich die Arraystruktur verändert werden müsste, aber nicht die Speicher\-
+		struktur, wie in dem hier umgesetzten Fall.
+
+		Anschließend wird gemäß der Spezifikation der Rundenschlüssel generiert, allerdings
+		wie schon erwähnt für alle zehn Runden und nicht für jede Runde einzeln. Wie im
+		\Anhang{abb:funktion_aes} gezeigt, wird dann der erste Rundenschlüssel mit dem
+		Zustand verknüpft. \\
+		Im Anschluss folgen die ersten neun Runden durch eine einfache for-Schleife. Die
+		folgenden beiden verschachtelten Schleifen sind schon die SubByte-Transformation,
+		welche nicht in eine eigene Funktion ausgegliedert ist. \emph{getSboxValue} dient
+		nur zur besseren Lesbarkeit des Codes. \\
+		Nachfolgend werden auch die anderen Transformationen durchgeführt und nach den neun
+		Runden die zehnte ohne eine MixColumns-Transformation.
+
+		Der finale Zustand wird dann wieder in eine Zeichenkette konvertiert und zurückgegeben.
+
+		\paragraph{generateRoundKey}
+		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrierschlüssel
+		in den ersten Block des roundKey übertragen.
+
+		\paragraph{addRoundKey}
+
+		\paragraph{shiftRow}
+
+		\paragraph{mixColumn}
+
+		\paragraph{encrypt}
 
 	\subsubsection{Implementierung Milenage}
 
