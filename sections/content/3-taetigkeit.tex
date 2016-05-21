@@ -115,11 +115,12 @@
 
 		\emph{j} ist die Spalte in dem Array und \emph{i} die Zeile. Durch die einfache
 		Rechnung $j*4+i$ kann das Array nacheinander durchgegenagen werden und spaltenweise
-		abgespeichert werden. Die Art der Speicherung hat das Programmieren der shiftRows-
-		Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
-		Umwandlung des Textblocks und Schlüssel in ein Array und zurück wäre jedoch einfacher,
-		da jediglich die Arraystruktur verändert werden müsste, aber nicht die Speicher\-
-		struktur, wie in dem hier umgesetzten Fall.
+		abgespeichert werden. 
+		%Die Art der Speicherung hat das Programmieren der shiftRows-
+		%Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
+		%Umwandlung des Textblocks und Schlüssel in ein Array und zurück wäre jedoch einfacher,
+		%da jediglich die Arraystruktur verändert werden müsste, aber nicht die Speicher\-
+		%struktur, wie in dem hier umgesetzten Fall.
 
 		Anschließend wird gemäß der Spezifikation der Rundenschlüssel generiert, allerdings
 		wie schon erwähnt für alle zehn Runden und nicht für jede Runde einzeln. Wie im
@@ -132,19 +133,65 @@
 		Nachfolgend werden auch die anderen Transformationen durchgeführt und nach den neun
 		Runden die zehnte ohne eine MixColumns-Transformation.
 
-		Der finale Zustand wird dann wieder in eine Zeichenkette konvertiert und zurückgegeben.
+		Der finale Zustand wird dann wieder in eine Zeichenkette konvertiert und
+		zurückgegeben.
 
 		\paragraph{generateRoundKey}
-		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrierschlüssel
-		in den ersten Block des roundKey übertragen.
+		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrier\-
+		schlüssel in den ersten Block des roundKey übertragen. \\
+		Anschließend werden die restlichen Rundenschlüssel gemäß Spezifikation generiert.
+		Um die spaltenweise Rotation durchzuführen, wird das erste Byte der Spalte, das von
+		oben nach unten rotiert, in das temoräre Array geschrieben. Anschließend
+		überschreibt der zweite Wert den ersten, dann der dritte Wert den zweiten und im
+		vorletzten Schritt das vierte Byte in der Spalte. Da nun der Wert im ersten Byte
+		nicht mehr der selbe wie vor der Rotation ist, wird das vierte Byte nun mit dem
+		Wert aus dem temporären Speicher gefüllt.
 
-		\paragraph{addRoundKey}
+		Da die erste Spalte des Arrays anders berechnet wird als die folgenden, gibt es
+		zwei Schleifenblöcke. Der erste berechnet die erste Spalte und der zweite Block,
+		die restlichen drei, da diese nach dem gleichen Schema berechnet werden.
 
 		\paragraph{shiftRow}
+		Die Funktion shiftRow ist etwas komplexer, auch wenn sie nur wenige Zeilen lang ist.
+		Die erste Schleife zählt die Spalten des Zustands (\emph{state}) durch und die
+		beiden folgenden Schleifen die Zeilen. \\
+		In der ersten inneren Schleife wird die aktuelle Zeile komplett in ein temporäres
+		Array gespeichert und in der zweiten Schleife findet die Rotation statt.
+
+		\begin{lstlisting}[language=C]
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < 4; j++) {
+		        	tmp[j] = state[i][j];
+		        }
+	        	for (j = 0; j < 4; j++) {
+	            		state[i][j] = tmp[(j + i) % 4];
+	        	}
+    		}
+		\end{lstlisting}
+
+		In der zweiten inneren for-Schleife wird dem Zustands-Array Spalte für Spalte und
+		Zeile für Zeile ein neuer Wert zugewiesen, der aus dem temporären Array gelliefert
+		wird. Durch die Addition von \emph{j} und \emph{i} wird bei der ersten Zeile auch
+		mit dem ersten Byte angefangen, bei der zweiten Zeile mit dem zweiten Byte und so
+		weiter. Das Byte mit dem angefangen wird, wird aber immer an die erste Stelle des
+		Zustands-Array gespeichert. Damit wird die Rotation um null, eins, zwei und drei
+		Bytes ermöglicht. Da aber zum Beispiel in der dritten Zeile das
+		das erste Byte rechts wieder reingeschoben werden soll, ist die modulo 4-Operation
+		nötig. \\
+		$i \% 4$ reicht übrigens nicht aus, da dann zwar beispielsweise beim dritten Byte
+		in der dritten Zeile begonnen werden würde, aber nicht die durch die
+		anderen Bytes in der Zeile iteriert wird. 
 
 		\paragraph{mixColumn}
-
-		\paragraph{encrypt}
+		In mixColumn findet eine umgekehrte Herangehensweise statt als in shiftRow.
+		mixColumn iteriert erst durch die Zeilen und dann duch die Spalten. Dementsprechend
+		wird in das temporäre Array die aktuelle Spalte geschrieben. \\
+		Anschließend wird gemäß der Rijndael-Definition die MixColumns-Tranformation
+		durchgeführt für jedes Byte in jeder Spalte. Das Array \emph{mixMatrix} gibt vor,
+		ob die Funktion $T_2$ oder $T_3$ angewendet werden muss. In der Implementierung
+		wurde jedoch nur eine t2-Funktion geschrieben und $T_3$ wird mit Hilfe der 
+		t2-Funktion umesetzt, ähnlich der mathematischen Definition in Kapitel
+		\Verweis{milenage-funktion}.
 
 	\subsubsection{Implementierung Milenage}
 
