@@ -255,8 +255,30 @@
 		Antwort, wird diese in das \emph{response\_arr} geschrieben, wofür die Standardfunktion sprintf genutzt wird.
 		
 		\paragraph{f5star}
+		Diese Funktion benötigt ebenfalls zwei Werte. Das eine ist wieder der Schlüssel und das andere ist der SQN
+		vernüpft mit AK, der von der SIM-Karte geschickt wird für die Resynchronisation. Die Funktion berechnet erst
+		den AK aus \emph{f5*} anhand der Definition des 3GPP. Dafür wird wieder OPc mit TEMP verknüpft über die
+		XOR-Operation, das ganze rotiert, mit c5 verknüpft und verschlüsselt. Zum Schluss noch einmal wieder mit
+		OPc verknüft und damit ist OUT5 fertig berechnet.
 		
-		
+		Die erste Hälfte, die AK ergibt wird nun benötigt, um die SQN aus der Variable \emph{sqn_ak} zu ermitteln.
+		Diese SQN ist allerdings keine, die für die Berechnung der neuen Authentifizierungsvektoren genutzt werden
+		kann, da sie schon benutzt wurde und der Netzprovider deshalb eine neue SQN generieren muss. Bei der USIM
+		in diesem Projekt wird eine komplett zählerbasierte SQN verwendet mit einer Arraygröße von 32.
+		Wie in Kapitel \Verweis{milenage-funktion} näher erläutert, bedeutet das, dass die hinteren fünf Bits der
+		IND sind und die vorderen 43 die SEQ. Da die SQN ein Bytearray ist, wird aus dem letzten Byte mit einer
+		Bitmaske die IND extrahiert und die vorderen drei Bits des letzten Bytes als SEQ abgespeichert. Bevor
+		die SEQ hochgezählt wird, wird der IND erhöht. Da das SQN-Array nur 32 Werte speichert, wird IND nicht
+		beliebig groß und fängt durch modulo 32 wieder bei 0 an, wenn die 31 überschritten wird. Das letzte Byte
+		wird nun auf 0 gesetzt und die letzten fünf Bits gleich dem neuen Wert von IND gesetzt.
+
+		Im zweiten Schritt wird auch SEQ um eins erhöht, aber da SEQ beim sechsten Bit anfängt wird SEQ nicht mit
+		1 sondern mit 32_{10} (00100000_2) addiert. Wenn jedoch die vorderen drei Bits des letzten Bytes 111_2 sind
+		und jetzt mit 1 addiert wird, muss ein Übertrag in das vorletzte Byte vorgenommen werden. Diesen Überlauf
+		überprüft die if-Abfrage und addiert im Falle eine 1 auf das vorletzte Byte. So oder so wird der Wert von
+		\emph{seq} auch wieder in das letzte Byte durch die oder-Operation übertragen.
+		%%TODO: #edit überprüfen in wie vielen Anfragen eigentlich auch der Überlauf des 5 Bytes stattfinden kann und Code eventuell anpassen
+
 		\paragraph{rotWord}
 		
 		
