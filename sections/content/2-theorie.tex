@@ -326,7 +326,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   \end{description}
  \end{description}
  
- Die Werte XRES, CK und IK speichert der AP zwischen und RAND, sowie AUTN werden an die USIM
+ Die Werte XRES, CK und IK speichert der SGSN zwischen und RAND, sowie AUTN werden an die USIM
  weitergegeben als Antwort auf die Registrierungsanfrage.
 
  Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerk\-
@@ -352,8 +352,12 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   nicht mehr synchron sind und deswegen resynchronisiert werden müssen. Dafür generiert die
   USIM ebenfalls einen RAND-Wert und einen AUTS-Token, welcher dem AUTN sehr ähnlich ist.
   Der AUTS hat im Gegensatz zum AUTN aber keinen AMF und statt dem MAC-A, wird ein MAC-S
-  verschickt. Die SQN im AUTS, diel geschickt wird, ist die letzte gültige SQN, die die USIM erhalten
-  hat. Aus dieser SQN kann das AuC nun eine gültige SQN berechnen. \\
+  verschickt. Die SQN im AUTS, die geschickt wird, ist die letzte gültige SQN, die die USIM erhalten
+  hat. Aus dieser SQN kann das AuC nun eine gültige SQN berechnen. Wichtig ist an dieser
+  Stelle zu erwähnen, dass SQN auch bei der Resynchronisation mit einem AK verknüpft wird,
+  aber dieser AK wird etwas anders berechnet, als der AK der für die erste SQN seitens des
+  Netzproviders verwendet wurde. Genauer wird dies in Kapitel \Verweis{milenage-funktion}
+  erklärt.\\
   Ähnlich wie bei der Authentifizierung berechnet diesmal das AuC eine XMAC-S und vergleicht
   diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich geht wieder eine Meldung an den
   SGSN, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
@@ -532,6 +536,28 @@ Algorithmus, erläutert.
  ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits
  erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und
  AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
+ 
+ Wie im Kapitel \ref{aes} erklärt wird, sind die Blöcke, die verschlüsselt werden immer
+ 128 Bits lang. Deshalb sind auch RAND, TEMP oder IN1 128 Bits lang. Ein MAC-A oder RES
+ jedoch sind kürzer, weshalb diese nur aus Teilen eines Blocks bestehen. Deswegen stehen
+ an manchen Enden des Diagramms in \Abbildung{schematisch_milenage} auch mehr als ein
+ Funktionsname. \\
+ Es gibt fünf Blöcke aus denen sich die sieben Funktionswerte bilden. Sie werden in der
+ Spezifikation von Milenage mit OUT\emph{n} bezeichnet.
+ 
+ \begin{description}
+  \item [OUT1] Beinhaltet die beiden jeweils 64 Bits langen Werte MAC-A und MAC-S
+  \item [OUT2] Die ersten 64 Bits sind AK und die hinteren 64 Bits RES
+  \item [OUT3] Da CK 128 Bits lang ist, ist OUT3 komplett CK
+  \item [OUT4] Ähnlich CK ist auch IK 128 Bits lang
+  \item [OUT5] Die ersten 64 Bits sind AK und der Rest wird nicht benötigt
+ \end{description}
+ 
+ Es ist kein Fehler, dass AK sowohl bei OUT2 als auch bei OUT5 erwähnt wird, sondern
+ wie schon in Kapitel \Verweis{authentifizierungsvorgang} geschrieben, wird
+ der Anonymitätsschlüssel AK der mit SQN verknüpft wird im Falle der Resynchronisation
+ anders berechnet als bei der Generierung der Authentifizierungsvektoren seitens des
+ Netzproviders.
  
 %% AES/Rijndael %%
 \subsection{AES / Rijndael}

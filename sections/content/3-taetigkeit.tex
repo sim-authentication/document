@@ -82,6 +82,7 @@
 \clearpage
 
 	\subsubsection{Implementierung AES}
+	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
 	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
 	einzelen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
@@ -194,6 +195,59 @@
 		\Verweis{milenage-funktion}.
 
 	\subsubsection{Implementierung Milenage}
+	\label{implementierung-milenage}
+	Die Implementierung des Milenage Algorithmus wurde nicht auf Basis der Funktionen
+	strukturiert sondern der Ausgabeblöcke. Die Funktionen \emph{f2} und \emph{f5} sind
+	deshalb in einer Funktion zusammengefasst, ebenso wie \emph{f1} und \emph{f1*}. Die
+	beiden übrigen Funktionen \emph{f3} und \emph{f4} wurden hingegen gar nicht implementiert,
+	da diese nicht für den reinen Authentifizierungsvorgang nötig sind und deshalb nicht
+	gefordert sind. \\
+	In den folgenden Paragraphen werden wieder die Hauptfunktionen erklärt für ein besseres
+	Verständnis des Codes.
+	
+		\paragraph{Variablen}
+		Ähnlich wie im AES-Programmcode sind auch bei Milenage einige Variablen zu Beginn
+		deklariert. Dazu gehören alle Werte, die SIM-Karrten spezifisch sind und in der
+		Realität in einer Datenbank gespeichert werden für jeden Netzteilnehmer. So sind also
+		die Rundenkonstanten c1 bis c5, SQN, AMF und OPc schon fest definiert. Zusätzlich sind
+		die Adressräume für die Werte, die generiert werden reserviert, wie AK oder RES und \emph{i}
+		als Zählervariable.
+		
+		\paragraph{f1}
+		Die Funktion benötigt als Eingabeparameter den Schlüssel K und den RAND. Der RAND wird in der
+		Funktion genRand generiert auf Basis der aktuellen Zeit. \\
+		Für Demozwecke werden dann zu Beginn der Funktion die beiden Werte SQN und AMF ausgegeben, so
+		wie in der restlichen Funktion auch andere Parameter in der Konsole ausgegeben werden. \\
+		Die beiden folgenden Schleifen sind zur Generierung des IN1, welcher ein konkatenierter Wert aus
+		SQN und AMF ist. Um nicht in vier Schleifen abwechselnd durch beide Werte zu iterieren wird nur
+		jeweils einmal durch beide Werte iteriert. Im Falle von SQN wird das erste Byte also direkt an den
+		Anfang des IN1-Arrays und an achte Stelle geschrieben. Ähnlich funktioniert auch das hinzufügen von
+		AMF zu IN1. \\
+		Die Variable \emph{toEncrypt} ist nur eine temporäre Variable in der der OPc mit dem RAND verknüpft
+		wird über XOR. Diese wird dann verschlüsselt mit der in Kapitel \Verweis{implementierung-aes} erklärten
+		Funktion encrypt und der verschlüsselte Wert ist dann der TEMP-Wert. Dieser wird nachher auch von den
+		anderen Funktionen benötigt, aber da \emph{f1} die erste Funktion ist die aufgerufen wird, wurde die
+		Generierung der TEMP-Funktion nicht ausgegliedert in eine eigene Funktion.
+		
+		Anschließend fängt die Berechnung des ersten Blocks OUT1 an aus dem sich MAC-A und MAC-S ableiten. Nach
+		der Verknüpfung von OPc und IN1 wird rotiert. Anders als bei AES und der shiftRows-Transformation ist die
+		Rotation nicht byteweise, sondern bitweise. Die Strings sind aber als Byte-Arrays gespeichert, weshalb sie
+		für eine bitweise Rotation erst zu einem binären Array konvertiert werden. Diese Konvertierung geschieht
+		über eine Bitmaske. In jedem Byte des \emph{hexArr} werden alle acht Bit durchiteriert und je nach dem, ob
+		da ne 1 oder 0 steht wird diese in das \emph{binArr} geschrieben. Die nachfolgende Rotation wird in einem
+		der folgenden Paragrafen noch näher erläutert. Die Rückkonvertierung des binären Arrays in das
+		Byte-Array erfolgt wieder über Bitoperationen. Das entsprechende Byte wird erst um 1 Stelle nach links
+		verschoben und es wird rechts mit einer 0 aufgefüllt. Durch die Oder-Operation mit dem Bit-Array wird diese
+		zu einer 1, wenn eine 1 im Bit-Array steht oder bleibt eine 0.
+		
+		Die restliche f1-Funktion verläuft wie in der Spezifikation definiert. Der rotierte OUT1 wird mit der
+		Konstante c1 und TEMP verknüpft, verschlüsseltund zum Schluss noch mit OPc verknüft. Die beiden letzten
+		Schleifen geben nur noch MAC-A und MAC-S aus.
+		
+		
+		\paragraph{f2\_5}
+		
+		\paragraph{f5star}
 
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
