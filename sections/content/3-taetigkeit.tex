@@ -313,16 +313,22 @@
 	mit dem sich Clients, also die USIM, verbinden können und kommunizieren. Um diesen Socket aufzubauen werden
 	die beiden Bibliotheken \emph{sys/socket} und \emph{arpa/inet} benötigt. Zusätzlich werden zu Beginn wieder
 	einige Variablen deklariert, die benötigt werden, um eine gute Kommunikation mit als Server mit der SIM-Karte
-	zu ermöglichen.
+	zu ermöglichen. \\
+	Die Konstanten mit Präfix ANSI wurde definiert, damit die Konsolenausgaben farblich sind, aber die Lesbarkeit des
+	Codes darunter nicht leidet.
 	
 		\paragraph{Kommunikationsaufbau}
-		Beim Start des Programms muss der Server initialisiert werden, was mit der Funktion socket erfolgreich
-		geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird. Anschließend muss
-		der Serversocket konfiguriert werden. Er wird so eingestellt, dass er auf jede IP-Adresse mit Port 12345
-		hört. %Was macht das binden?
+		Beim Start des Programms muss dem Server ein Socket zur Verfügung gestellt werden, was mit der Funktion
+		socket erfolgreich geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird.
+		Anschließend muss	der Serversocket konfiguriert werden. Er wird mit der Funktion bind so eingestellt, dass er
+		auf jede IP-Adresse mit Port 12345 hört. Nachdem das konfiguriert ist, wartet das Programm auf eine Verbindungsanfrage
+		durch die Funktion listen. Neben der Socket-Beschriebung muss der Funktion listen mitgeteilt werden, wie viele Verbindungen
+		der Server maximal zulässt. Da in diesem Projekt nur mit einer SIM-Karte gearbeitet wird, ist der Wert also auf 1 gesetzt.
 		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
-		Nachdem ein Client akzeptiert wurde, wartet der Server auf Nachrichten von der SIM-Karte. Die Funktion recv
-		benötigt den Client von dem eine Nachricht erwartet wird, sowie ein Array in den die Nachricht dann
+		Wenn ein Client nun eine Verbindung aufbaut, wird dies vom Server registriert und die Infos des Clients abgespeichert,
+		damit der Server weiß mit wem er kommuniziert. \\
+		In der while-Schleife wird nun darauf gewartet, dass die USIM eine Nachricht schickt, die mit der Funktion recv empfangen
+		wird. Die Funktion recv benötigt den Client von dem eine Nachricht erwartet wird, sowie ein Array in den die Nachricht dann
 		geschrieben werden soll. Außerdem wird angegeben, wie lang die Nachricht sein wird. Diese Zahl darf maximal
 		so groß sein, wie die Größe des Arrays, in dem die Nachricht gespeichert wird. Zusätzlich können noch Flags
 		gesetzt werden, was in diesem Fall aber nicht nötig ist. \\
@@ -339,6 +345,24 @@
 		Als nächstes wird die IMSI extrahiert, welche unbearbeitet in \emph{response\_message} später wieder
 		eingetragen wird und der Status in \emph{response\_message} wird standardmäßig auf 50 gesetzt. 50 ist
 		dabei die hexadezimale Darstellung des Zeichens ``2''.
+		
+		Wenn die Nachricht die empfangen wurde den Status 3 hat, dann bedeutet das, dass Resynchronisiert werden
+		muss. In dem Falle wurde von der USIM der AUTS geschickt und dieser wird in entsprechende Variable übertragen.
+		Nach der Extraktion wird mit AUTS die Funktion f5star aufgerufen, um den Resynchronisations AK zu berechnen
+		sowie die neue und richtige SQN zu kalkulieren. Des weiteren wird der Status der Antwortnachricht auf 52, also ``3''
+		gesetzt.
+		
+		Im letzten Schritt wird RAND generiert, \emph{f1}. \emph{f2} und \emph{f5} berechnet, sowie aus den generierten
+		Werten der AUTN gebildet. Die Werte werden alle in der Antwortvariable eingetragen, damit dieser dann an die USIM
+		geschickt werden kann. Das passiert über die Funktion write, die wie recv die Daten des Clients braucht, die eigentliche
+		Antwortnachricht und die Länge dieser Nachricht. Für die bessere Visualisierung wird die Antwort am Ende auch in
+		der Konsole ausgegeben.
+		
+		\paragraph{Beenden des Servers}
+		Wie schon erwähnt kann recv, auch die Werte 0 und -1 zurückgeben. Im Falle von 0 bedeutet das, dass der Client
+		die Verbindung unterbrochen hat und deshalb keine Kommunikation mehr möglich mit diesem. Bei -1 hingegen bedeutet
+		es, dass die Nachricht des Clients nicht gelesen werden konnte. \\
+		In beiden Fällen wird das Programm und damit der Server beendet.
 		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
