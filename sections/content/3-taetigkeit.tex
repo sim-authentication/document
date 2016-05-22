@@ -242,13 +242,24 @@
 		
 		Die restliche f1-Funktion verläuft wie in der Spezifikation definiert. Der rotierte OUT1 wird mit der
 		Konstante c1 und TEMP verknüpft, verschlüsseltund zum Schluss noch mit OPc verknüft. Die beiden letzten
-		Schleifen geben nur noch MAC-A und MAC-S aus.
-		
+		Schleifen geben nur noch MAC-A und MAC-S aus.		
 		
 		\paragraph{f2\_5}
+		Die Funktion f2\_5 braucht zwei Eingabeparameter, nämlich den Schlüssel und \emph{response\_arr} welches
+		die Werte enthält, die nach der Registrierungsanfrage an die SIM-Karte zurückgeschickt werden. \\
+		Ansonsten ist die Funktion sehr ähnlich der schon beschrieben f1-Funktion aufgebaut. Jedoch wird IN1
+		nicht benötigt und TEMP wurde schon generiert, weshalb diiese Werte in f2\_5 nicht nochmal generiert
+		werden müssen. So wird also gemäß der Spezifikation TEMP mit OPc verknüpft, dieser Wert rotiert und mit
+		der Konstanten c2 verknüpft. Das Ergebnis ist OUT2, aus welchem sich AK und RES ableiten, welche in jeweils
+		einer for-Schleife auch wieder in der Konsole ausgegeben werden. Da RES auch an die USIM geschickt wird als
+		Antwort, wird diese in das \emph{response\_arr} geschrieben, wofür die Standardfunktion sprintf genutzt wird.
 		
 		\paragraph{f5star}
-
+		
+		
+		\paragraph{rotWord}
+		
+		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
         \label{subsubsec:installpi}
