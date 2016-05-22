@@ -86,12 +86,29 @@
 	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
 	einzelen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
 	Transformation bereitstellen. Desweiteren wurde ein eigener Variablentyp \emph{u8} definiert,
-	der einfach eine verkürzte Form des unsigned integer ist.
+	der eine verkürzte Form des unsigned integer ist. \\
+%%TODO: #anhang C-Code hinzufügen
+	Der gesamte Code steht im Anhang ??? und wird in den folgenden Paragraphen näher erläutert.
 
 		\paragraph{Variablen}
-		
+		Die zu Beginn initialisierten Variablen sind einige Zählervariablen, die für spätere Schleifen
+		reserviert werden. Zusätlich werden jedoch auch einige Konstanten definiert. Da keine
+		Optimierung bezüglich des Speicherplatzverbrauchs getätigt werden muss, wird die Substitutions-
+		Tabelle, also die S-box, nicht zur Laufzeit erst berechnet, sondern zu Beginn definiert. Ähnlich
+		sind die Rundenkonstanten für die Generierung des Rundenschlüssels schon vorher in einer Konstante
+		definiert. Des weiteren existiert die \emph{mixMatrix}, genauer gesagt ein 4 x 4-Array, welches die
+		MixColumns-Transformation vereinfachen wird. \\
+		\emph{tmp} ist ein Hilfs-Array, in \emph{key} wird der Chiffrierschlüssel gespeichert, in \emph{roundKey}
+		die Rundenschlüssel für alle zehn Runden, also inklusive der 1. Runde, und in \emph{state} wird der Zustand
+		hinterlegt. 
  
-		\paragraph{'Unter'-Algorithmen}
+		\paragraph{encrypt()}
+ 
+		\paragraph{shiftRow()}
+ 
+		\paragraph{mixColumn()}
+ 
+		\paragraph{generateRoundKey()}
 
 	\subsubsection{Implementierung Milenage}
 
