@@ -82,15 +82,15 @@
 	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
 	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
-	einzelen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
-	Transformation bereitstellen. Desweiteren wurde ein eigener Variablentyp \emph{u8} definiert,
+	einzelnen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
+	Transformation bereitstellen. Des weiteren wurde ein eigener Variablentyp \emph{u8} definiert,
 	der eine verkürzte Form des unsigned integer ist. \\
 %%TODO: #anhang C-Code hinzufügen
 	Der gesamte Code steht im Anhang ??? und wird in den folgenden Paragraphen näher erläutert.
 
 		\paragraph{Variablen}
 		Die zu Beginn initialisierten Variablen sind einige Zählervariablen, die für spätere Schleifen
-		reserviert werden. Zusätlich werden jedoch auch einige Konstanten definiert. Da keine
+		reserviert werden. Zusätzlich werden jedoch auch einige Konstanten definiert. Da keine
 		Optimierung bezüglich des Speicherplatzverbrauchs getätigt werden muss, wird die Substitutions-
 		Tabelle, also die S-box, nicht zur Laufzeit erst berechnet, sondern zu Beginn definiert. Ähnlich
 		sind die Rundenkonstanten für die Generierung des Rundenschlüssels schon vorher in einer Konstante
@@ -105,9 +105,9 @@
 		braucht drei Eingabeparameter. \emph{input} ist der Textblock, \emph{keyStr} der
 		Schlüssel und output die Variable, in die der chiffrierte Status am Ende geschrieben
 		werden soll. \\
-		Da Texblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen
+		Da Textblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen
 		wird bei beiden erst convert2array aufgerufen. Wie die Funktion erkennen lässt
-		konvertiet sie den Inhalt des ersten Eingabeparameter in ein Array und speichert das
+		konvertiert sie den Inhalt des ersten Eingabeparameter in ein Array und speichert das
 		Ergebnis in der zweiten übergebenen Variable. Entgegen der Spezifikation wird das
 		der Textblock und der Schlüssel aber nicht zeilenweise, sondern spaltenweise in das
 		Array umgewandelt.
@@ -123,7 +123,7 @@
         	\end{lstlisting}
 
 		\emph{j} ist die Spalte in dem Array und \emph{i} die Zeile. Durch die einfache
-		Rechnung $j*4+i$ kann das Array nacheinander durchgegenagen werden und spaltenweise
+		Rechnung $j*4+i$ kann das Array nacheinander durchgegangenen werden und spaltenweise
 		abgespeichert werden. 
 		%Die Art der Speicherung hat das Programmieren der shiftRows-
 		%Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
@@ -146,11 +146,11 @@
 		zurückgegeben.
 
 		\paragraph{generateRoundKey}
-		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrier\-
-		schlüssel in den ersten Block des roundKey übertragen. \\
+		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrierschlüssel
+		in den ersten Block des roundKey übertragen. \\
 		Anschließend werden die restlichen Rundenschlüssel gemäß Spezifikation generiert.
 		Um die spaltenweise Rotation durchzuführen, wird das erste Byte der Spalte, das von
-		oben nach unten rotiert, in das temoräre Array geschrieben. Anschließend
+		oben nach unten rotiert, in das temporäre Array geschrieben. Anschließend
 		überschreibt der zweite Wert den ersten, dann der dritte Wert den zweiten und im
 		vorletzten Schritt das vierte Byte in der Spalte. Da nun der Wert im ersten Byte
 		nicht mehr der selbe wie vor der Rotation ist, wird das vierte Byte nun mit dem
@@ -179,7 +179,7 @@
 		\end{lstlisting}
 
 		In der zweiten inneren for-Schleife wird dem Zustands-Array Spalte für Spalte und
-		Zeile für Zeile ein neuer Wert zugewiesen, der aus dem temporären Array gelliefert
+		Zeile für Zeile ein neuer Wert zugewiesen, der aus dem temporären Array geliefert
 		wird. Durch die Addition von \emph{j} und \emph{i} wird bei der ersten Zeile auch
 		mit dem ersten Byte angefangen, bei der zweiten Zeile mit dem zweiten Byte und so
 		weiter. Das Byte mit dem angefangen wird, wird aber immer an die erste Stelle des
@@ -249,14 +249,14 @@
 		zu einer 1, wenn eine 1 im Bit-Array steht oder bleibt eine 0.
 		
 		Die restliche f1-Funktion verläuft wie in der Spezifikation definiert. Der rotierte OUT1 wird mit der
-		Konstante c1 und TEMP verknüpft, verschlüsseltund zum Schluss noch mit OPc verknüft. Die beiden letzten
+		Konstante c1 und TEMP verknüpft, verschlüsselt und zum Schluss noch mit OPc verknüpft. Die beiden letzten
 		Schleifen geben nur noch MAC-A und MAC-S aus.		
 		
 		\paragraph{f2\_5}
 		Die Funktion f2\_5 braucht zwei Eingabeparameter, nämlich den Schlüssel und \emph{response\_arr} welches
 		die Werte enthält, die nach der Registrierungsanfrage an die SIM-Karte zurückgeschickt werden. \\
 		Ansonsten ist die Funktion sehr ähnlich der schon beschrieben f1-Funktion aufgebaut. Jedoch wird IN1
-		nicht benötigt und TEMP wurde schon generiert, weshalb diiese Werte in f2\_5 nicht nochmal generiert
+		nicht benötigt und TEMP wurde schon generiert, weshalb diese Werte in f2\_5 nicht nochmal generiert
 		werden müssen. So wird also gemäß der Spezifikation TEMP mit OPc verknüpft, dieser Wert rotiert und mit
 		der Konstanten c2 verknüpft. Das Ergebnis ist OUT2, aus welchem sich AK und RES ableiten, welche in jeweils
 		einer for-Schleife auch wieder in der Konsole ausgegeben werden. Da RES auch an die USIM geschickt wird als
@@ -264,7 +264,7 @@
 		
 		\paragraph{f5star}
 		Diese Funktion benötigt ebenfalls zwei Werte. Das eine ist wieder der Schlüssel und das andere ist der SQN
-		vernüpft mit AK, der von der SIM-Karte geschickt wird für die Resynchronisation. Die Funktion berechnet erst
+		verknüpft mit AK, der von der SIM-Karte geschickt wird für die Resynchronisation. Die Funktion berechnet erst
 		den AK aus \emph{f5*} anhand der Definition des 3GPP. Dafür wird wieder OPc mit TEMP verknüpft über die
 		XOR-Operation, das ganze rotiert, mit c5 verknüpft und verschlüsselt. Zum Schluss noch einmal wieder mit
 		OPc verknüft und damit ist OUT5 fertig berechnet.
@@ -296,7 +296,7 @@
 		%%TODO: #edit richtige Abbildung einfügen
 		\begin{figure}[htp]
 			\begin{center}
-				\includegraphics[width=300pt]{dhbwlogo}
+				\fbox{\includegraphics[width=250pt]{rotWord}}
 			\end{center}
 			\caption{Schematische Darstellung des Rotations-Algorithmus}
 			\label{fig:rotWord}
@@ -304,7 +304,7 @@
 		
 		In der konkreten Implementierung wird zum invertieren die Funktion reverse aufgerufen, die als
 		Übergabeparameter ein Array übergeben bekommt und die Größe des Arrays, dass invertiert werden muss.
-		Das vordere und intere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
+		Das vordere und hintere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 		
 	\subsection{Implementierung des Server}
@@ -318,7 +318,7 @@
 		\paragraph{Kommunikationsaufbau}
 		Beim Start des Programms muss der Server initialisiert werden, was mit der Funktion socket erfolgreich
 		geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird. Anschließend muss
-		der Serversocket konfiguriert werden. Er wird so eingestllt, dass er auf jede IP-Adresse mit Port 12345
+		der Serversocket konfiguriert werden. Er wird so eingestellt, dass er auf jede IP-Adresse mit Port 12345
 		hört. %Was macht das binden?
 		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
 		Nachdem ein Client akzeptiert wurde, wartet der Server auf Nachrichten von der SIM-Karte. Die Funktion recv
@@ -332,7 +332,7 @@
 		\paragraph{Verarbeiten der Nachrichten}
 		Wenn eine Nachricht empfangen wurde ist sie im übergeben Array \emph{client\_message} eingetragen. Dieses
 		Array ist eine Zeichenkette und kein Array aus unsigned chars. Außerdem sind in dieser Nachricht einige
-		Werte konkatiniert gespeichert, weshalb diese nun getrennt werden. Zu erst wird das Statusbyte in eine
+		Werte konkateniert gespeichert, weshalb diese nun getrennt werden. Zu erst wird das Statusbyte in eine
 		temporäre Varaible gespeichert mit Hilfe der Standardfunktion strcpy und anschließend wird der Wert
 		umgewandelt in eine Dezimalzahl mit strtol. Die Konsolenausgabe ist abhängig davon, ob eine erste Anfrage
 		oder eine Resynchronisation nötig ist. \\
