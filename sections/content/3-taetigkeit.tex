@@ -280,7 +280,24 @@
 		%%TODO: #edit überprüfen in wie vielen Anfragen eigentlich auch der Überlauf des 5 Bytes stattfinden kann und Code eventuell anpassen
 
 		\paragraph{rotWord}
+		%%TODO: Muss im Code in die milenage.c verschoben werden
+		Diese Funktion nutzt einen effizienten Algorithmus um ein Array oder eine Zeichenkette zu rotieren. Die
+		Idee dahinter ist, dass	wenn wie in \Abbildung{rotWord} eine Zeichenkette 10 Zeichen hat und um 3 Zeichen
+		nach links rotiert werden soll, dann werden die ersten drei Zeichen invertiert, anschließend die letzten
+		sieben Zeichen und in einem dritten Schritt der gesamte String.
+		%%TODO: #edit richtige Abbildung einfügen
+		\begin{figure}[htp]
+			\begin{center}
+				\includegraphics[width=300pt]{dhbwlogo}
+			\end{center}
+			\caption{Schematische Darstellung des Rotations-Algorithmus}
+			\label{fig:rotWord}
+		\end{figure}
 		
+		In der konkreten Implementierung wird zum invertieren die Funktion reverse aufgerufen, die als
+		Übergabeparameter ein Array übergeben bekommt und die Größe des Arrays, dass invertiert werden muss.
+		Das vordere und intere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
+		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
