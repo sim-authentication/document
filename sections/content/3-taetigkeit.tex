@@ -78,9 +78,6 @@
         Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
-%TODO: #remove
-\clearpage
-
 	\subsubsection{Implementierung AES}
 	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
@@ -298,6 +295,39 @@
 		Übergabeparameter ein Array übergeben bekommt und die Größe des Arrays, dass invertiert werden muss.
 		Das vordere und intere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
+		
+	\subsection{Implementierung des Server}
+	Das Hauptprogramm, dass am Ende in main.c gestartet wird ist der eigentliche Netzprovider beziehungsweise
+	die Authentifizierungsstelle. Damit diese Daten dynamisch empfangen kann wird ein Serversocket aufgebaut
+	mit dem sich Clients, also die USIM, verbinden können und kommunizieren. Um diesen Socket aufzubauen werden
+	die beiden Bibliotheken \emph{sys/socket} und \emph{arpa/inet} benötigt. Zusätzlich werden zu Beginn wieder
+	einige Variablen deklariert, die benötigt werden, um eine gute Kommunikation mit als Server mit der SIM-Karte
+	zu ermöglichen.
+	
+		\paragraph{Kommunikationsaufbau}
+		Beim Start des Programms muss der Server initialisiert werden, was mit der Funktion socket erfolgreich
+		geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird. Anschließend muss
+		der Serversocket konfiguriert werden. Er wird so eingestllt, dass er auf jede IP-Adresse mit Port 12345
+		hört. %Was macht das binden?
+		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
+		Nachdem ein Client akzeptiert wurde, wartet der Server auf Nachrichten von der SIM-Karte. Die Funktion recv
+		benötigt den Client von dem eine Nachricht erwartet wird, sowie ein Array in den die Nachricht dann
+		geschrieben werden soll. Außerdem wird angegeben, wie lang die Nachricht sein wird. Diese Zahl darf maximal
+		so groß sein, wie die Größe des Arrays, in dem die Nachricht gespeichert wird. Zusätzlich können noch Flags
+		gesetzt werden, was in diesem Fall aber nicht nötig ist. \\
+		Wenn die Funktion recv nun einen Wert zurückgibt kann dieser -1, 0 oder größer 0 sein, wobei letzteres die
+		länge der empfangenen Nachricht bedeutet. Die anderen beiden Fälle werden am Ende dieses Kapitels erklärt.
+		
+		\paragraph{Verarbeiten der Nachrichten}
+		Wenn eine Nachricht empfangen wurde ist sie im übergeben Array \emph{client\_message} eingetragen. Dieses
+		Array ist eine Zeichenkette und kein Array aus unsigned chars. Außerdem sind in dieser Nachricht einige
+		Werte konkatiniert gespeichert, weshalb diese nun getrennt werden. Zu erst wird das Statusbyte in eine
+		temporäre Varaible gespeichert mit Hilfe der Standardfunktion strcpy und anschließend wird der Wert
+		umgewandelt in eine Dezimalzahl mit strtol. Die Konsolenausgabe ist abhängig davon, ob eine erste Anfrage
+		oder eine Resynchronisation nötig ist. \\
+		Als nächstes wird die IMSI extrahiert, welche unbearbeitet in \emph{response\_message} später wieder
+		eingetragen wird und der Status in \emph{response\_message} wird standardmäßig auf 50 gesetzt. 50 ist
+		dabei die hexadezimale Darstellung des Zeichens ``2''.
 		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
