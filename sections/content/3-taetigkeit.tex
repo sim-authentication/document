@@ -75,13 +75,11 @@
 		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
 	\end{lstlisting}
 
-        Korrekt konfigurierte Clients, die über die Zugangsdaten verfühen können sich über
+        Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
-%TODO: #remove
-\clearpage
-
 	\subsubsection{Implementierung AES}
+	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
 	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
 	einzelen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
@@ -102,16 +100,246 @@
 		die Rundenschlüssel für alle zehn Runden, also inklusive der 1. Runde, und in \emph{state} wird der Zustand
 		hinterlegt. 
  
-		\paragraph{encrypt()}
- 
-		\paragraph{shiftRow()}
- 
-		\paragraph{mixColumn()}
- 
-		\paragraph{generateRoundKey()}
+		\paragraph{encrypt}
+		Die Funktion, die vom Milenage-Algorithmus aufgerufen wird ist \emph{encrypt} und
+		braucht drei Eingabeparameter. \emph{input} ist der Textblock, \emph{keyStr} der
+		Schlüssel und output die Variable, in die der chiffrierte Status am Ende geschrieben
+		werden soll. \\
+		Da Texblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen
+		wird bei beiden erst convert2array aufgerufen. Wie die Funktion erkennen lässt
+		konvertiet sie den Inhalt des ersten Eingabeparameter in ein Array und speichert das
+		Ergebnis in der zweiten übergebenen Variable. Entgegen der Spezifikation wird das
+		der Textblock und der Schlüssel aber nicht zeilenweise, sondern spaltenweise in das
+		Array umgewandelt.
+
+		\begin{lstlisting}[language=C]
+		void convert2array(u8 input[16], u8 output[4][4]) {
+    			for (j = 0; j < 4; j++) {
+        			for (i = 0; i < 4; i++) {
+            				output[i][j] = input[(j * 4 + i)];
+        			}
+    			}
+		} 
+        	\end{lstlisting}
+
+		\emph{j} ist die Spalte in dem Array und \emph{i} die Zeile. Durch die einfache
+		Rechnung $j*4+i$ kann das Array nacheinander durchgegenagen werden und spaltenweise
+		abgespeichert werden. 
+		%Die Art der Speicherung hat das Programmieren der shiftRows-
+		%Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
+		%Umwandlung des Textblocks und Schlüssel in ein Array und zurück wäre jedoch einfacher,
+		%da jediglich die Arraystruktur verändert werden müsste, aber nicht die Speicher\-
+		%struktur, wie in dem hier umgesetzten Fall.
+
+		Anschließend wird gemäß der Spezifikation der Rundenschlüssel generiert, allerdings
+		wie schon erwähnt für alle zehn Runden und nicht für jede Runde einzeln. Wie im
+		\Anhang{abb:funktion_aes} gezeigt, wird dann der erste Rundenschlüssel mit dem
+		Zustand verknüpft. \\
+		Im Anschluss folgen die ersten neun Runden durch eine einfache for-Schleife. Die
+		folgenden beiden verschachtelten Schleifen sind schon die SubByte-Transformation,
+		welche nicht in eine eigene Funktion ausgegliedert ist. \emph{getSboxValue} dient
+		nur zur besseren Lesbarkeit des Codes. \\
+		Nachfolgend werden auch die anderen Transformationen durchgeführt und nach den neun
+		Runden die zehnte ohne eine MixColumns-Transformation.
+
+		Der finale Zustand wird dann wieder in eine Zeichenkette konvertiert und
+		zurückgegeben.
+
+		\paragraph{generateRoundKey}
+		In der ersten doppelten for-Schleife von generateRoundKey wird der Chiffrier\-
+		schlüssel in den ersten Block des roundKey übertragen. \\
+		Anschließend werden die restlichen Rundenschlüssel gemäß Spezifikation generiert.
+		Um die spaltenweise Rotation durchzuführen, wird das erste Byte der Spalte, das von
+		oben nach unten rotiert, in das temoräre Array geschrieben. Anschließend
+		überschreibt der zweite Wert den ersten, dann der dritte Wert den zweiten und im
+		vorletzten Schritt das vierte Byte in der Spalte. Da nun der Wert im ersten Byte
+		nicht mehr der selbe wie vor der Rotation ist, wird das vierte Byte nun mit dem
+		Wert aus dem temporären Speicher gefüllt.
+
+		Da die erste Spalte des Arrays anders berechnet wird als die folgenden, gibt es
+		zwei Schleifenblöcke. Der erste berechnet die erste Spalte und der zweite Block,
+		die restlichen drei, da diese nach dem gleichen Schema berechnet werden.
+
+		\paragraph{shiftRow}
+		Die Funktion shiftRow ist etwas komplexer, auch wenn sie nur wenige Zeilen lang ist.
+		Die erste Schleife zählt die Spalten des Zustands (\emph{state}) durch und die
+		beiden folgenden Schleifen die Zeilen. \\
+		In der ersten inneren Schleife wird die aktuelle Zeile komplett in ein temporäres
+		Array gespeichert und in der zweiten Schleife findet die Rotation statt.
+
+		\begin{lstlisting}[language=C]
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < 4; j++) {
+		        	tmp[j] = state[i][j];
+		        }
+	        	for (j = 0; j < 4; j++) {
+	            		state[i][j] = tmp[(j + i) % 4];
+	        	}
+    		}
+		\end{lstlisting}
+
+		In der zweiten inneren for-Schleife wird dem Zustands-Array Spalte für Spalte und
+		Zeile für Zeile ein neuer Wert zugewiesen, der aus dem temporären Array gelliefert
+		wird. Durch die Addition von \emph{j} und \emph{i} wird bei der ersten Zeile auch
+		mit dem ersten Byte angefangen, bei der zweiten Zeile mit dem zweiten Byte und so
+		weiter. Das Byte mit dem angefangen wird, wird aber immer an die erste Stelle des
+		Zustands-Array gespeichert. Damit wird die Rotation um null, eins, zwei und drei
+		Bytes ermöglicht. Da aber zum Beispiel in der dritten Zeile das
+		das erste Byte rechts wieder reingeschoben werden soll, ist die modulo 4-Operation
+		nötig. \\
+		$i \% 4$ reicht übrigens nicht aus, da dann zwar beispielsweise beim dritten Byte
+		in der dritten Zeile begonnen werden würde, aber nicht die durch die
+		anderen Bytes in der Zeile iteriert wird. 
+
+		\paragraph{mixColumn}
+		In mixColumn findet eine umgekehrte Herangehensweise statt als in shiftRow.
+		mixColumn iteriert erst durch die Zeilen und dann duch die Spalten. Dementsprechend
+		wird in das temporäre Array die aktuelle Spalte geschrieben. \\
+		Anschließend wird gemäß der Rijndael-Definition die MixColumns-Tranformation
+		durchgeführt für jedes Byte in jeder Spalte. Das Array \emph{mixMatrix} gibt vor,
+		ob die Funktion $T_2$ oder $T_3$ angewendet werden muss. In der Implementierung
+		wurde jedoch nur eine t2-Funktion geschrieben und $T_3$ wird mit Hilfe der 
+		t2-Funktion umesetzt, ähnlich der mathematischen Definition in Kapitel
+		\Verweis{milenage-funktion}.
 
 	\subsubsection{Implementierung Milenage}
+	\label{implementierung-milenage}
+	Die Implementierung des Milenage Algorithmus wurde nicht auf Basis der Funktionen
+	strukturiert sondern der Ausgabeblöcke. Die Funktionen \emph{f2} und \emph{f5} sind
+	deshalb in einer Funktion zusammengefasst, ebenso wie \emph{f1} und \emph{f1*}. Die
+	beiden übrigen Funktionen \emph{f3} und \emph{f4} wurden hingegen gar nicht implementiert,
+	da diese nicht für den reinen Authentifizierungsvorgang nötig sind und deshalb nicht
+	gefordert sind. \\
+	In den folgenden Paragraphen werden wieder die Hauptfunktionen erklärt für ein besseres
+	Verständnis des Codes.
+	
+		\paragraph{Variablen}
+		Ähnlich wie im AES-Programmcode sind auch bei Milenage einige Variablen zu Beginn
+		deklariert. Dazu gehören alle Werte, die SIM-Karrten spezifisch sind und in der
+		Realität in einer Datenbank gespeichert werden für jeden Netzteilnehmer. So sind also
+		die Rundenkonstanten c1 bis c5, SQN, AMF und OPc schon fest definiert. Zusätzlich sind
+		die Adressräume für die Werte, die generiert werden reserviert, wie AK oder RES und \emph{i}
+		als Zählervariable.
+		
+		\paragraph{f1}
+		Die Funktion benötigt als Eingabeparameter den Schlüssel K und den RAND. Der RAND wird in der
+		Funktion genRand generiert auf Basis der aktuellen Zeit. \\
+		Für Demozwecke werden dann zu Beginn der Funktion die beiden Werte SQN und AMF ausgegeben, so
+		wie in der restlichen Funktion auch andere Parameter in der Konsole ausgegeben werden. \\
+		Die beiden folgenden Schleifen sind zur Generierung des IN1, welcher ein konkatenierter Wert aus
+		SQN und AMF ist. Um nicht in vier Schleifen abwechselnd durch beide Werte zu iterieren wird nur
+		jeweils einmal durch beide Werte iteriert. Im Falle von SQN wird das erste Byte also direkt an den
+		Anfang des IN1-Arrays und an achte Stelle geschrieben. Ähnlich funktioniert auch das hinzufügen von
+		AMF zu IN1. \\
+		Die Variable \emph{toEncrypt} ist nur eine temporäre Variable in der der OPc mit dem RAND verknüpft
+		wird über XOR. Diese wird dann verschlüsselt mit der in Kapitel \Verweis{implementierung-aes} erklärten
+		Funktion encrypt und der verschlüsselte Wert ist dann der TEMP-Wert. Dieser wird nachher auch von den
+		anderen Funktionen benötigt, aber da \emph{f1} die erste Funktion ist die aufgerufen wird, wurde die
+		Generierung der TEMP-Funktion nicht ausgegliedert in eine eigene Funktion.
+		
+		Anschließend fängt die Berechnung des ersten Blocks OUT1 an aus dem sich MAC-A und MAC-S ableiten. Nach
+		der Verknüpfung von OPc und IN1 wird rotiert. Anders als bei AES und der shiftRows-Transformation ist die
+		Rotation nicht byteweise, sondern bitweise. Die Strings sind aber als Byte-Arrays gespeichert, weshalb sie
+		für eine bitweise Rotation erst zu einem binären Array konvertiert werden. Diese Konvertierung geschieht
+		über eine Bitmaske. In jedem Byte des \emph{hexArr} werden alle acht Bit durchiteriert und je nach dem, ob
+		da ne 1 oder 0 steht wird diese in das \emph{binArr} geschrieben. Die nachfolgende Rotation wird in einem
+		der folgenden Paragrafen noch näher erläutert. Die Rückkonvertierung des binären Arrays in das
+		Byte-Array erfolgt wieder über Bitoperationen. Das entsprechende Byte wird erst um 1 Stelle nach links
+		verschoben und es wird rechts mit einer 0 aufgefüllt. Durch die Oder-Operation mit dem Bit-Array wird diese
+		zu einer 1, wenn eine 1 im Bit-Array steht oder bleibt eine 0.
+		
+		Die restliche f1-Funktion verläuft wie in der Spezifikation definiert. Der rotierte OUT1 wird mit der
+		Konstante c1 und TEMP verknüpft, verschlüsseltund zum Schluss noch mit OPc verknüft. Die beiden letzten
+		Schleifen geben nur noch MAC-A und MAC-S aus.		
+		
+		\paragraph{f2\_5}
+		Die Funktion f2\_5 braucht zwei Eingabeparameter, nämlich den Schlüssel und \emph{response\_arr} welches
+		die Werte enthält, die nach der Registrierungsanfrage an die SIM-Karte zurückgeschickt werden. \\
+		Ansonsten ist die Funktion sehr ähnlich der schon beschrieben f1-Funktion aufgebaut. Jedoch wird IN1
+		nicht benötigt und TEMP wurde schon generiert, weshalb diiese Werte in f2\_5 nicht nochmal generiert
+		werden müssen. So wird also gemäß der Spezifikation TEMP mit OPc verknüpft, dieser Wert rotiert und mit
+		der Konstanten c2 verknüpft. Das Ergebnis ist OUT2, aus welchem sich AK und RES ableiten, welche in jeweils
+		einer for-Schleife auch wieder in der Konsole ausgegeben werden. Da RES auch an die USIM geschickt wird als
+		Antwort, wird diese in das \emph{response\_arr} geschrieben, wofür die Standardfunktion sprintf genutzt wird.
+		
+		\paragraph{f5star}
+		Diese Funktion benötigt ebenfalls zwei Werte. Das eine ist wieder der Schlüssel und das andere ist der SQN
+		vernüpft mit AK, der von der SIM-Karte geschickt wird für die Resynchronisation. Die Funktion berechnet erst
+		den AK aus \emph{f5*} anhand der Definition des 3GPP. Dafür wird wieder OPc mit TEMP verknüpft über die
+		XOR-Operation, das ganze rotiert, mit c5 verknüpft und verschlüsselt. Zum Schluss noch einmal wieder mit
+		OPc verknüft und damit ist OUT5 fertig berechnet.
+		
+		Die erste Hälfte, die AK ergibt wird nun benötigt, um die SQN aus der Variable \emph{sqn\_ak} zu ermitteln.
+		Diese SQN ist allerdings keine, die für die Berechnung der neuen Authentifizierungsvektoren genutzt werden
+		kann, da sie schon benutzt wurde und der Netzprovider deshalb eine neue SQN generieren muss. Bei der USIM
+		in diesem Projekt wird eine komplett zählerbasierte SQN verwendet mit einer Arraygröße von 32.
+		Wie in Kapitel \Verweis{milenage-funktion} näher erläutert, bedeutet das, dass die hinteren fünf Bits der
+		IND sind und die vorderen 43 die SEQ. Da die SQN ein Bytearray ist, wird aus dem letzten Byte mit einer
+		Bitmaske die IND extrahiert und die vorderen drei Bits des letzten Bytes als SEQ abgespeichert. Bevor
+		die SEQ hochgezählt wird, wird der IND erhöht. Da das SQN-Array nur 32 Werte speichert, wird IND nicht
+		beliebig groß und fängt durch modulo 32 wieder bei 0 an, wenn die 31 überschritten wird. Das letzte Byte
+		wird nun auf 0 gesetzt und die letzten fünf Bits gleich dem neuen Wert von IND gesetzt.
 
+		Im zweiten Schritt wird auch SEQ um eins erhöht, aber da SEQ beim sechsten Bit anfängt wird SEQ nicht mit
+		1 sondern mit $32_{10}$ ($00100000_2$) addiert. Wenn jedoch die vorderen drei Bits des letzten Bytes $111_2$ sind
+		und jetzt mit 1 addiert wird, muss ein Übertrag in das vorletzte Byte vorgenommen werden. Diesen Überlauf
+		überprüft die if-Abfrage und addiert im Falle eine 1 auf das vorletzte Byte. Unabhängig vom Überlauf wird
+		der Wert von \emph{seq} auch wieder in das letzte Byte durch die oder-Operation übertragen.
+		%%TODO: #edit überprüfen in wie vielen Anfragen eigentlich auch der Überlauf des 5 Bytes stattfinden kann und Code eventuell anpassen
+
+		\paragraph{rotWord}
+		%%TODO: Muss im Code in die milenage.c verschoben werden
+		Diese Funktion nutzt einen effizienten Algorithmus um ein Array oder eine Zeichenkette zu rotieren. Die
+		Idee dahinter ist, dass	wenn wie in \Abbildung{rotWord} eine Zeichenkette 10 Zeichen hat und um 3 Zeichen
+		nach links rotiert werden soll, dann werden die ersten drei Zeichen invertiert, anschließend die letzten
+		sieben Zeichen und in einem dritten Schritt der gesamte String.
+		%%TODO: #edit richtige Abbildung einfügen
+		\begin{figure}[htp]
+			\begin{center}
+				\includegraphics[width=300pt]{dhbwlogo}
+			\end{center}
+			\caption{Schematische Darstellung des Rotations-Algorithmus}
+			\label{fig:rotWord}
+		\end{figure}
+		
+		In der konkreten Implementierung wird zum invertieren die Funktion reverse aufgerufen, die als
+		Übergabeparameter ein Array übergeben bekommt und die Größe des Arrays, dass invertiert werden muss.
+		Das vordere und intere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
+		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
+		
+	\subsection{Implementierung des Server}
+	Das Hauptprogramm, dass am Ende in main.c gestartet wird ist der eigentliche Netzprovider beziehungsweise
+	die Authentifizierungsstelle. Damit diese Daten dynamisch empfangen kann wird ein Serversocket aufgebaut
+	mit dem sich Clients, also die USIM, verbinden können und kommunizieren. Um diesen Socket aufzubauen werden
+	die beiden Bibliotheken \emph{sys/socket} und \emph{arpa/inet} benötigt. Zusätzlich werden zu Beginn wieder
+	einige Variablen deklariert, die benötigt werden, um eine gute Kommunikation mit als Server mit der SIM-Karte
+	zu ermöglichen.
+	
+		\paragraph{Kommunikationsaufbau}
+		Beim Start des Programms muss der Server initialisiert werden, was mit der Funktion socket erfolgreich
+		geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird. Anschließend muss
+		der Serversocket konfiguriert werden. Er wird so eingestllt, dass er auf jede IP-Adresse mit Port 12345
+		hört. %Was macht das binden?
+		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
+		Nachdem ein Client akzeptiert wurde, wartet der Server auf Nachrichten von der SIM-Karte. Die Funktion recv
+		benötigt den Client von dem eine Nachricht erwartet wird, sowie ein Array in den die Nachricht dann
+		geschrieben werden soll. Außerdem wird angegeben, wie lang die Nachricht sein wird. Diese Zahl darf maximal
+		so groß sein, wie die Größe des Arrays, in dem die Nachricht gespeichert wird. Zusätzlich können noch Flags
+		gesetzt werden, was in diesem Fall aber nicht nötig ist. \\
+		Wenn die Funktion recv nun einen Wert zurückgibt kann dieser -1, 0 oder größer 0 sein, wobei letzteres die
+		länge der empfangenen Nachricht bedeutet. Die anderen beiden Fälle werden am Ende dieses Kapitels erklärt.
+		
+		\paragraph{Verarbeiten der Nachrichten}
+		Wenn eine Nachricht empfangen wurde ist sie im übergeben Array \emph{client\_message} eingetragen. Dieses
+		Array ist eine Zeichenkette und kein Array aus unsigned chars. Außerdem sind in dieser Nachricht einige
+		Werte konkatiniert gespeichert, weshalb diese nun getrennt werden. Zu erst wird das Statusbyte in eine
+		temporäre Varaible gespeichert mit Hilfe der Standardfunktion strcpy und anschließend wird der Wert
+		umgewandelt in eine Dezimalzahl mit strtol. Die Konsolenausgabe ist abhängig davon, ob eine erste Anfrage
+		oder eine Resynchronisation nötig ist. \\
+		Als nächstes wird die IMSI extrahiert, welche unbearbeitet in \emph{response\_message} später wieder
+		eingetragen wird und der Status in \emph{response\_message} wird standardmäßig auf 50 gesetzt. 50 ist
+		dabei die hexadezimale Darstellung des Zeichens ``2''.
+		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
         \label{subsubsec:installpi}

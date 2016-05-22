@@ -326,7 +326,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   \end{description}
  \end{description}
  
- Die Werte XRES, CK und IK speichert der AP zwischen und RAND, sowie AUTN werden an die USIM
+ Die Werte XRES, CK und IK speichert der SGSN zwischen und RAND, sowie AUTN werden an die USIM
  weitergegeben als Antwort auf die Registrierungsanfrage.
 
  Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerk\-
@@ -347,12 +347,17 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  nicht.
  
  \paragraph{Resynchronisation}
+ \label{par:resynchronisation}
   Wie vorher in diesem Kapitel erwähnt kann es passieren, dass die SQN zwischen USIM und AuC
   nicht mehr synchron sind und deswegen resynchronisiert werden müssen. Dafür generiert die
   USIM ebenfalls einen RAND-Wert und einen AUTS-Token, welcher dem AUTN sehr ähnlich ist.
   Der AUTS hat im Gegensatz zum AUTN aber keinen AMF und statt dem MAC-A, wird ein MAC-S
-  verschickt. Die SQN im AUTS, diel geschickt wird, ist die letzte gültige SQN, die die USIM erhalten
-  hat. Aus dieser SQN kann das AuC nun eine gültige SQN berechnen. \\
+  verschickt. Die SQN im AUTS, die geschickt wird, ist die letzte gültige SQN, die die USIM erhalten
+  hat. Aus dieser SQN kann das AuC nun eine gültige SQN berechnen. Wichtig ist an dieser
+  Stelle zu erwähnen, dass SQN auch bei der Resynchronisation mit einem AK verknüpft wird,
+  aber dieser AK wird etwas anders berechnet, als der AK der für die erste SQN seitens des
+  Netzproviders verwendet wurde. Genauer wird dies in Kapitel \Verweis{milenage-funktion}
+  erklärt.\\
   Ähnlich wie bei der Authentifizierung berechnet diesmal das AuC eine XMAC-S und vergleicht
   diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich geht wieder eine Meldung an den
   SGSN, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
@@ -532,7 +537,30 @@ Algorithmus, erläutert.
  erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und
  AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
  
+ Wie im Kapitel \ref{aes} erklärt wird, sind die Blöcke, die verschlüsselt werden immer
+ 128 Bits lang. Deshalb sind auch RAND, TEMP oder IN1 128 Bits lang. Ein MAC-A oder RES
+ jedoch sind kürzer, weshalb diese nur aus Teilen eines Blocks bestehen. Deswegen stehen
+ an manchen Enden des Diagramms in \Abbildung{schematisch_milenage} auch mehr als ein
+ Funktionsname. \\
+ Es gibt fünf Blöcke aus denen sich die sieben Funktionswerte bilden. Sie werden in der
+ Spezifikation von Milenage mit OUT\emph{n} bezeichnet.
+ 
+ \begin{description}
+  \item [OUT1] Beinhaltet die beiden jeweils 64 Bits langen Werte MAC-A und MAC-S
+  \item [OUT2] Die ersten 64 Bits sind AK und die hinteren 64 Bits RES
+  \item [OUT3] Da CK 128 Bits lang ist, ist OUT3 komplett CK
+  \item [OUT4] Ähnlich CK ist auch IK 128 Bits lang
+  \item [OUT5] Die ersten 64 Bits sind AK und der Rest wird nicht benötigt
+ \end{description}
+ 
+ Es ist kein Fehler, dass AK sowohl bei OUT2 als auch bei OUT5 erwähnt wird, sondern
+ wie schon in Kapitel \Verweis{authentifizierungsvorgang} geschrieben, wird
+ der Anonymitätsschlüssel AK der mit SQN verknüpft wird im Falle der Resynchronisation
+ anders berechnet als bei der Generierung der Authentifizierungsvektoren seitens des
+ Netzproviders.
+ 
 %% AES/Rijndael %%
+%% TODO: #edit Kapitel über synchrone/asynchrone Verschlüsselung
 \subsection{AES / Rijndael}
 \label{aes}
  Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
@@ -761,6 +789,30 @@ Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesonder
 Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
 oder dem weiterleiten von USB-Geräten.
 
+\paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
+Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}: %TODO: #edit kann das so bleiben?
+
+    \begin{tabularx}{\textwidth}{|l||X|}
+    \hline
+      \textbf{Bezeichnung} & \textbf{Beschreibung} \\
+    \hline
+    \hline
+      vboxsrv & Der Prozess, der die Allokation aller Ressourcen verwaltet. \\
+    \hline
+    \hline
+      VBoxSVC & Der VirtualBox-Serviceprozess. Er überwacht den laufenden Betrieb von virtuellen Maschinen \\
+    \hline
+    \hline
+      vboxzoneaccess & Der solarisspezifische Daemon um VirtualBox-Devices von Oracle Slaris Containern aus anzusprechen. \\
+    \hline
+    \hline
+      VBoxXPCOMIPCD & Der Prozess der (nicht auf Windows-Hostsystemen) Interprozesskommunikation abwickelt. \\
+    \hline
+    \hline
+      VirtualBox & Der Clientdienst, der Ressourcenlimits definieren lässt und diese verwaltet. \\
+    \hline
+    \end{tabularx}%WIP
+
 \subsubsection{Hypervisor}
 \label{subsubsec:hypervisor}
 Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
@@ -782,17 +834,77 @@ Beispiele für einen \textit{Hypervisor} dieses Typs sind (neben Oracle VirtualB
 Virtual PC\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=3702&751be11f-ede8-5a0c-058c-2ee190a24fa6=True}} und
 VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
 
+\paragraph{Ressourcenverwaltung} ist einer der wichtigsten Aspekte für virtualisierte Umgebungen.
+Verschiedene Ressourcen müssen unter virtuellen Maschinen aufgeteilt werden, sodass weder für die
+Teilnehmer ein Leistungseinbruch entsteht noch die Ressourcen ineffizient genutzt werden.
+Eine zentrale Rolle spielen die Belegung von Prozessor-, Arbeitsspeicher-,
+Swapspeicher- sowie Netzwerk-Kapazität. Um diese Ressourcen zu verwalten existieren verschiendene
+Ansätze.
+
+Eine Methode ist alle Ressourcen in diskrete Teile aufzuteilen und selbige einzeln den Teilnehmern
+zuzuordnen. Diese Methode bietet sich beispielsweise bei Ressourcen mit endlicher Größe an
+(CPU, RAM). Während die Umsetzung einfach zu realisieren ist, birgt dieser Ansatz einen Nachteil.
+Auf diesem Weg werden einzelne Hardwareteile unter Umständen nicht effizient genutzt,
+da sie aktuell nicht vom besitzenden Teilnehmer in Verwendung sind, jedoch persistent zugewiesen wurden.
+
+Aus diesem Grund wurde eine weitere Methode entwickelt, die eine software-regulierte Grenze setzt.
+Hier sorgen entweder Hypervisor oder Betriebssystem dafür dass der Teilnehmer nicht mehr als
+diese bestimmte zugewiesene Obergrenze der essourcennutzung erreicht. Verbleibende, aktuell
+nicht verwendete Ressourcen können von anderen Teilnehmern beansprucht werden. Dies im Rahmen
+ihrer eigenen Ressourcenobergrenze\cite{victor10}.
+
+Die dritte verbreitete Methode ist der (auch in Betriebssystemen eingesetzte)
+\textit{Fair Share Schedule (FSS)}. Solange ausreichend Kapazitäten zur Verfügung stehen,
+erhält jeder Teilnehmer so viel Ressourcen, wie er anfordert. Ist die tatsächliche Gesamtgrenze der
+Ressource erschöpft, erhält jeder Teilnehmer nurnoch den Teil, den er als Minimum zugesichert bekam.
+Diese Methode erreicht die effizienteste Ressourcenausnutzung \cite{victor10}.
+
+Zu beachten ist, dass fehlende Arbeitsspeicherressoucen bei einem Teilnehmer weitreichendere Folgen
+haben kann, als fehlende Prozessorressourcen. Während 10\% weniger Prozessorkapazität einen
+Performanceverlust von ebenso 10\% bewirkt, kann 10\% weniger Arbeitsspeicher als erforderlich zu
+erweitertem Paging-Aufwand führen. Dies kann unter Umständen auch andere Teilnehmer beeinflussen.
+Aus diesem Grund muss auch der Speicher ausreichend restriktiv partitioniert bzw. zugewiesen werden.
+
+\paragraph{Sicherheit} und Isolation wird bei VirtualBox in erster Linie dadurch umgesetzt, dass
+es, wie alle anderen Anwendungen für Endanwender auf der x86-Architektur, sich auf Ring 3 konzentrieren.
+Dieser Ring respräsentiert die geringste Privilegierungsstufe auf dem x86-Prozessor. Der Kernel
+beispielsweise wird in Ring 0 betrieben. Dazwischen existieren zwei weitere Privilegierungsstufen.
+
+Für jeden Teilnehmer wird ein einziger Prozess eröffnet. Jeglicher Code von virtuellen Teilnehmern
+wird in diesem Rahmen in Ring 3 ausgeführt. So erreicht jede Applikation in einer virtuellen Maschine
+nahezu die gleiche Performance als würde sie nativ auf dem Host betrieben.
+
+Anders wird der Kernelcode der virtuellen Maschine behandelt. Sollte keine Hardwarevirtualisierung
+zur Verfügung stehen, wird dieser nicht in Ring 1 (wie vorgesehen), sondern lediglich in Ring 1
+ausgeführt. Dies kann insofern problematisch sein, da Befehle existieren, die ausschließlich
+in Ring 0 funktionieren oder sich auf Ring 1 abweichend verhalten. Aus diesem Grund überprüft
+VirtualBox dauerhaft Ring 1 nach Befehlen dieser Art. Wird ein Befehl gefunden, der von dieser
+Problematik betroffen ist, setzt VirtualBox diesen direkt in einen geeigneten Hypervisorbefehl
+um.
+
+In manchen Fällen ist VirtualBox nicht dazu in der Lage den entsprechenden Code korrekt zu
+interpretieren. Deshalb ist es unter Umständen notwendig gewisse Befehle in einer
+emulierten Umgebung auszuführen. Hierzu wird (unter Performanceeinbrüchen) Gebrauch von
+\textit{QEMU} gemacht. 
+
+Verfügt das Hostsystem jedoch über Hardwarevirtualisierung auf Prozessorebene 
+(z.B. intel VT-x\footnote{\url{http://ark.intel.com/Products/VirtualizationTechnology}}),
+kann entsprechender Kernelcode bis auf Ring 0 reichen und dort ordnungsgemäß ausgeführt werden.
+Auf diesem Weg ist zusätzlich
+ein Performancezuwachs bzw. kein Performanceverlust zu verzeichnen \cite{victor10}.
+
 \subsubsection{Motivation}
 \textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
 zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
 zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
-werden. So egibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
+werden. So ergibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
 dedizierte Hardware erforderten und für sich alleine beanspruchten.
 
 Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
 ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
 Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
-Maschinen sehr gut zu Test- und Entwicklungszwecken. Systeme können flexibel für unterschiedliche
+Maschinen sehr gut zu Test- und Entwicklungszwecken. Auch das Betreiben von Legacy-Betriebssystemen
+ist in einer virtuellen Umgebuung möglich. Systeme können flexibel für unterschiedliche
 Situationen angepasst (oder auch isoliert) werden ohne dabei großen Aufwand zu generieren.
 Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (provisioniert) werden.
 
@@ -1218,6 +1330,7 @@ Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit 
 in ihrer Funktion erweitert.
 
 \subsection{pysim} % TODO #edit bei bedarf noch syntax etc nachtragen
+\label{subsec:pysim}
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
 python-Skript, geschrieben von Kevin Prince,
 welches Operationen direkt auf der SIM-Karte implementiert.
@@ -1308,8 +1421,21 @@ Veröffentlicht wurde pyscard als freie Software unter der
   führte zu zwei weiteren Standards in 1999 (C99) und 2011 (C11). Unterstützt wird von den
   Compilern C89 und oft auch C99, wohingegen C11 nicht sehr verbreitet ist. \nocite{ritchie93}
  
- \subsubsection{Prozedurales Konzept}
+ \subsubsection{Prozedurales Programmierparadigma}
+  In der Programmierung gibt es verschiedene Stile, wie Programmcode geschrieben und strukturiert
+  werden kann. Dabei gibt es einige fundamentale Stile, die als Programmierparadigmen bezeichnet
+  werden. Die vier wichtigsten Paradigmen sind das imperative, funktionale, logische und objekt-
+  orientierte Programmierparadigma \cite{normark03}. Das prozedurale Paradigma ist eine Spezialisierung des 
+  imperativen Paradigma. Programmiersprachen können teilweise nur mit einem Paradigma entwickelt
+  werden, aber oft gibt es auch mehrere Ansätze. So kann C beispielsweise auch objekt-orientiert
+  geschrieben werden, aber eigentlich gilt es als prozedurale Programmiersprache.
   
+  Die Idee der prozeduralen Programmierung ist, dass Aufgaben nacheinander erledigt werden, wie
+  sie aufgeschrieben sind. Im Unterschied dazu wird zum Beispiel in der objekt-orientierten
+  Programmierung das Programm in Klassen aufzuteilen, welche Funkionen zur Verfügung stellen. Bei
+  einer prozeduralen Sprache werden die Funktionen in Bibliotheken nach ihr Aufgabengebieten
+  gruppiert und aus dem Hauptprogramm heraus abgerufen. Bei C ist dieses Programm in einer ``main''-
+  Funktion enthalten und über diese Funktion wird das Programm gestartet.
 
  \subsubsection{Besonderheiten}
  

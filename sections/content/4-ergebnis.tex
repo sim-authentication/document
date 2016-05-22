@@ -33,14 +33,85 @@
 			\textit{f1}-\textit{f5} sowie \textit{AUTN}, \textit{Kc} und \textit{SRES} auf
 			den Seiten beider Teilnehmer.
 
-			\paragraph{pysim} stellte sich während der Implementierungsphase als
-			problematisch heraus, da es nicht über alle der benötigten Funktionalitäten
-			verfügt. Den Verfassern dieser Studienarbeit war bei der ersten Auswahl
-			der Pythonbibliothek nicht klar, ob die reine Unterstützung für \ac{GSM}-Karten
-			ausreicht.
-
-			Nachdem sich herausstellte, dass \ac{UMTS}-Kartensupport ebenfalls notwendig ist, fiel die
-			Wahl auch \textit{osmo-sim-auth} von Osmocom (vgl. \Verweis{subsec:osmosim}). Über diese Bibliothek konnten
-			alle Funktionen auf der Seite des \ac{MS} in der Sprache Python implementiert werden.
 		\subsubsection{Fehleinschätzungen}
+		Die meisten und gravierendsten Fehleinschätzunden bzw. Probleme
+		wurden während der Inbetriebnahme der Karte sowie der Entwicklung
+		der Softwarekomponenten aufgedeckt.
+
+		\paragraph{pysim}
+		Die erste Fehleinschätzung war der Einsatz des Tools pysim, welches
+		primär zu ersten Test in der Kommunikation mit der vorliegenden
+		SIM-Karte angedacht war. Es stellte sich während der Implementierungsphase
+		als problematisch heraus, da es nicht über alle der benötigten 
+		Funktionalitäten verfügt. Zwar konnte mit pysim ein erster
+		Kommunikationsversuch erfolgreich gestartet und abgeschlossen werden,
+		nicht jedoch eine Authentifizierung initiiert werden. Dies lag
+		vor allem, dass die beiden Verfassern dieser Studienarbeit sich nicht
+		sicher waren welche Art der Authentifizierung angewandt werden muss.
+		Die für eine GSM- oder UMTS-fähige SIM-Karte.
+
+		Bei ersten Tests mittels pysim wurde schnell deutlich, dass es
+		sich um eine UMTS-Authentifizierung handeln muss. Die vorliegende
+		Python-Bibliothek pysim ist jedoch nicht dazu in der Lage diese
+		Art von Authentifizierung zu initiieren. Wie unter \Verweis{subsec:pysim}
+		genauer erläutert konzentriert sich pysim von Kevin Prince auch
+		eher auf die Programmierung entsprechender SIM-Karten, statt
+		dem universellen auslesen dieser.
+
+		Nachdem sich herausstellte, dass \ac{UMTS}-Kartensupport ebenfalls 
+		notwendig ist, fiel die Alternativwahl
+		auf die Bibliothek \textit{osmo-sim-auth} eingesetzt
+		(vgl. \Verweis{subsec:osmosim}). Über diese Bibliothek konnten
+		alle Funktionen auf der Seite des \ac{MS} in der Sprache Python
+		implementiert werden.
+
+		\paragraph{AUTN} Unsicherheiten enstanden auch bei ersten Testdurchläufen
+		mit \textit{osmo-sim-auth}. Da zu diesem Zeitpunkt noch keine 
+		vollständige Implementierung zur Generierung aller benötigten
+		Werte existierte, wurde die Zusammensetzug für den
+		Parameter \textit{AUTN} zufällig gesetzt. Dies resultierte jedoch
+		darin, dass die SIM-Karte einen Fehler zurück lieferte. Mit
+		Analyse des Fehlercodes \textit{SW 98 62} wurde schnell klar,
+		dass die Zusammensetzung des Parameters \textit{AUTN} zwingend
+		den Vorgaben entsprechen muss, um korrekt zu funktionieren.
+
+		Nach der Fertigstellung der Implementierung konnte der Test erneut
+		durchgeführt werden. Dieses mal mit Erfolg. Die SIM-Karte lieferte
+		einen generierten Wert zurück: \textit{AUTS}.
+
+		\paragraph{Resynchronisation der SQN} Während die verbleibende
+		Implementierungsphase weitestgehend wie geplant verlief, zeichnete
+		sich kurz vor Abschluss der Phase ein weiteres Defizit im Code ab.
+
+		Mit der bereits erläuterten Milenage-Prüfsoftware konnten fast
+		alle berechneten, übertragenen sowie von der SIM-Karte empfangenen
+		Werte korrekt verifiziert werden. Ausgehend von den festegelegten
+		Geheimnissen \textit{K}, \textit{OP(c)}, dem ausgetauschten \textit{RAND}
+		über die berechneten Variablen \textit{f1-f5} bis hin zu \textit{Kc} sowie
+		\textit{SRES} auf beiden teilnehmenden Seiten.
+		Der Vergleich dieser Werte deutete darauf hin, dass die Implementierung
+		korrekt sein muss.
+
+		Problematisch war jedoch die Integration des Codes in die bereitstehende
+		Umgebung. Während die Übertragung der Werte plangemäß verlief, antwortete
+		die SIM-Karte nicht mit den erwarteten Vektoren \textit{Ck}, \textit{Ik}
+		und \textit{Kc}, sondern lediglich mit einem einzigen Wert. Dieser
+		stellte sich nach wiederholter Recherche in den 3GPP-Dokumenten als
+		\textit{AUTS} heraus, welcher zur Resynchronisation der \textit{SQN}
+		benötigt wird (vgl. \Verweis{par:resynchronisation}).
+
+		Selbige Resynchronisation wurde im entwickelten
+		Protokoll bzw. Authentifizierungsvorgang bis zu diesem Zeitpunkt
+		nicht berücksichtigt. Nach der Identifikation dieses Defizits
+		konnte bei der Implementierung nachgebessert werden.
+
+		Alle erforderlichen Informationen waren der Standardisierung
+		durch die \textit{3GPP} zu entnehmen. Mit dieser Grundlage konnten
+		notwendige Parameter aus der übermittelten \textit{AUTS} extrahiert
+		und weiterverarbeitet werden, sodass die \textit{SQN} erfolgreich
+		resynchronisiert wird. 
+
+		Mit der Integration dieser Funktion konntem auch erfolgreich die
+		Vektoren \textit{Ck}, \textit{Ik} und \textit{Kc} generiert werden.
+
 \clearpage
