@@ -1472,8 +1472,13 @@ Veröffentlicht wurde pyscard als freie Software unter der
   Durch den \emph{*} wird ein Pointer deklariert, in diesem Falle auf eine Integer-Variable. Der \&-Operator
   liefert dann die Adresse der Variable \emph{c}.
 
- \paragraph{Bitweise Operatoren}
- Da die Sprache nur wenige Funktionen zur Verfügung stellt und keine für höhere Datentypen
+  \paragraph{Bitweise Operatoren}
+  Um einzelne Bits zu manipulieren ist es am einfachsten mit bitweisen Operatoren zu arbeiten. In vielen
+  Sprachen existieren Möglichkeiten, um diese durchzuführen, aber sie werden selten genutzt. Der Grund
+  dafür ist, dass in der Regel keinen einzelnen Bits manipuliert werden müssen, um eine gegebene Aufgabe
+  zu erledigen. Da es in C aber nur wenige Funktionen gibt, sind sie in den meisten Programmen zwingend
+  erforderlich. Es werden die sechs Operationen Und (\&), Oder ($|$), Exklusiv-Oder ($^{\wedge}$), Verschiebung nach
+  links ($<<$) oder rechts ($>>$) und das Komplement ($\sim$) von C unterstützt.
 
 \subsection{Projektumsetzung}
  \subsubsection{Anforderungen}
