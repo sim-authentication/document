@@ -1406,7 +1406,7 @@ Veröffentlicht wurde pyscard als freie Software unter der
   überlegt den Code neu zu schreiben, allerdings in B. Mit B ließen sich jedoch
   einige der Unix-Features nicht umzusetzen, wie beispielsweise die Byte-Adressierung.
   
-  Deshalb wurde 1972 C von Dennies Ritchie bei Bell Labs entwickelt. Die Portabilität war
+  Deshalb wurde 1972 die Sprache C von Dennies Ritchie bei Bell Labs entwickelt. Die Portabilität war
   dabei zu Beginn nicht beabsichtigt, stattdessen war C nur für Unix-Systeme entwickelt
   worden. Allerdings wurden schnell Compiler auch auf andere Systeme portiert. 1973
   war C dann leistungsfähig genug, dass der Großteil des Unix Kernels in C geschrieben war.
@@ -1438,7 +1438,42 @@ Veröffentlicht wurde pyscard als freie Software unter der
   Funktion enthalten und über diese Funktion wird das Programm gestartet.
 
  \subsubsection{Besonderheiten}
- 
+ C ist eine ``low-level''-Sprache, was an sich nichts schlechtes ist, aber es bedeutet, dass C mit den
+ Objekten arbeitet, mit denen auch die meisten Computern arbeiten. Konkret bedeutet das, dass
+ C nur Zeichen, Zahlen und Speicheradressen nutzt. Durch arithmetische und logische Operationen,
+ die in der Maschine implementiert sind, lassen sich diese Datentypen kombinieren und bewegen.
+ Daraus resultiert, dass keine Zeichenketten wie in höheren Programmiersprachen existieren oder
+ Funktion, die auf Zeichenketten und Arrays angewendet werden können. \cite{kernighan88} \\
+ Welche Besonderheiten diese Dinge mit sich bringen soll im folgenden aufgezeigt werden.
+
+ \paragraph{Pointers}
+  Pointers sind Variablen, die die Speicheradressen von Variablen speichern. Sie werden in C häufig
+  angewendet, da sie oft die einzige Möglichkeit sind eine Berechnung durchzuführen und teilweise
+  auch, weil sie zu kompakterem und effizienterem Code führen als andere Ansätze. \cite{kernighan88}
+  Pointers sind also eine große Hilfe, aber da sie Speicheradressen speichern sind sie auch nicht ganz
+  einfach zu verwenden und können zu unerwarteten Ergebnissen führen, wenn auf eine falsche
+  Speicheradresse zugegriffen wird. Wie \Abbildung{c-pointers} dargestellt ist in der Variable c ein
+  Wert abgespeichert  und in der Pointervariable p ist die Adresse in der die Variable c liegt gespeichert.
+  
+  \begin{figure}[h!]
+   \begin{center}
+    \includegraphics[width=300pt]{c-pointers}
+   \end{center}
+   \caption[Konzept von Pointers in C]{Konzept von Pointers \cite{kernighan88}}
+   \label{fig:c-pointers}
+  \end{figure}
+  
+  Im C-Code wird das wie folgt realisiert:
+
+  \begin{lstlisting}[language=C]
+  int c = 12;
+  int* p = &c;
+  \end{lstlisting}
+  Durch den \emph{*} wird ein Pointer deklariert, in diesem Falle auf eine Integer-Variable. Der \&-Operator
+  liefert dann die Adresse der Variable \emph{c}.
+
+ \paragraph{Bitweise Operatoren}
+ Da die Sprache nur wenige Funktionen zur Verfügung stellt und keine für höhere Datentypen
 
 \subsection{Projektumsetzung}
  \subsubsection{Anforderungen}
