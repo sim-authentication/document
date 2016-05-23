@@ -1,9 +1,47 @@
 \section{Ergebnis}
-	\subsection{Tests}
-	Die nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests.
+	Die beiden nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests und deren Ergebnisse.
 	Hierbei wird näher darauf eingegangen für welche Teilaspekte welche Prüfmechanismen
 	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, bzw.
 	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
+
+	\subsection{Tests}
+	Nachfolgende Tabelle liefert zunächst eine Übersicht zu implementierten und im Anschluss
+	getesteten Funktionen:
+
+	\begin{tabularx}{\textwidth}{|X||X|X|}
+    \hline
+      \textbf{Funktion} & \textbf{Komplikationen bei Integration bzw. Implementierung} & \textbf{Abschliessender Erfolg} \\
+    \hline
+    \hline
+     	Bereitstellung des Raspberry Pis (HE) & $\bullet$ & $\checkmark$ \\
+    \hline
+    \hline
+     	Bereitstellung der virtuellen Maschine (Provider) & $\circ$ & $\checkmark$ \\
+    \hline
+    \hline
+     	Entwicklung AES & $\bullet$ & $\checkmark$ \\
+    \hline
+    \hline
+    	Entwicklung Milenage & $\bullet$ & $\checkmark$ \\
+    \hline
+    \hline
+    	Integration SIM-Karte und SIM-Kartenleser & $\circ$ & $\checkmark$ \\
+    \hline
+    \hline
+    	Entwicklung Client/Server-Kommunikation & $\bullet$ & $\checkmark$ \\
+    \hline
+    \hline
+    	Integration PPPoE (Client und Server) & $\circ$ & $\checkmark$ \\
+    \hline
+    \hline
+    	Integration aller Komponenten zur Athentisierung & $\bullet$ & $\checkmark$ \\
+    \hline
+    \end{tabularx}
+
+    Wie dieser Tabelle zu entnehmen ist, konnten alle gewünschten Funktionen sichergestellt werden.
+    Welche Komplikationen auftraten und mit welchen Mitteln diese behoben wurden, ist im
+    nächsten Kapitel beschrieben (vgl. \Verweis{subsec:fehler}).
+
 
 		\subsubsection{AES}
 		Wie bereits unter Kapitel \Verweis{implementierung-aes} erläutert, basierte die Implementierungsphase
@@ -29,7 +67,7 @@
 
 
 		\subsubsection{Milenage}
-		Der Austausch verschiedener generierter bzw. auch statischer Werte zwischen eigenem
+		Der Austausch verschiedener, generierter bzw. auch statischer Werte zwischen eigenem
 		Implementierung und der SIM-Karte konnte mit \textit{UMTS Security Algorithms}
 		von Fabricio Ferraz\footnote{\url{http://fabricioapps.blogspot.de/2011/05/umts-security-algorithm-milenage.html}}
 		geprüft werden. Das Tool wurde auf Empfehlung von Herrn. Prof. Dr. Müller eingesetzt.
@@ -64,7 +102,19 @@
 		Im Anschluss daran wurden beide Teilkomponenten im realen Umfeld verbunden und der
 		Authentisierungsablauf erneut geprüft.
 
+		\subsubsection{PPPoE}
+		Der ordnungsgemäße Aufbau der PPPoE-Verbindung ließ sich durch die Diensteigene
+		Log-Ausgabe verfolgen. Nach dem Start des Serverdienstes gibt dieser Auskunft
+		darüber, ob jetzt einkommende Verbindungen erwartet werden.
+
+		Aus der Sicht des Clients konnten ebenfalls Logdateien verwendet werden.
+
+		Nach erfolgreichem Verbindungsaufbau war es möglich die vorhandene
+		IP-Tables-Route zu prüfen. Mit der Auslieferung von Ressourcen aus
+		dem Internet war auch diese Funktion über PPPoE sicherzustellen.
+
 	\subsection{Fehler}
+	\label{subsec:fehler}
 		\subsubsection{Einrichtung verwendeter Werkzeuge}
 			\paragraph{Raspbian} konnte ohne Probleme installiert und in
 			Betrieb genommen werden (vgl. \Verweis{subsubsec:installpi}). Der einzige Zwischenfall ist auf eine
