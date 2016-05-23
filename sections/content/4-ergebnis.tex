@@ -1,9 +1,69 @@
 \section{Ergebnis}
 	\subsection{Tests}
+	Die nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests.
+	Hierbei wird näher darauf eingegangen für welche Teilaspekte welche Prüfmechanismen
+	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, bzw.
+	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
+
 		\subsubsection{AES}
+		Wie bereits unter Kapitel \Verweis{implementierung-aes} erläutert, basierte die Implementierungsphase
+		primär auf der Entwicklung der \textbf{AES}-Verschlüsselung. 
+
+		Während der Implementierung wurde das Tool AES-Vizualization\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}} eingesetzt.
+		Dieses ermöglicht es den \textbf{AES}-Algorithmus schrittweise zu durchlaufen.
+		Um die Korrektheit der Implementierung nachzuvollziehen wurde der \textit{Practice-Mode}
+		des Tools verwendet. Nach dem Start des Tools werden zwei Testwerte für den
+		Eingabetext sowie den CypherKey generiert. Diese wurden jeweils in die eigene
+		Implementierung übertragen und dann alle Folgeschritte geprüft.
+
+		Auf diesem Weg konnten alle Funktionen vom \textbf{SubBytes}, über \textit{ShiftRows},
+		\textit{MixColumns}, \textit{AddRoundKey} bis hin zum \textit{KeySchedule} erfolgreich verifiziert
+		werden.
+
+		Zusätzlich wurden einige Testvektoren, die von Vladimir Klykov veröffentlicht
+		wurden\footnote{\url{http://www.inconteam.com/software-development/41-encryption/55-aes-test-vectors\#aes-ecb-128}}
+		testweise übernommen und geprüft. Hier wird immer statisch ein Eingabetext sowie ein
+		Cypherkey gelistet, mit dem die Verschlüsselung getestet werden kann. Der Vergleich
+		der generierten Cyphertexte gibt dann Aufschluss darüber ob die Implementierung
+		wie erwünscht arbeitet.
+
+
 		\subsubsection{Milenage}
-		\subsubsection{SIM-Karte+pySIM}
+		Der Austausch verschiedener generierter bzw. auch statischer Werte zwischen eigenem
+		Implementierung und der SIM-Karte konnte mit \textit{UMTS Security Algorithms}
+		von Fabricio Ferraz\footnote{\url{http://fabricioapps.blogspot.de/2011/05/umts-security-algorithm-milenage.html}}
+		geprüft werden. Das Tool wurde auf Empfehlung von Herrn. Prof. Dr. Müller eingesetzt.
+
+		Besonders hilfreich ist die Ausgabe aller Zwischenergebnisse von Teilfunktionen
+		\textit{f1}-\textit{f5} sowie \textit{AUTN}, \textit{Kc} und \textit{SRES} auf
+		den Seiten beider Teilnehmer. Auf diesem Weg konnten alle festen (geheimen) sowie
+		dynamisch generierten Werte in das Tool eingesetzt und Ergebnisse Schritt für
+		Schritt verifiziert werden. Bei auftretenden Fehlern im Endergebnis konnten Ursachen
+		genauer eingegrenzt und behoben werden.
+
+		\subsubsection{SIM-Karte und SIM-Kartenleser}
+		Diese beiden Komponenten konnten direkt nach der Treiberintegration im Betriebssystem
+		geprüft werden.
+
+		Die Funktionalität des Treibers konnte durch ein entsprechendes identifizieren des
+		Betriebssystems in Form eines PC/SC-Gerät sichergestellt werden.
+
+		Teiberinterne Scan-Mechanismen gaben Auskunft über das vorhandensein einer SIM-Karte,
+		sowie rudimentäre Abfragen. So kann z.B. die IMSI direkt ausgelesen werden.
+
 		\subsubsection{HeuKel}
+		Die Kommunikation zwischen Client- und Server-Komponenten wurden über die bereits zuvor
+		fertiggestellte Implementierung der jeweiligen Gegenseite getestet.
+
+		Auf der Seite des Providers (HLR) wurden zuerst die erwarteten Werte der SIM-Karte, sowie
+		das Initiieren der Authentisierung hart kodiert. Hierbei wurde natürlich die spätere
+		Reihenfolge des Authentisierungsvorgangs eingehalten. Nach Sicherstellung dieses Vorgangs
+		konnten umgekehrt die Antworten bzw. Anfragen des Providers auf der Seite des Teilnehmers
+		simuliert werden. Ebenfalls hart kodiert.
+
+		Im Anschluss daran wurden beide Teilkomponenten im realen Umfeld verbunden und der
+		Authentisierungsablauf erneut geprüft.
+
 	\subsection{Fehler}
 		\subsubsection{Einrichtung verwendeter Werkzeuge}
 			\paragraph{Raspbian} konnte ohne Probleme installiert und in
@@ -23,15 +83,6 @@
 			\paragraph{Ubuntu} konnte ohne Probleme installiert sowie betrieben werden.
 			Schon in der Standardinstallation des Server-Images können Netzwerkschnittstellen,
 			von Virtualbox bereitgestellt und direkt konfiguriert bzw. auch genutzt werden.
-
-			\paragraph{Milenage-Prüfsoftware} wurde während der Implementierungsphase des
-			Milenage-Algorithmus mit Empfehlung von Herrn Prof. Müller eingesetzt.
-			Durch das Eintragen der gewählten sowie festen (geheimen) Werte konnte
-			die eigene Implementierung des Milenage-Algorithmus überprüft werden.
-
-			Besonders hilfreich ist die Ausgabe aller Zwischenergebnisse von Teilfunktionen
-			\textit{f1}-\textit{f5} sowie \textit{AUTN}, \textit{Kc} und \textit{SRES} auf
-			den Seiten beider Teilnehmer.
 
 		\subsubsection{Fehleinschätzungen}
 		Die meisten und gravierendsten Fehleinschätzunden bzw. Probleme
