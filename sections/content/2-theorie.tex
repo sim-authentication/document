@@ -329,8 +329,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  Die Werte XRES, CK und IK speichert der SGSN zwischen und RAND, sowie AUTN werden an die USIM
  weitergegeben als Antwort auf die Registrierungsanfrage.
 
- Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerk\-
- token um zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
+ Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerktoken um zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
  und MAC-A nicht übereinstimmen, wird dem SGSN mitgeteilt, dass die Authentifizierung nicht erfolgreich
  war und die Kommunikation beendet.
 
@@ -370,7 +369,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   
  \subsubsection{Stärken der UMTS Authentifizierung}
  Der Aufbau der \ac{UMTS}-Struktur beruht auf der selben Struktur, wie bereits \ac{GSM}.
- Denn auch wenn GSM einige Schwächen hat, zeigen die zehnjährige Existenz von GSM,
+ Denn auch wenn GSM einige Schwächen aufweist, zeigen die zehnjährige Existenz von GSM,
  dass die Sicherheitsarchitektur gut ist \cite{putz01}. Deshalb hat sich die \ac{3GPP} auch
  dazu entschieden, dass die Basis\-sicherheits\-features erhalten bleiben in UMTS. Konkret
  nennen Pütz, Schmitz und Martin (s. \cite{putz01}) unter anderem die folgenden Punkte:
@@ -398,8 +397,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
 \subsection{Milenage Algorithmus}
 \label{milenage}
 Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und
-Kommunikation gewährleistet werden können. Dies war, wie in Kapitel \Verweis{geschichte-usim}
-bereits beschrieben, mit dem zuvor entwickelten Algorithmus des \ac{3GPP} nicht mehr
+Kommunikation gewährleistet werden können. Dies für den USIM-Vorgänger entwickelten Algorithmus des \ac{3GPP} nicht mehr
 gewährleistet. Mit der Entwicklung des neuen Netzstandards wurde deshalb entschieden
 auch einen neuen Algorithmus zu entwickeln, namentlich der Milenage Algorithmus. \\
 Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3},
@@ -425,7 +423,7 @@ In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise de
 Algorithmus, erläutert.
 
  \subsubsection{Warum Milenage sicher ist}
- In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass das die Mechanismen
+ In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass die Mechanismen
  zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige
  Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur
  Berechnung der Daten weißt einige Vorteile auf. \\
@@ -437,7 +435,7 @@ Algorithmus, erläutert.
  wesentliche Gründe auf, die den Algorithmus sicher machen:
  
  \paragraph{Ergebnisse mit hoher Entropie}
- Wenn der Schlüssel \ac{K} unbekannt ist und die die Eingabeparameter \ac{SQN}, \ac{RAND}
+ Wenn der Schlüssel \ac{K} unbekannt ist und die Eingabeparameter \ac{SQN}, \ac{RAND}
  und \ac{AMF} variieren, dann werden ``sehr gute Pseudo-Zufalls-Ergebnisse mit einer hohen
  Entropie'' \cite{spitz11} erreicht. Dafür muss aber auch eine gute Blockchiffre wie AES
  eingesetzt werden.
@@ -449,8 +447,8 @@ Algorithmus, erläutert.
  direkt in die Funktionen eingeht.
  
  \paragraph{Schlüssellänge}
- Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, ist auf Grund der
- Schlüssellänge von 128 Bits dauert mit aktuellen Computern zu lange.
+ Brut-Force-Angriffe, also stumpfes ausprobieren der Schlüssel, dauert aufgrund der
+ Schlüssellänge von 128 Bits selbst mit aktuellen Computern noch zu lange.
  
 %% TODO #edit bei bedarf hier noch die Vorraussetzungen an die Parameter bzw. wie diese modifiziert werden können
 
@@ -487,7 +485,7 @@ Algorithmus, erläutert.
  wird mit jeder Authentifizierungsanfrage. Die SEQ ist initial also 0 und wird hochgezählt. Das
  \ac{AuC} speichert in einer Datenbank \cite{3gpp.33.102} zu jeder USIM die aktuelle SQN.
  Auf die anderen  Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit
- keine Anwendung fanden und deutlich komplexer sind.
+ keine Anwendung finden und deutlich komplexer sind.
  
  Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND
  generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Die
@@ -522,13 +520,13 @@ Algorithmus, erläutert.
  \end{figure}
  
  In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen.
- Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und
+ Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und %TODO: #edit -nach- rechts? 
  die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem
  Rotationswert r von 2: 011101.
  
  Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*}
  ausgehen von einem verschlüsselten $RAND \oplus OP_C$, welcher in der Dokumentation
- auch als TEMP bezeichnet wird. Dieser Wert wieder wieder über XOR-mit $OP_ C$ verknüpft
+ auch als TEMP bezeichnet wird. Dieser Wert wird wieder über XOR-mit $OP_ C$ verknüpft
  und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR
  Verknüpfung mit der speziellen XOR-Konstante c und die Chiffrierung des Ausgabewertes. Im
  letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
@@ -566,10 +564,10 @@ Algorithmus, erläutert.
  Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
  verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel
  chiffriert wird. Die Blocklänge des verschlüsselten Text bleibt dabei gleich. \\
- Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- uns
+ Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- sowie
  Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
  unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
- beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\
+ beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\ %TODO: #edit quelle?
  AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssel\-länge
  darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}.
  
@@ -583,14 +581,14 @@ Algorithmus, erläutert.
  \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei
  DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreiten
  der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere
- Argumente finden sich in \cite{paar10}. Es gab deswegen die Empfehlung den dreifach DES zu
+ Argumente finden sich in \cite{paar10}). Es gab deswegen die Empfehlung den dreifach DES zu
  nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue
  Blockverschlüsselung suchte über eine Ausschreibung (1997).
  
  An die neue Verschlüsselung wurden folgende Bedingungen gestellt:
 \begin{itemize}
  \item Blockverschlüsselung mit einer Blocklänge von 128 Bits
- \item Die drei Schlüssellängen 128. 192 und 256 Bits müssen unterstützt werden
+ \item Die drei Schlüssellängen 128, 192 und 256 Bits müssen unterstützt werden
  \item Sicherheitslevel ähnlich anderer Algorithmen
  \item Effizient in Soft- und Hardware
 \end{itemize} 
@@ -644,7 +642,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   variiert je nach Textlänge. Mit der Umwandlung des Textblocks in das Array, spricht man vom Zustand
   und der umgewandelte Schlüssel ist nun der Chiffrierschlüssel. \\
   Der Zustand ist bei AES immer vier Spalten breit und der Chiffrierschlüssel vier, sechs oder acht Spalten
-  breit. In beiden Fällen wird das Array zeilenweise gebildet. Das bedeutet das bei einer Blocklänge von
+  breit. In beiden Fällen wird das Array zeilenweise gebildet. Das bedeutet, dass bei einer Blocklänge von
   128 Bits in den ersten vier Arrayelementen des Zustands die ersten 32 Bits des Blocks stehen.
   
   Nachfolgend werden nun die vier Funktionen beschrieben die den Zustand verändern.
