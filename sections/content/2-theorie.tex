@@ -1480,6 +1480,22 @@ Veröffentlicht wurde pyscard als freie Software unter der
   erforderlich. Es werden die sechs Operationen Und (\&), Oder ($|$), Exklusiv-Oder ($^{\wedge}$), Verschiebung nach
   links ($<<$) oder rechts ($>>$) und das Komplement ($\sim$) von C unterstützt.
 
+  \paragraph{Bibliotheken}
+  Zum Schluss sollte noch etwas zu den Bibliotheken gesagt werden. In prozeduralen Sprachen lassen sich
+  Funktionen in Bibliotheken bündeln. Da C jedoch von Haus aus nur wenige Funktionen bereitstellt gibt es
+  nur wenige C-Programme die ohne eine externe Bibliothek auskommen. So gibt es einige sogenannte
+  Standardbibliotheken, die von der ISO und ANSI C spezifiziert wurden. Durch diese
+  Bibliotheken wird der Umfang von C erweitert und abhängig vom Betriebssystem gibt es noch andere
+  Bibliotheken für verschieden Anwendungsfälle. \\
+  Zusätzlich zu der Tatsache, dass C viele Bibliotheken einbindet, besitzen diese typischerweise auch
+  eine Header-Datei. Die Header-Datei enthält die Prototypen der Funktionen, die vom Programm genutzt
+  werden können, denn auch eine Bibliothek kann Hilfsfunktionen enthalten. Diese werden dann nicht in
+  der Header-Datei notiert. Neben den Funktionsprototypen enthält die Header-Datei spezielle
+  Datentypen und Konstanten, die für die Verwendung der Bibliothek notwendig sind. Die Header-Datei wird
+  zu Beginn eines C-Programms eingebunden und der Compiler kann auf Basis der Header-Datei eine Überprüfung
+  durchführen, ob alle genutzten Funktionen seitens des Programms in einer eingebunden Bibliothek zur
+  Verfügung stehen.
+
 \subsection{Projektumsetzung}
  \subsubsection{Anforderungen}
  Zu Beginn, und teilweise auch während des Projektes, wurden Anforderungen
