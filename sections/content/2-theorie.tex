@@ -753,6 +753,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
    \subsubsection{AES Vizualization Tool}
+   \label{subsubsec:aesviz}
    Die Implementierung des AES-Algorithmus wird neben genannter Literatur auch unter
    zuhulfenahme eines Tool durchgeführt: das \textit{AES Vizualization Tool} der Michigan
    Technology Universität\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}}.
@@ -785,7 +786,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Runden 1-10 vom Klartext bis zum Ciphertext. Auf der rechten Seite (von unten nach oben gelesen)
    ebenfalls die Runden 1-10 vom generierten Ciphertext bis zum Klartext. Dazwischen werden alle
    notwendigen Zwischenschritte gelistet (SubsistuteBytes, ShiftRows, MixColumns,etc.). \\
-   Ausgehend von dieser Sicht können alle notwendigen (oben genannten) Teilmodule ausgeführt werden.
+   Ausgehend von dieser Sicht können alle notwendigen (oben genannten) Teilmodule abgearbeitet werden.
    Entweder durch die Go!-Funktion Schritt für Schritt oder manuell im entsprechenden Modul.
 
    Die Verschlüsselung verfügt im Modul \textit{SubstituteBytes} über eine Funktion,
@@ -798,10 +799,10 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    werden. Ebenso wird das Ergebnis angezeigt.
 
    Das Ergebnis wird im nachfolgenden Modul \textit{MixColumns} als Eingabematrix mit einer weiteren
-   Matrix gekreuzt. Einzelne Spalten können bei Bedard sparat ausgewählt und in der
+   Matrix gekreuzt. Einzelne Spalten können bei Bedarf separat ausgewählt und in der
    mathematischen Berechnung nachvollzogen werden. Die Ergebnismatrix übergibt die Daten
    an das Modul \textit{AddRoundKey}.
-   Hier wird der verschlüsselte Text angezeigt. Erneut besteht die Möglichkeit einzelne Schritte
+   Hier wird der verschlüsselte Text offengelegt. Erneut besteht die Möglichkeit einzelne Schritte
    durch Auswahl der Felder in der Matrix nachzuvollziehen.
 
    Der gleiche Funktionsumfang liegt auch für den Prozess der Entschlüsselung vor. Lediglich in
