@@ -756,23 +756,61 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die Implementierung des AES-Algorithmus wird neben genannter Literatur auch unter
    zuhulfenahme eines Tool durchgeführt: das \textit{AES Vizualization Tool} der Michigan
    Technology Universität\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}}.
+   Diese bietet neben AES auch Visualisierungswerkzeuge für die Kryptoalgorithmen DES, RSA, ECC, VIG
+   und SHA an.
 
    Für drei verschiedene Plattformen wird eine eigene Version bereitgestellt:
-   \begin{itemize}
-      \item Windows
-      \item Linux
-      \item Mac OS
-   \end{itemize}
+   Microsoft Windows, GNU Linux und Apple Mac OS.
 
    Jede dieser angebotenen Versionen verfügt über zwei verschiedene Betriebsmodi: dem \textit{Demo Modus}
    und den \textit{Practice Modus}. Beide sind dazu entwickelt den Ablauf des AES-Algorithmus für
    einen 128 Bit langen Text bzw. Schlüssel (Cipher-Key) zu verdeutlichen\cite{michiganuni}.
+   Jeder Modus verfügt über vier verschiedene Module:
 
-   Nachfolgend werden beide Betriebsmodi genauer erläutert.
+   \begin{itemize}
+      \item SubstituteBytes
+      \item ShiftRows
+      \item MixColumns
+      \item AddRoundKey
+   \end{itemize}
+
+   Nachfolgend werden beide Betriebsmodi sowie untergeordnete Module genauer erläutert.
 
    \paragraph{Demo Modus}
+   Dieser Modus besteht aus vier verschiedenen Teilkomponenten: dem Overview, der Encryption,
+   der Decryption und der Key Expansion.
+
+   Eine zentrale Übersicht liefert die Teilkomponente Overview. Hier wird sowohl die Ver- als auch die
+   Entschlüsselung schematisch dargestellt. Auf der linken Seite (von oben nach unten gelesen) die
+   Runden 1-10 vom Klartext bis zum Ciphertext. Auf der rechten Seite (von unten nach oben gelesen)
+   ebenfalls die Runden 1-10 vom generierten Ciphertext bis zum Klartext. Dazwischen werden alle
+   notwendigen Zwischenschritte gelistet (SubsistuteBytes, ShiftRows, MixColumns,etc.). \\
+   Ausgehend von dieser Sicht können alle notwendigen (oben genannten) Teilmodule ausgeführt werden.
+   Entweder durch die Go!-Funktion Schritt für Schritt oder manuell im entsprechenden Modul.
+
+   Die Verschlüsselung verfügt im Modul \textit{SubstituteBytes} über eine Funktion,
+   die automatisch einen zufälligen Klartext sowie
+   Cipherkey generiert. Jeweils wird eine Länge von 128 Bit verwendet.
+   Selbige können mit einen RoundKey zusammengeführt und dann unter zuhilfenahme
+   der S-Box in das ShiftRows-Modul übergeben werden.
+
+   Im \textit{ShiftRows}-Modul wird lediglich visualisiert, welche Zeilen um welchen Wert verschoben
+   werden. Ebenso wird das Ergebnis angezeigt.
+
+   Das Ergebnis wird im nachfolgenden Modul \textit{MixColumns} als Eingabematrix mit einer weiteren
+   Matrix gekreuzt. Einzelne Spalten können bei Bedard sparat ausgewählt und in der
+   mathematischen Berechnung nachvollzogen werden. Die Ergebnismatrix übergibt die Daten
+   an das Modul \textit{AddRoundKey}.
+   Hier wird der verschlüsselte Text angezeigt. Erneut besteht die Möglichkeit einzelne Schritte
+   durch Auswahl der Felder in der Matrix nachzuvollziehen.
+
+   Der gleiche Funktionsumfang liegt auch für den Prozess der Entschlüsselung vor. Lediglich in
+   inverser Reihenfolge\cite{michiganuni}.
 
    \paragraph{Practice Modus}
+   Dieser Modus ist dazu entwickelt, um den Ablauf des AES-Algorithmus sprichwörtlich zu üben.
+   Im Ablauf entspricht dieser Modus dem des Demo Modus. Lediglich die Ergebnisse werden
+   abweichend getriggert.
 
 \subsection{VirtualBox}
 Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
