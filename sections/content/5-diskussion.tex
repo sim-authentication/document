@@ -22,42 +22,64 @@
 	die vorhanden Kenntnisse sehr gering waren im Gegensatz zu C. Hier wäre also zu Beginn
 	ein größerer Aufwand entstanden die Sprache zu lernen. \\
 	Da das Programm zur Steuerung der SIM-Karte sehr geil ist, ist es jedoch kein Widerspruch
-	hier die Zeit für die Grundkentnisse in Python zu investieren, da sie vermutlich geriger waren
-	als der Zeitaufwand, der für eine Implementierung in C nötig gewesen wäre.
+	hier die Zeit für die Grundkentnisse in Python zu investieren, da sie vermutlich geriger
+	waren als der Zeitaufwand, der für eine Implementierung in C nötig gewesen wäre.
 	
-	Abschließend ist zu sagen, dass die Liste der Sprachen aus der gewählt werden konnte ziemlich
-	umfangreich ist, aber mit pyscard existiert ein guter Wrapper für PCSClite und es ergab Sinn
-	ein Projekt was mit Hardware kommuniziert auch mit einer hardwarenahen Sprache umzusetzen.	
+	Abschließend ist zu sagen, dass die Liste der Sprachen aus der gewählt werden konnte
+	ziemlich umfangreich ist, aber mit pyscard existiert ein guter Wrapper für PCSClite und
+	es ergab Sinn ein Projekt was mit Hardware kommuniziert auch mit einer hardwarenahen
+	Sprache umzusetzen.	
 	
 	\subsection{Ausblick}
 		\subsubsection{Verbesserungen}
-		Wie in Kapitel \Verweis{ergebnis-tests} angesprochen wurde, sind alle gesetzten Ziele
-		erreicht worden, aber es gab hier und da einige Probleme, die aufgetreten sind und
-		manche von denen wären vermutlich vermeidbar gewesen. Dazu zählen vor allem Fehler
-		bei der Entwicklung des AES- und Milenage-Algorithmuses.
+		Wie in Kapitel \Verweis{ergebnis-tests} angesprochen wurde, sind alle gesetzten
+		Ziele erreicht worden, aber es gab hier und da einige Probleme, die aufgetreten
+		sind und manche von denen wären vermutlich vermeidbar gewesen. Dazu zählen vor
+		allem Fehler bei der Entwicklung des AES- und Milenage-Algorithmuses.
 		
 		Lange bestand eine unterschiedliche Meinung darüber, wo der Unterschied von UMTS-
-		und GSM-Authentifizierung lag. Und trotz vermehrter kurzer Unterhaltungen in denen dies
-		offensichtlich wurde, hat es lange gedauert bis ein längeres Gespräch stattfand in dem
-		gemeinsam geklärt wurde, wie sich beide unterscheiden. Wäre dieser Diskurs schon früher
-		geführt worden, wäre eine erste Implementierung mit pysim vermutlich nicht geschehen,
-		sondern die Suche wäre weiter gegangen und schon früher auf osmo-sim-auth gefallen.
+		und GSM-Authentifizierung lag. Und trotz vermehrter kurzer Unterhaltungen in
+		denen dies offensichtlich wurde, hat es lange gedauert bis ein längeres Gespräch
+		stattfand in dem gemeinsam geklärt wurde, wie sich beide unterscheiden. Wäre
+		dieser Diskurs schon früher geführt worden, wäre eine erste Implementierung mit
+		pysim vermutlich nicht geschehen, sondern die Suche wäre weiter gegangen und
+		schon früher auf osmo-sim-auth gefallen.
 		
 		Der andere große Punkt war, dass nicht bekannt war, wie und wer den Wert von SQN
-		verantwortet. Der Wert tauchte zwar immer wieder auf, aber in den Dokumenten, die gelesen
-		wurden war dieser Wert im Gegensatz zu allen anderen nicht näher spezifiziert. Deshalb
-		wurde zu Beginn angenommen, dass der Netzprovider SQN entscheidet und durch den AUTN
-		die SIM-Karte diesen vermittelt bekommt. Es stellte sich jedoch raus, dass SQN von der USIM
-		verwaltet wird und es sehrwohl eine Methode zur Berechnug der SQN gibt, aber es wurde
-		an den falschen Stellen danach gesucht und versuchte deshalb kurz vor Projektabschluss
-		nochmal Probleme. Ein Lesen der Referenzen der Milenage-Spezifikation 35.205 vom 3GPP
-		hätte direkt zu dem Dokument 33.102 geführt, in der auch die SQN erläutert wurde. Hier gilt es beim
-		nächsten Mal nicht erst Google für die Suche zu bemühen sondern das zu durchsuchen, was
-		schon existiert.
+		verantwortet. Der Wert tauchte zwar immer wieder auf, aber in den Dokumenten,
+		die gelesen wurden war dieser Wert im Gegensatz zu allen anderen nicht näher
+		spezifiziert. Deshalb wurde zu Beginn angenommen, dass der Netzprovider SQN
+		entscheidet und durch den AUTN die SIM-Karte diesen vermittelt bekommt. Es
+		stellte sich jedoch raus, dass SQN von der USIM verwaltet wird und es sehrwohl
+		eine Methode zur Berechnug der SQN gibt, aber es wurde an den falschen Stellen
+		danach gesucht und versuchte deshalb kurz vor Projektabschluss nochmal Probleme.
+		Ein Lesen der Referenzen der Milenage-Spezifikation 35.205 vom 3GPP hätte direkt
+		zu dem Dokument 33.102 geführt, in der auch die SQN erläutert wurde. Hier gilt
+		es beim	nächsten Mal nicht erst Google für die Suche zu bemühen sondern das zu
+		durchsuchen, was schon existiert.
 		
-		\subsubsection{Mögliche Erweiterungen}
-		
-		
+		\subsubsection{Mögliche zukünftige Projekte}
+		Die Authentifizierung und der Schlüsselaustausch von UMTS ist noch umfangreicher
+		als was in diesem Projekt umgesetzt wurde. Da es in diesem Projekt allein um die
+		Authentifizierung ging, wurde die Berechnung von CK und IK vernachlässigt. Dies
+		wäre in einem weiteren Schritt eine Möglichkeit. Dadurch könnten dann auch
+		Nachrichten zwischen Nutzergerät und Authentifizierungsstelle verschickt werden.
+		Noch ein Schritt weiter wäre eventuell eine weitere SIM-Karte, die sich beim
+		Netzprovider authentifiziert und dann mit der jetzten USIM kommuniziert.
+
+		Für diesen Schritt müsste jedoch vorher das Programm auf dem AuC angepasst
+		werden und eine Datenbank erhalten, in der die unterschiedlichen Parameter für
+		die einzelnen USIM's abgespeichert werden.
+
+		Generell erlaubt der aktuelle Prozess nur USIM-Karten. Hier wäre zu überlegen
+		vielleicht auch für SIM-Karten auf dem GSM-Standard ebenfalls die
+		Authentifizierung zu ermöglichen. Der Milenage-Algorithmus ermöglicht die
+		Abwärtskompatibilität, weshalb kein neuer Standard verstanden werden muss und
+		der zusäzlcihe Programmieraufwand nicht sehr groß sein wird.
+	
+
+		- Code aufräumen
+		- Automatisierung der SIM-Kartenerkennung (ein-/ausstecken)	
 		\subsubsection{Andere Einsatzgebiete ???}
 	\subsection{Sicherheit / Angriffe}
 		Es wurde keine Rücksicht genommen auf ..., weil...
