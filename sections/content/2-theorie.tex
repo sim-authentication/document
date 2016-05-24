@@ -752,6 +752,28 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
+   \subsubsection{AES Vizualization Tool}
+   Die Implementierung des AES-Algorithmus wird neben genannter Literatur auch unter
+   zuhulfenahme eines Tool durchgeführt: das \textit{AES Vizualization Tool} der Michigan
+   Technology Universität\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}}.
+
+   Für drei verschiedene Plattformen wird eine eigene Version bereitgestellt:
+   \begin{itemize}
+      \item Windows
+      \item Linux
+      \item Mac OS
+   \end{itemize}
+
+   Jede dieser angebotenen Versionen verfügt über zwei verschiedene Betriebsmodi: dem \textit{Demo Modus}
+   und den \textit{Practice Modus}. Beide sind dazu entwickelt den Ablauf des AES-Algorithmus für
+   einen 128 Bit langen Text bzw. Schlüssel (Cipher-Key) zu verdeutlichen\cite{michiganuni}.
+
+   Nachfolgend werden beide Betriebsmodi genauer erläutert.
+
+   \paragraph{Demo Modus}
+
+   \paragraph{Practice Modus}
+
 \subsection{VirtualBox}
 Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
 das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
