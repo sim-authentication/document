@@ -604,6 +604,24 @@ diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mi
 verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
+ \subsubsection{Mathematische Grundlage}
+ Der Algorithmus ist verständlich und anwendbar, auch ohne das Wissen über die mathematischen
+ Grundlagen dazu. Trotzdem beruht die Tatsache, dass der Algorithmus funktioniert, auf Mathematik
+ und diese soll hier erläutert werden. Konkret liegt dem Algorithmus die algebraische Struktur des
+ endlichen Körpers, auch Galois-Feld genannt, zu Grunde. Doch bevor der endliche Körper
+ erklärt werden kann, muss als Basis die algebraische Gruppe definiert werden.
+ 
+ Eine Gruppe ist eine Menge von Elementen $G$ und eine Operation $\circ$, die zwei Elemente
+ aus $G$ miteinander kombiniert. Es gelten dabei folgende fünf Eigenschaften für die Gruppe \cite{paar10}:
+ 
+ \begin{enumerate}
+ 	\item Die Gruppenoperation $\circ$ ist abgeschlossen: $\forall a, b \in G: a \circ b = c \in G$
+	\item Die Gruppenoperation ist assoziativ: $\forall a, b, c \in G: a \circ (b \circ c) = (a \circ b) \circ c$
+	\item Es gibt ein neutrales Element $e$: $\forall a \in G: a \circ e = e \circ a = a$
+	\item Für jedes Element $a$ existiert ein inverses Element $a^{-1}$: $\forall a \in G: a \circ a^{-1} = a^{-1} \circ a = e$
+	\item Eine Gruppe ist außerdem kommutativ, wenn $\forall a, b \in G: a\circ b = b \circ a$
+ \end{enumerate}
+ 
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
  Bei der Blockverschlüsselung gibt es fünf verschiedene Betriebsmodi, die in der ISO/IEC 10116:2006
