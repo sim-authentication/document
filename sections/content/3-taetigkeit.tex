@@ -375,26 +375,66 @@
     Der Client wird in Python entwickelt und verwendet grundlegend die Bibliothek \textit{osmo-sim-auth}
     (vgl. \Verweis{subsec:osmosim}). Darüber hinaus kommen weitere  Bibliotheken zum Einsatz, die in
     Python den Kommunikationsaufbau mit Chipkarten ermöglicht (card-Utils, card-Sim und card-USIM).
-
+        % TODO: #edit wieso eigentlich keine subsubsecs?
         \paragraph{Aufruf der Authentisierung} Diese Funktion wird im Clientprogramm im Abschnitt
         \textit{handle\_usim} definiert. Es werden externe Informationen (falls vorhanden) für den Aufruf
         gesammelt und entsprechend an die SIM-Karte gesendet. In jedem Fall wird ein Authentifizierungsvorgang
         für eine USIM-Karte initiiert. \\
         Abhängig von gegebenen Information ist die SIM-Karte daraufhin in der Lage Ergebnisvektoren
         zu berechnen und zu liefern. Hier gibt es drei verschiedene Möglichkeiten:
+            \begin{addmargin}[1em]{2em}
+            Die Form der Anfrage war inkorrekt. D.h. sowohl der Wert für AUTN, als auch der Wert für RAND entsprechen
+            den standardisierten Vorgaben. Es ist also notwendig die Anfrage mit korrekten Werten erneut
+            durchzuführen.
 
-        Die Form der Anfrage war inkorrekt. D.h. sowohl der Wert für AUTN, als auch der Wert für RAND entsprechen
-        den standardisierten Vorgaben. Es ist also notwendig die Anfrage mit korrekten Werten erneut
-        durchzuführen.
+            Die Form der Anfrage war korrekt, jedoch ist eine Resynchronisierung der übermittelten SQN erforderlich.
+            In diesem Fall muss der Aufruf des Authentisierungsvorgangs nach erfolgreicher neuberechnung der SQN
+            erneut durchgeführt werden.
 
-        Die Form der Anfrage war korrekt, jedoch ist eine Resynchronisierung der übermittelten SQN erforderlich.
-        In diesem Fall muss der Aufruf des Authentisierungsvorgangs nach erfolgreicher neuberechnung der SQN
-        erneut durchgeführt werden.
+            Die Form der Anfrage war korrekt, sowie die Beschaffenheit der übermittelten SQN. Ist dies der Fall,
+            kann die SIM-Karte ohne weiteres die Vektoren Ck, Ik und RES generieren. Diese werden entsprechend
+            ausgegeben.
+            \end{addmargin}
+        Der Aufruf des Authentifizierungsvorgangs kann im Abschnitt \textit{main} über \textit{authenticate}
+        eingeleitet werden.
 
-        Die Form der Anfrage war korrekt, sowie die Beschaffenheit der übermittelten SQN. Ist dies der Fall,
-        kann die SIM-Karte ohne weiteres die Vektoren Ck, Ik und RES generieren. Diese werden entsprechend
-        ausgegeben.
-		
+        \paragraph{Kommunikationsaufbau} Zu Beginn der Laufzeit des Client, wird wie bereits bei der 
+        Serverkomponente ein Socket definiert. Über die Angabe des gewünschten Hostnamens und des Ports
+        kann die Verbindung mit dem Socket auf dem Server aufgebaut werden.
+
+        Nach dem Aufbau der Verbindung beginnt die Realisierung des Informationsaustauschs zwischen
+        Client und Server.
+        Alle weiteren Operationen werden in der nachfolgenden While-Schleife abgearbeitet.
+
+        \paragraph{Verarbeiten der Nachrichten} Die vorliegende While-Schleife wird solange ausgeführt,
+        bis entweder der Client oder der Server die Verbindung abbrechen. Dies gewährleistet die
+        Möglichkeit der erneuten Authentisierung.
+
+        In der Schleife werden Nachrichten auf Basis der Informationen, die von der SIM-Karte geliefert werden
+        an den Server gesendet. Ebenso werden von selbigem Informationen empfangen. Je nach aktuellem Zustand
+        bzw. Position im Authentisierungsvorgang, werden unterschiedliche Operationen ausgeführt.
+        Welche Operationen ausgeführt werden müssen, wird anhand des Statuscodes erkannt. Dieser kann
+        jeweils aus den Nachrichten des Servers extrahiert werden. Auf entsprechende Werte wird immer
+        über die Länge bzw. Start- und Endstelle zugegriffen. So extrahiert der Client beispielsweise
+        den Statuscode aus den Stellen 0-1 der Antwortnachricht.
+
+        \paragraph{Beenden der Verbindung} Die Verbindung wird dann beendet, wenn entweder Client
+        oder Server dies initiieren. 
+	
+    \subsection{Kommunikationsablauf zwischen Client und Server}
+    Dieser Ablauf wird über die durch Sockets initiierte Verbindung realisiert. Aufgrund
+    der Tatsache, dass der Vorgang je nach Ausgangszustand den Aufruf verschiedener Operationen
+    verlangt, wird ein Statuscode in jede Nachricht integriert. Anhand dieses Statuscodes
+    können dann beide Kommunikationsteilnehmer jeweils erforderliche Operationen ausführen.
+
+    Der Client bleibt so lange in der Authentisieurngsschleife, bis diese erfolgreich abgeschlossen werden.
+    Gleiches gilt für den Server. Beide reagieren je nach Statuscode (extrahiert aus den ersten Stellen)
+    mit nachfolgenden Aktionen.
+
+    \paragraph{Statuscode 0}
+    \paragraph{Statuscode 1}
+    \paragraph{Statuscode 2}
+
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
         \label{subsubsec:installpi}
