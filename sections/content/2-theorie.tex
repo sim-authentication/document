@@ -621,6 +621,22 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 	\item Für jedes Element $a$ existiert ein inverses Element $a^{-1}$: $\forall a \in G: a \circ a^{-1} = a^{-1} \circ a = e$
 	\item Eine Gruppe ist außerdem kommutativ, wenn $\forall a, b \in G: a\circ b = b \circ a$
  \end{enumerate}
+
+ Als Beispiel sei die Menge $\Z$, mit der Operation $+$ und dem neutralen Element $0$ genannt.
+ Dies ist eine kommutative Gruppe mit dem inversen Element $-a$, denn $\forall a \in \Z: a + (-a) = 0$.
+ Mit der Operation $*$ hingegen gibt es kein neutrales Element, welches eine Gruppe ermöglichen
+ würde. \\
+ Eine weiterer Punkt ist der, dass die Menge nicht wie $\Z$ unendlich sein muss, damit eine Gruppenbildung
+ möglich ist. Ein Beispiel dafür wird an dieser Stelle jedoch nicht geliefert.
+ 
+ Die Fortsetzung der Gruppe ist der Körper. Diese Struktur unterstützt die vier arithmetischen Basisoperationen
+ Addition, Subtraktion, Multiplikation und Division. Die Definition für einen Körper $K$ lautet:
+
+ \begin{enumerate}
+ 	\item Alle Elemente aus $K$ bilden eine additive Gruppe mit dem Gruppenoperator ``$+$'' und dem neutralen Element 0.
+	\item Alle Elemente aus $K$, außer 0, bilden eine multiplikative Gruppe mit dem Operator ``$\times$'' und dem neutralen Element 1.
+	\item Wenn beide Gruppenoperatoren gemischt werden, gilt das Distributivgesetz: $\forall a, b, c \in K: a \times (b + c) = (a \times b) + (a \times c)$
+ \end{enumerate}
  
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
