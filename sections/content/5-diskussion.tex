@@ -1,3 +1,5 @@
+\clearpage
+
 \section{Diskussion}
 \label{diskussion}
 
@@ -72,15 +74,38 @@
 		die einzelnen USIM's abgespeichert werden.
 
 		Generell erlaubt der aktuelle Prozess nur USIM-Karten. Hier wäre zu überlegen
-		vielleicht auch für SIM-Karten auf dem GSM-Standard ebenfalls die
+		für SIM-Karten auf dem GSM-Standard ebenfalls die
 		Authentifizierung zu ermöglichen. Der Milenage-Algorithmus ermöglicht die
 		Abwärtskompatibilität, weshalb kein neuer Standard verstanden werden muss und
-		der zusäzlcihe Programmieraufwand nicht sehr groß sein wird.
+		der zusäzliche Programmieraufwand nicht sehr groß sein wird.
 	
+		Generell sollte auch der Programmcoode optimiert werden. An einigen Stellen
+		können Programmteile in eigne Funktionen ausgegliedert werden, um Redundanzen
+		zu vermeiden und das Programm selbst im Speicherplatzverbrauch zu reduzieren. Des
+		weiteren wird schon jetzt eine ähnliche Aufgabe durch rotWord und shiftRows
+		gegeben, weshalb shiftRows einfach rotWord implementieren könnte. \\
+		Neben der Reduzierung von Redundanzen kann überlegt werden, wo sich die
+		Geschwindigkeit des Programms optimieren lässt. Am Ende ist den Autoren zum
+		Beispiel aufgefallen, dass es für die Umwandlung des Schlüssels und des
+		Textblocks in das Array eine schnellere Variante gibt als die aktuelle. Dabei
+		ist der Code dann doch zeilenweise in dem Array gespeichert und nicht wie aktuell
+		spaltenweise. Damit müssten auch die einzelnen Transformations-Funktionen
+		umgebaut werden, was in Anbetracht der Zeit in diesem Projekt nicht mehr umsetzbar
+		war. \\
+		So gibt es aber vermutlich noch einige Stellen an denen eine Optimierung unter dem
+		Aspekt Performanz und wahrscheinlich auch Speicherbedarf möglich ist.
+	
+		Als nächster Punkt für zukünftige Erweiterungen bestände die Möglichkeit den
+		Start der Authentifizierung automatisiert zu erkennen. So bietet PCSClite die
+		Möglichkeit eine Meldung zu erhalten, wenn in das Kartenlesegerät die SIM-Karte
+		gesteckt wird, beziehungsweise auch wenn diese wieder entfernt wird. Damit
+		könnte der Server dauerhaft laufen und der Raspberry Pi würde sich ohne den
+		manuellen Start durch einen Nutzer beim Netzprovider registrieren.
 
-		- Code aufräumen
-		- Automatisierung der SIM-Kartenerkennung (ein-/ausstecken)	
-		\subsubsection{Andere Einsatzgebiete ???}
+		Als letzten sinnvollen Punkt wird das Abbilden der realen Struktur gesehen. Das
+		bedeutet, dass eine weitere virtuelle Maschine als SGSN benötigt würde. Außerdem
+		sollten dann auch die jeweiligen MAC-Werte und der RES an der richtigen Stelle
+		überprüft werden mit der richtigen Reaktion durch die einzelnen Kommunikationspartner.
+
 	\subsection{Sicherheit / Angriffe}
 		Es wurde keine Rücksicht genommen auf ..., weil...
-\clearpage
