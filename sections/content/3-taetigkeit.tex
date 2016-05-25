@@ -308,9 +308,10 @@
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 		
 	\subsection{Implementierung des Server}
-	Das Hauptprogramm, dass am Ende in main.c gestartet wird ist der eigentliche Netzprovider beziehungsweise
-	die Authentifizierungsstelle. Damit diese Daten dynamisch empfangen kann wird ein Serversocket aufgebaut
-	mit dem sich Clients, also die USIM, verbinden können und kommunizieren. Um diesen Socket aufzubauen werden
+    \label{subsec:impl_server}
+	Das Hauptprogramm, das am Ende in main.c gestartet wird, ist der eigentliche Netzprovider beziehungsweise
+	die Authentifizierungsstelle. Damit diese Daten dynamisch empfangen kann, wird ein Serversocket aufgebaut
+	mit dem sich Clients, also die USIM, verbinden und kommunizieren können. Um diesen Socket aufzubauen werden
 	die beiden Bibliotheken \emph{sys/socket} und \emph{arpa/inet} benötigt. Zusätzlich werden zu Beginn wieder
 	einige Variablen deklariert, die benötigt werden, um eine gute Kommunikation mit als Server mit der SIM-Karte
 	zu ermöglichen. \\
@@ -320,9 +321,9 @@
 		\paragraph{Kommunikationsaufbau}
 		Beim Start des Programms muss dem Server ein Socket zur Verfügung gestellt werden, was mit der Funktion
 		socket erfolgreich geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird.
-		Anschließend muss	der Serversocket konfiguriert werden. Er wird mit der Funktion bind so eingestellt, dass er
-		auf jede IP-Adresse mit Port 12345 hört. Nachdem das konfiguriert ist, wartet das Programm auf eine Verbindungsanfrage
-		durch die Funktion listen. Neben der Socket-Beschriebung muss der Funktion listen mitgeteilt werden, wie viele Verbindungen
+		Anschließend muss	der Serversocket konfiguriert werden. Er wird mit der Funktion \emph{bind} so eingestellt, dass er
+		auf jede IP-Adresse mit Port 12345 hört. Nachdem dies konfiguriert ist, wartet das Programm auf eine Verbindungsanfrage
+		durch die Funktion \emph{listen}. Neben der Socket-Beschriebung muss der Funktion listen mitgeteilt werden, wie viele Verbindungen
 		der Server maximal zulässt. Da in diesem Projekt nur mit einer SIM-Karte gearbeitet wird, ist der Wert also auf 1 gesetzt.
 		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
 		Wenn ein Client nun eine Verbindung aufbaut, wird dies vom Server registriert und die Infos des Clients abgespeichert,
@@ -333,7 +334,7 @@
 		so groß sein, wie die Größe des Arrays, in dem die Nachricht gespeichert wird. Zusätzlich können noch Flags
 		gesetzt werden, was in diesem Fall aber nicht nötig ist. \\
 		Wenn die Funktion recv nun einen Wert zurückgibt kann dieser -1, 0 oder größer 0 sein, wobei letzteres die
-		länge der empfangenen Nachricht bedeutet. Die anderen beiden Fälle werden am Ende dieses Kapitels erklärt.
+		Länge der empfangenen Nachricht bedeutet. Die anderen beiden Fälle werden am Ende dieses Kapitels erklärt.
 		
 		\paragraph{Verarbeiten der Nachrichten}
 		Wenn eine Nachricht empfangen wurde ist sie im übergeben Array \emph{client\_message} eingetragen. Dieses
@@ -363,6 +364,36 @@
 		die Verbindung unterbrochen hat und deshalb keine Kommunikation mehr möglich mit diesem. Bei -1 hingegen bedeutet
 		es, dass die Nachricht des Clients nicht gelesen werden konnte. \\
 		In beiden Fällen wird das Programm und damit der Server beendet.
+
+    \subsection{Implementierung des Client}
+    Wie bereits erläutert existiert neben dem Server (vgl. \Verweis{subsec:impl_server}) auch ein Client,
+    damit die Kommunikation wie erwünscht realisiert werden kann. Hier handelt es sich um die Komponente,
+    die Zugriff auf die SIM-Karte hat (\emph{HE}) und alle notwendigen Informationen an den Server sendet.
+    Alle notwendigen Funktionen sind entweder auf der SIM-Karte persistent gespeichert oder werden durch
+    das Triggern der integrierten Funktionen generiert.
+
+    Der Client wird in Python entwickelt und verwendet grundlegend die Bibliothek \textit{osmo-sim-auth}
+    (vgl. \Verweis{subsec:osmosim}). Darüber hinaus kommen weitere  Bibliotheken zum Einsatz, die in
+    Python den Kommunikationsaufbau mit Chipkarten ermöglicht (card-Utils, card-Sim und card-USIM).
+
+        \paragraph{Aufruf der Authentisierung} Diese Funktion wird im Clientprogramm im Abschnitt
+        \textit{handle\_usim} definiert. Es werden externe Informationen (falls vorhanden) für den Aufruf
+        gesammelt und entsprechend an die SIM-Karte gesendet. In jedem Fall wird ein Authentifizierungsvorgang
+        für eine USIM-Karte initiiert. \\
+        Abhängig von gegebenen Information ist die SIM-Karte daraufhin in der Lage Ergebnisvektoren
+        zu berechnen und zu liefern. Hier gibt es drei verschiedene Möglichkeiten:
+
+        Die Form der Anfrage war inkorrekt. D.h. sowohl der Wert für AUTN, als auch der Wert für RAND entsprechen
+        den standardisierten Vorgaben. Es ist also notwendig die Anfrage mit korrekten Werten erneut
+        durchzuführen.
+
+        Die Form der Anfrage war korrekt, jedoch ist eine Resynchronisierung der übermittelten SQN erforderlich.
+        In diesem Fall muss der Aufruf des Authentisierungsvorgangs nach erfolgreicher neuberechnung der SQN
+        erneut durchgeführt werden.
+
+        Die Form der Anfrage war korrekt, sowie die Beschaffenheit der übermittelten SQN. Ist dies der Fall,
+        kann die SIM-Karte ohne weiteres die Vektoren Ck, Ik und RES generieren. Diese werden entsprechend
+        ausgegeben.
 		
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
