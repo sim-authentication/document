@@ -429,11 +429,29 @@
 
     Der Client bleibt so lange in der Authentisieurngsschleife, bis diese erfolgreich abgeschlossen werden.
     Gleiches gilt für den Server. Beide reagieren je nach Statuscode (extrahiert aus den ersten Stellen)
-    mit nachfolgenden Aktionen.
+    mit nachfolgend erläuterten Aktionen.
 
-    \paragraph{Statuscode 0}
-    \paragraph{Statuscode 1}
-    \paragraph{Statuscode 2}
+    \paragraph{Statuscode 0:} Bisher wurde nur die Verbindung zwischen beiden Teilnehmern erfolgreich aufgebaut,
+    aber keine Informationen ausgetauscht. Der Client liest die IMSI der SIM-Karte aus und schickt sie mit
+    vorangestelltem \textit{Statuscode 1} an den Server.
+
+    \paragraph{Statuscode 1:} Der Server kann aufgrund des Statuscodes die Beschaffenheit
+    der Clientnachricht assoziieren und daraufhin die IMSI extrahieren. Der Client führt
+    nach Empfang der Serverantwort, die einen Wert für sowohl AUTN als auch RAND enthält, den
+    ersten Authentisierungsversuch durch. Glückt dieser, generiert die SIM-Karte bereits zu diesem
+    Zeitpunkt schon Werte für die Vektoren Ck, Ik und RES und der Authentisierungsvorgang ist
+    erfolgreich beendet. Sollte dies nicht der Fall sein, antwortet die SIM-Karte mit einem Wert für
+    AUTS, da die Resynchronisation der SQN noch aussteht. Der Statuscode des Clients wird auf 2 gesetzt
+    und eine weitere Iteration des Vorgangs aufgerufen.
+
+    \paragraph{Statuscode 2:} In dieser Iteration sendet der Client neben der IMSI auch die AUTS an den
+    Server. Zusätzlich wird dem Server der Statuscode 3 übermittelt.
+
+    \paragraph{Statuscode 3:} Erhält der Server diesen Statusocde führt er die Resynchronisation der SQN
+    aus. Dies erfolgt anhand der vom Client erhaltenen AUTS. Hat der Server dies abgeschlossen, übergibt er
+    den neu errechneten Wert an den Client zurück. Dieser nimmt den Wert an und führt die Authentisierung
+    erneut aus. Glückt dieser Vorgang antwortet die SIM-Karte schließlich mit den gewünschten Vektoren
+    Ck, Ik und RES. Die Authentisierung ist hier erfolgreich abgeschlossen.
 
 	\subsection{Erstellen des UE}
 		\subsubsection{Aufsetzen des Raspberry Pis}
