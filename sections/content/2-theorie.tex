@@ -635,8 +635,24 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  \begin{enumerate}
  	\item Alle Elemente aus $K$ bilden eine additive Gruppe mit dem Gruppenoperator ``$+$'' und dem neutralen Element 0.
 	\item Alle Elemente aus $K$, außer 0, bilden eine multiplikative Gruppe mit dem Operator ``$\times$'' und dem neutralen Element 1.
-	\item Wenn beide Gruppenoperatoren gemischt werden, gilt das Distributivgesetz: $\forall a, b, c \in K: a \times (b + c) = (a \times b) + (a \times c)$
+	\item Wenn beide Gruppenoperatoren gemischt werden, gilt das Distributivgesetz: \\
+		$\forall a, b, c \in K: a \times (b + c) = (a \times b) + (a \times c)$
  \end{enumerate}
+
+ Ähnlich wie bei Rijndael spielen im Großteil der Kryptographie die endlichen Körper eine große Rolle.
+ Die endliche Menge, die einen Körper zu einem endlichen Körper machen, ist zählbar und die Anzahl
+ der Elemente wird ``Ordnung'' oder ``Kardinalität'' genannt. Ein Körper kann jedoch nur
+ mir folgendem Theorem endlich sein:
+ 
+ \begin{center}
+  \parbox{14.2cm}{\centering
+   Ein Körper mit einer Ordnung $m$ existiert nur, wenn $m$ eine Primzahlpotenz ist, wie z.B.:
+   $m = p^n$, mit einer positiven ganzen Zahl $n$ und einer Primzahl $p$. $p$ heißt ``Charakteristik''
+   von $K$.
+  }
+ \end{center} 
+ 
+ 
  
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
@@ -847,162 +863,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Im Ablauf entspricht dieser Modus dem des Demo Modus. Lediglich die Ergebnisse werden
    abweichend getriggert.
 
-\subsection{VirtualBox}
-Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
-das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
 
-\subsubsection{Grundlage}
-\textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
-ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
-Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
-nach wie vor frei zugänglich (nach der GNU GPL2 Lizenz) \cite{dash13}.
-
-\textit{VirtualBox} bietet den Hypervisor für Hostplattformen, eine API und ein SDK zur
-Bereitstellung von Werkzeugen für Gäste an. Es wird als Wirtsystem auf sowohl 32-Bit als auch
-64-Bit für x86-Architekturen angeboten.
-
-Nachfolgend werden die wichtigsten Komponenten zur Realisierung der VirtualBox-Umgebung
-erläutert.
-
-\paragraph{Wirtsystem} wird das Betriebssystem genannt, welches die Grundlage für den Hypervisor
-liefert. Es gehört entweder selbst zum Hypervisor oder intergeriert diesen so, dass Gastsysteme
-aufm ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
-erläutert.
-
-\paragraph{Gastsystem} wird das Betriebssystem genannt, welches virtualisiert auf dem Hypervisor
-abgebildet wird. Es spricht die abstrahierten, virtuellen Hardwarekomponenten an, als würde
-es sich um ein physikalisches System handeln.
-
-\paragraph{Virtuelle Maschine} (VM) benennt die Instanz aus abstrahierter Hardware und einem
-darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
-definiert und dem Gastsystem bereitgestellt.
-
-\paragraph{Gasterweiterungen} werden dazu benötigt die Integration der Gastsysteme zu verbessern.
-Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
-Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
-oder dem weiterleiten von USB-Geräten.
-
-\paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
-Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}: %TODO: #edit kann das so bleiben?
-
-    \begin{tabularx}{\textwidth}{|l||X|}
-    \hline
-      \textbf{Bezeichnung} & \textbf{Beschreibung} \\
-    \hline
-    \hline
-      vboxsrv & Der Prozess, der die Allokation aller Ressourcen verwaltet. \\
-    \hline
-    \hline
-      VBoxSVC & Der VirtualBox-Serviceprozess. Er überwacht den laufenden Betrieb von virtuellen Maschinen \\
-    \hline
-    \hline
-      vboxzoneaccess & Der solarisspezifische Daemon um VirtualBox-Devices von Oracle Slaris Containern aus anzusprechen. \\
-    \hline
-    \hline
-      VBoxXPCOMIPCD & Der Prozess der (nicht auf Windows-Hostsystemen) Interprozesskommunikation abwickelt. \\
-    \hline
-    \hline
-      VirtualBox & Der Clientdienst, der Ressourcenlimits definieren lässt und diese verwaltet. \\
-    \hline
-    \end{tabularx}%WIP
-
-\subsubsection{Hypervisor}
-\label{subsubsec:hypervisor}
-Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
-mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
-
-Bei \textit{Hypervisorn} existieren zwei verschiedene Architekturen: \textit{Typ1} und
-\textit{Typ2} \cite{dash13}.
-
-\paragraph{Typ1} wird oft auch als 'bare metal'-\textit{Hypervisor} bezeichnet, da dieser direkt
-auf der Hadware agiert. Auf ihm werden ohne weitere Zwischenschicht die virtuellen Maschinen
-betrieben (vgl. \Anhang{abb:hypervisor_type1}).
-Beispiele für einen \textit{Hypervisor} dieses Typs sind Microsoft Hyper-V\footnote{\url{https://www.microsoft.com/en-us/server-cloud/solutions/virtualization.aspx}}
-oder VMware ESX(i)\footnote{\url{https://www.vmware.com/products/esxi-and-esx/overview}}.
-
-\paragraph{Typ2} wird oft auch als 'hosted'-\textit{Hypervisor} bezeichnet, da dieser auf
-einem Hostsystem (inklusive Betriebssystem) aufbaut. Es existiert also eine weitere Schicht
-zwischen \textit{Hypervisor} und Hardware im Vergleich zu Typ 1 (vgl. \Anhang{abb:hypervisor_type2}).
-Beispiele für einen \textit{Hypervisor} dieses Typs sind (neben Oracle VirtualBox) Microsoft
-Virtual PC\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=3702&751be11f-ede8-5a0c-058c-2ee190a24fa6=True}} und
-VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
-
-\paragraph{Ressourcenverwaltung} ist einer der wichtigsten Aspekte für virtualisierte Umgebungen.
-Verschiedene Ressourcen müssen unter virtuellen Maschinen aufgeteilt werden, sodass weder für die
-Teilnehmer ein Leistungseinbruch entsteht noch die Ressourcen ineffizient genutzt werden.
-Eine zentrale Rolle spielen die Belegung von Prozessor-, Arbeitsspeicher-,
-Swapspeicher- sowie Netzwerk-Kapazität. Um diese Ressourcen zu verwalten existieren verschiendene
-Ansätze.
-
-Eine Methode ist alle Ressourcen in diskrete Teile aufzuteilen und selbige einzeln den Teilnehmern
-zuzuordnen. Diese Methode bietet sich beispielsweise bei Ressourcen mit endlicher Größe an
-(CPU, RAM). Während die Umsetzung einfach zu realisieren ist, birgt dieser Ansatz einen Nachteil.
-Auf diesem Weg werden einzelne Hardwareteile unter Umständen nicht effizient genutzt,
-da sie aktuell nicht vom besitzenden Teilnehmer in Verwendung sind, jedoch persistent zugewiesen wurden.
-
-Aus diesem Grund wurde eine weitere Methode entwickelt, die eine software-regulierte Grenze setzt.
-Hier sorgen entweder Hypervisor oder Betriebssystem dafür dass der Teilnehmer nicht mehr als
-diese bestimmte zugewiesene Obergrenze der essourcennutzung erreicht. Verbleibende, aktuell
-nicht verwendete Ressourcen können von anderen Teilnehmern beansprucht werden. Dies im Rahmen
-ihrer eigenen Ressourcenobergrenze\cite{victor10}.
-
-Die dritte verbreitete Methode ist der (auch in Betriebssystemen eingesetzte)
-\textit{Fair Share Schedule (FSS)}. Solange ausreichend Kapazitäten zur Verfügung stehen,
-erhält jeder Teilnehmer so viel Ressourcen, wie er anfordert. Ist die tatsächliche Gesamtgrenze der
-Ressource erschöpft, erhält jeder Teilnehmer nurnoch den Teil, den er als Minimum zugesichert bekam.
-Diese Methode erreicht die effizienteste Ressourcenausnutzung \cite{victor10}.
-
-Zu beachten ist, dass fehlende Arbeitsspeicherressoucen bei einem Teilnehmer weitreichendere Folgen
-haben kann, als fehlende Prozessorressourcen. Während 10\% weniger Prozessorkapazität einen
-Performanceverlust von ebenso 10\% bewirkt, kann 10\% weniger Arbeitsspeicher als erforderlich zu
-erweitertem Paging-Aufwand führen. Dies kann unter Umständen auch andere Teilnehmer beeinflussen.
-Aus diesem Grund muss auch der Speicher ausreichend restriktiv partitioniert bzw. zugewiesen werden.
-
-\paragraph{Sicherheit} und Isolation wird bei VirtualBox in erster Linie dadurch umgesetzt, dass
-es, wie alle anderen Anwendungen für Endanwender auf der x86-Architektur, sich auf Ring 3 konzentrieren.
-Dieser Ring respräsentiert die geringste Privilegierungsstufe auf dem x86-Prozessor. Der Kernel
-beispielsweise wird in Ring 0 betrieben. Dazwischen existieren zwei weitere Privilegierungsstufen.
-
-Für jeden Teilnehmer wird ein einziger Prozess eröffnet. Jeglicher Code von virtuellen Teilnehmern
-wird in diesem Rahmen in Ring 3 ausgeführt. So erreicht jede Applikation in einer virtuellen Maschine
-nahezu die gleiche Performance als würde sie nativ auf dem Host betrieben.
-
-Anders wird der Kernelcode der virtuellen Maschine behandelt. Sollte keine Hardwarevirtualisierung
-zur Verfügung stehen, wird dieser nicht in Ring 1 (wie vorgesehen), sondern lediglich in Ring 1
-ausgeführt. Dies kann insofern problematisch sein, da Befehle existieren, die ausschließlich
-in Ring 0 funktionieren oder sich auf Ring 1 abweichend verhalten. Aus diesem Grund überprüft
-VirtualBox dauerhaft Ring 1 nach Befehlen dieser Art. Wird ein Befehl gefunden, der von dieser
-Problematik betroffen ist, setzt VirtualBox diesen direkt in einen geeigneten Hypervisorbefehl
-um.
-
-In manchen Fällen ist VirtualBox nicht dazu in der Lage den entsprechenden Code korrekt zu
-interpretieren. Deshalb ist es unter Umständen notwendig gewisse Befehle in einer
-emulierten Umgebung auszuführen. Hierzu wird (unter Performanceeinbrüchen) Gebrauch von
-\textit{QEMU} gemacht. 
-
-Verfügt das Hostsystem jedoch über Hardwarevirtualisierung auf Prozessorebene 
-(z.B. intel VT-x\footnote{\url{http://ark.intel.com/Products/VirtualizationTechnology}}),
-kann entsprechender Kernelcode bis auf Ring 0 reichen und dort ordnungsgemäß ausgeführt werden.
-Auf diesem Weg ist zusätzlich
-ein Performancezuwachs bzw. kein Performanceverlust zu verzeichnen \cite{victor10}.
-
-\subsubsection{Motivation}
-\textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
-zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
-zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
-werden. So ergibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
-dedizierte Hardware erforderten und für sich alleine beanspruchten.
-
-Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
-ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
-Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
-Maschinen sehr gut zu Test- und Entwicklungszwecken. Auch das Betreiben von Legacy-Betriebssystemen
-ist in einer virtuellen Umgebuung möglich. Systeme können flexibel für unterschiedliche
-Situationen angepasst (oder auch isoliert) werden ohne dabei großen Aufwand zu generieren.
-Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (provisioniert) werden.
-
-Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
-kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
 
 %% Point-to-Point %%
 \subsection{PPP}
@@ -1238,88 +1099,6 @@ das tty\textit{X}-Device weitergeleitet.
 Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
 Ethernet-Devices ausgetauscht werden.
 
-\subsection{Ubuntu} % TODO: #edit vielleicht noch verschieben
-\label{subsec:ubuntu}
-Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
-gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
-Unter anderem, da eines der Ziele des Projektes ist eine stabile
-'Out-Of-The-Box'-Installation zu liefern. Neben der intuitiven Installation und dem
-Betrieb wird auch jeweils eine \textit{LTS}-Version der aktuellen Veröffentlichung angeboten.
-Hierbei steht das Akronym \textit{LTS} für Long Term Support und garantiert dem Anwender eine
-Updateversorgung (an Paketen) über insgesamt fünf Jah-
-re hinweg. Ebenso kann bei Bedarf separat technicher Support direkt von Canonical
-Ltd. bezogen werden. Ubuntus initiale Veröffentlichung (Version 4.10) geht bis ins Jahr
-2004 (20. Oktober) zurück und stammt von Debian GNU/Linux ab - es zeichnet sich
-allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paketauswahl aus.
-
-Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
-mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11).
-
-\subsection{Raspberry Pi}
-
-Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
-
-\subsubsection{Raspberry Pi Foundation}
-Entwickelt wird der Raspberry Pi von der Raspberry Pi Foundation\footnote{\url{https://www.raspberrypi.org}}
-(registriert in Großbritannien). Ziel der Organisation ist es,
-seit Veröffentlichung des ersten Modells, einen kostengünstigen
-Computer vorrangig für Bildungszwecke zu entwerfen. Auf diesem
-Weg soll sowohl Erwachsenen als auch Kindern der Zugang zum
-Programmieren oder anderen wissenschaftlichen Anwendungsgebieten
-erleichtert werden.
-
-Bisher wurden seit der initialen Veröffentlichung im Februar 2012(\cite{rasppifoundweb})
-drei Generationen in unterschiedlichen Ausführungen
-entwickelt. Die Bezeichnung A(+) bzw. B(+) gibt jeweils Aufschluss
-über die jeweilige Ausführung.
-
-\subsubsection{Hardware Modell B}
-Das in diesem Projekt eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
-\begin{itemize}
-\item CPU - 700 MHz Singlecore ARM1176JZF-S
-\item RAM - 512 MB
-\item Speicherslot - SDHC
-\item Grafikprozessor - Broadcom VideoCore IV
-\end{itemize}
-
-\subsubsection{Betriebssystem}
-Als Betriebssystem gibt es für den Raspberry Pi eine breite Auswahl.
-Neben einer Vielzahl von Media-Center-Plattformen sind auch alle
-Desktop- bzw. Server-Versionen gängiger Linux-Derivate verfügbar:
-Arch Linux, Puppy Linux, Raspbian, openSUSE, Gentoo Linux, Ubuntu Mate,
-CentOS, Slackware, ...
-
-\paragraph{Raspbian}
-Aufgrund hoher Stabilität und Verfügbarkeit aller benötigten Treiber
-(u.a. dem SIM-Kartenleser) wurde die auf \textit{Debian GNU Linux}\footnote{\url{https://www.debian.org/}}
-basierende Distribution \textit{Raspbian}\footnote{\url{https://www.raspbian.org/}} ausgewählt.
-Es erbt somit alle Eigenschaftem vom übergeordneten Debianprojekt.
-So auch den Paketmanager \textit{dpkg} mit ca. 35.000 vorkompilierten
-Softwarepaketen - in einigen Fällen für den Betrieb mit dem
-Raspberry Pi optimiert. Nicht vorpaketierte Software kann auf dem Raspberry
-Pi durch vorhandensein einer Vielzahl von Libraries und Build-Tools
-für die ARM-Architektur kompiliert werden.
-
-Über den rein funktionalen Konsolenbetrieb hinaus, wird Raspbian standardmäßig mit den
-Windowmanagern XFCE oder LXDE ausgeliefert.
-
-Nachdem im Juni 2012(\cite{raspbianweb}) die erste
-Version fertiggestellt wurde ist Raspbian nach wie vor aktiv
-in Entwicklung. Momentan im stabilen Debian-Release \textit{Jessie}.
-Selbiges wird auch zur Umsetzung des Endgerätes eingesetzt.
-Die vorkompilierten Pakete stammen dementsprechend aus dem aktuellen
-\textit{stable}-Zweig, der häufig vor allem im Umfeld des Serverbetriebes
-anzutreffen ist. Die Ursache hierfür ist die Tatsache, dass das
-Projekt Pakete erst nach einem langen Testprozess im \textit{unstable}-
-sowie darauffolgenden \textit{testing-}Zweig für den \textit{stable}-Zweig
-freigibt. Im Kontrast zu gängigen Desktop-Distributionen, die
-im Vergleich zu Debian stärker auf Aktualität achten.
-
-Neben den Zielen der Raspberry Pi Foundation verfolgt das Projekt
-auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
-den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}}
-lizensiert und durch die Raspbian-Community unabhängig entwickelt.
-
 %% PC/SC %%
 \subsection{PC/SC}
 %TODO: Die Kausalkette ist für mich nicht logisch #CHECK
@@ -1386,101 +1165,6 @@ weitergeführt\cite{pcscliteweb}.
 
 Neben diversen Linux-Distributionen werden auch Mac OSX und diverse
 BSD- sowie Unix-Derivate unterstützt.
-
-\subsection{Die Sprache Python}
-\subsubsection{Grundlagen}
-\textit{Python} ist eine seit 1991 frei veröffentlichte Programmiersprache. Sie zählt
-zu den interpretierten Programmiersprachen. Primäre Ziele der Sprache sind zusammengefasst:
-\begin{itemize}
-\item Lesbarkeit
-\item Kompaktheit
-\end{itemize}
-Somit wird neben etablierten Sprachen eine Alternative für sowohl umfangreiche Softwareprojekte
-als auch kleinere Einsatzgebiete wie Skripting im Heimcomputerbereich angeboten.
-
-\textit{Python} konzentriert sich nicht ausschließlich auf ein einziges Programmierparadigma.
-Es unterstützt objektorientierte, funktionale sowie prozedurale Programmierung. Zusätzliche
-Paradigmen (unter anderem auch logische) können über Erweiterungen nachgerüstet werden.
-Weiterhin verfügt \textit{Python} dynamische Typisierung und automatisches Speichermanagement. Aus
-diesen Gründen ist \textit{Python} vor allem auch für Einsteiger in das Thema der Programmierung
-gut geeignet. Nichts desto Trotz ist \textit{Python} auch aufgrund seiner hohen Flexibilität
-bei erfahrenen Entwicklern verbreitet.
-
-In vielen Linux-Distributionen gehört \textit{Python} im gewissem Umfang zur Standardinstallation.
-Mit dem ausgelieferten Interpreter können plattformübergreifend Programme ausgeführt werden. Bei
-Bedarf ist es möglich auf eine Große Anzahl von Paketen in Standardbibliotheken zuzugreifen.
-
-In seltenen Fällen kann es auch notwendig sein Binärcode auszuliefern, ohne den
-\textit{Python}-Interpreter zu installieren. Hierfür existieren Tools von Drittanbietern,
-die aus vorliegendem \textit{Python}-Code ausführbare Programme generieren. Ein Beispiel hierfür
-ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
-
-\subsubsection{Motivation zur Nutzung}
-Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
-Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
-(also auf der Seite der \ac{MS}) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
-Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
-in ihrer Funktion erweitert.
-
-\subsection{pysim} % TODO #edit bei bedarf noch syntax etc nachtragen
-\label{subsec:pysim}
-Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
-python-Skript, geschrieben von Kevin Prince,
-welches Operationen direkt auf der SIM-Karte implementiert.
-Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
-bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
-Unterstützt wird der GSM-Authentifizierungsvorgang.
-
-Pysim kennt verschiedene Modi und nimmt dementsprechend unterschiedliche
-Parameter entgegen. Verfügbare Parameter sind Chipkartentyp, verwendetes
-Device (im Betriebssystem /dev/ttyX) und Baudrate\cite{pysimprince}.
-
-Über den normalen Betrieb einer SIM-Karte (also Authentifizierung, Auslesen, etc.)
-ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
-
-Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
-python-Shell verwendbar.
-
-\subsection{osmo-sim-auth}
-\label{subsec:osmosim}
-\textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
-überschneidet sich im Unfang angebotener Funktionen mit \textit{pysim}. Hauptsächlich ist es,
-genau wie \textit{pysim} eine Implementierung in python, um den Authentifizierungsprozess
-einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
-\textit{PCSClite}-Treibers und der \textit{pyscard}-Library.
-
-Ein Unterschied zwischen beiden python-Skripten stellte sich bei der
-Realisierung der Kommunikation in der Praxis heraus:
-Während \textit{pysim} auch die Programmierung von Chipkarten anbietet, ist
-\textit{osmo-sim-auth} dazu in der Lage über \ac{GSM}- hinaus auch
-eine \ac{UMTS}-Authentifizierung zu leiten.
-Der jeweilige Modus wird über Parameter übermittelt.
-Dementsprechend verfügt \textit{osmo-sim-auth} auch über die Funktion der
-Resynchronisation bezüglich der \ac{SQN}-Nummer\cite{osmosimweb}.
-
-Entwickelt wird es vom Osmocom OpenBSC-Project, welches sich damit
-beschäftigt eine (A)GPL-lizenzierte Implementierung für den
-GSM/3GPP-Protokollstack zu erzielen. Neben der Authentifizierung
-in direkter Kommunikation mit der SIM-Karte werden auch folgende
-Funktionalitäten durch das Projekt realisiert:
-\ac{BSC},\ac{MSC},\ac{HLR},\ac{AuC},\ac{VLR}, und \ac{EIR}\cite{osmocombscweb}.
-
-\subsection{pyscard}
-\label{pyscard}
-Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine python-Bibliothek benötigt,
-die Smartcard-Support für Python bereitstellt. Diese Bibliothek
-ist pysim. Sie fungiert als Schnittstelle zwischen dem Treiber \textit{PC/SC}
-beziehungsweise \textit{PCSClite} und der Python-Anwendung 
-(dargestellt im \Anhang{abb:pyscard_schema}).
-
-Implementierte Funktionen sind das Prüfen der gesteckten bzw. nicht gesteckten
-Chipkarte, der darauffolgende Verbindungsaufbau sowie das Versenden und
-Empfangen von APDUs in hexadezimaler Darstellung.
-Nach erfolgreichem Verbindungsaufbau kann somit eine Kommunikation via
-APDUs stattfinden.
-
-Veröffentlicht wurde pyscard als freie Software unter der
-\textit{GNU Lesser General Public License}.
 
 %% Programmiersprache C %%
 \subsection{Die Sprache C}
@@ -1589,6 +1273,341 @@ Veröffentlicht wurde pyscard als freie Software unter der
   zu Beginn eines C-Programms eingebunden und der Compiler kann auf Basis der Header-Datei eine Überprüfung
   durchführen, ob alle genutzten Funktionen seitens des Programms in einer eingebunden Bibliothek zur
   Verfügung stehen.
+
+\subsection{Die Sprache Python}
+\subsubsection{Grundlagen}
+\textit{Python} ist eine seit 1991 frei veröffentlichte Programmiersprache. Sie zählt
+zu den interpretierten Programmiersprachen. Primäre Ziele der Sprache sind zusammengefasst:
+\begin{itemize}
+\item Lesbarkeit
+\item Kompaktheit
+\end{itemize}
+Somit wird neben etablierten Sprachen eine Alternative für sowohl umfangreiche Softwareprojekte
+als auch kleinere Einsatzgebiete wie Skripting im Heimcomputerbereich angeboten.
+
+\textit{Python} konzentriert sich nicht ausschließlich auf ein einziges Programmierparadigma.
+Es unterstützt objektorientierte, funktionale sowie prozedurale Programmierung. Zusätzliche
+Paradigmen (unter anderem auch logische) können über Erweiterungen nachgerüstet werden.
+Weiterhin verfügt \textit{Python} dynamische Typisierung und automatisches Speichermanagement. Aus
+diesen Gründen ist \textit{Python} vor allem auch für Einsteiger in das Thema der Programmierung
+gut geeignet. Nichts desto Trotz ist \textit{Python} auch aufgrund seiner hohen Flexibilität
+bei erfahrenen Entwicklern verbreitet.
+
+In vielen Linux-Distributionen gehört \textit{Python} im gewissem Umfang zur Standardinstallation.
+Mit dem ausgelieferten Interpreter können plattformübergreifend Programme ausgeführt werden. Bei
+Bedarf ist es möglich auf eine Große Anzahl von Paketen in Standardbibliotheken zuzugreifen.
+
+In seltenen Fällen kann es auch notwendig sein Binärcode auszuliefern, ohne den
+\textit{Python}-Interpreter zu installieren. Hierfür existieren Tools von Drittanbietern,
+die aus vorliegendem \textit{Python}-Code ausführbare Programme generieren. Ein Beispiel hierfür
+ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
+
+\subsubsection{Motivation zur Nutzung}
+Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
+Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
+(also auf der Seite der \ac{MS}) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
+Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
+in ihrer Funktion erweitert.
+
+\subsection{Bibliotheken}
+\subsubsection{pysim} % TODO #edit bei bedarf noch syntax etc nachtragen
+\label{subsec:pysim}
+Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
+python-Skript, geschrieben von Kevin Prince,
+welches Operationen direkt auf der SIM-Karte implementiert.
+Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
+bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
+Unterstützt wird der GSM-Authentifizierungsvorgang.
+
+Pysim kennt verschiedene Modi und nimmt dementsprechend unterschiedliche
+Parameter entgegen. Verfügbare Parameter sind Chipkartentyp, verwendetes
+Device (im Betriebssystem /dev/ttyX) und Baudrate\cite{pysimprince}.
+
+Über den normalen Betrieb einer SIM-Karte (also Authentifizierung, Auslesen, etc.)
+ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
+
+Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
+python-Shell verwendbar.
+
+\subsubsection{osmo-sim-auth}
+\label{subsec:osmosim}
+\textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
+überschneidet sich im Unfang angebotener Funktionen mit \textit{pysim}. Hauptsächlich ist es,
+genau wie \textit{pysim} eine Implementierung in python, um den Authentifizierungsprozess
+einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
+\textit{PCSClite}-Treibers und der \textit{pyscard}-Library.
+
+Ein Unterschied zwischen beiden python-Skripten stellte sich bei der
+Realisierung der Kommunikation in der Praxis heraus:
+Während \textit{pysim} auch die Programmierung von Chipkarten anbietet, ist
+\textit{osmo-sim-auth} dazu in der Lage über \ac{GSM}- hinaus auch
+eine \ac{UMTS}-Authentifizierung zu leiten.
+Der jeweilige Modus wird über Parameter übermittelt.
+Dementsprechend verfügt \textit{osmo-sim-auth} auch über die Funktion der
+Resynchronisation bezüglich der \ac{SQN}-Nummer\cite{osmosimweb}.
+
+Entwickelt wird es vom Osmocom OpenBSC-Project, welches sich damit
+beschäftigt eine (A)GPL-lizenzierte Implementierung für den
+GSM/3GPP-Protokollstack zu erzielen. Neben der Authentifizierung
+in direkter Kommunikation mit der SIM-Karte werden auch folgende
+Funktionalitäten durch das Projekt realisiert:
+\ac{BSC},\ac{MSC},\ac{HLR},\ac{AuC},\ac{VLR}, und \ac{EIR}\cite{osmocombscweb}.
+
+\subsubsection{pyscard}
+\label{pyscard}
+Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine python-Bibliothek benötigt,
+die Smartcard-Support für Python bereitstellt. Diese Bibliothek
+ist pysim. Sie fungiert als Schnittstelle zwischen dem Treiber \textit{PC/SC}
+beziehungsweise \textit{PCSClite} und der Python-Anwendung 
+(dargestellt im \Anhang{abb:pyscard_schema}).
+
+Implementierte Funktionen sind das Prüfen der gesteckten bzw. nicht gesteckten
+Chipkarte, der darauffolgende Verbindungsaufbau sowie das Versenden und
+Empfangen von APDUs in hexadezimaler Darstellung.
+Nach erfolgreichem Verbindungsaufbau kann somit eine Kommunikation via
+APDUs stattfinden.
+
+Veröffentlicht wurde pyscard als freie Software unter der
+\textit{GNU Lesser General Public License}.
+
+\subsection{Ubuntu} % TODO: #edit vielleicht noch verschieben
+\label{subsec:ubuntu}
+Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
+gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
+Unter anderem, da eines der Ziele des Projektes ist eine stabile
+'Out-Of-The-Box'-Installation zu liefern. Neben der intuitiven Installation und dem
+Betrieb wird auch jeweils eine \textit{LTS}-Version der aktuellen Veröffentlichung angeboten.
+Hierbei steht das Akronym \textit{LTS} für Long Term Support und garantiert dem Anwender eine
+Updateversorgung (an Paketen) über insgesamt fünf Jah-
+re hinweg. Ebenso kann bei Bedarf separat technicher Support direkt von Canonical
+Ltd. bezogen werden. Ubuntus initiale Veröffentlichung (Version 4.10) geht bis ins Jahr
+2004 (20. Oktober) zurück und stammt von Debian GNU/Linux ab - es zeichnet sich
+allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paketauswahl aus.
+
+Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
+mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11). 
+
+\subsection{Raspberry Pi}
+
+Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
+
+\subsubsection{Raspberry Pi Foundation}
+Entwickelt wird der Raspberry Pi von der Raspberry Pi Foundation\footnote{\url{https://www.raspberrypi.org}}
+(registriert in Großbritannien). Ziel der Organisation ist es,
+seit Veröffentlichung des ersten Modells, einen kostengünstigen
+Computer vorrangig für Bildungszwecke zu entwerfen. Auf diesem
+Weg soll sowohl Erwachsenen als auch Kindern der Zugang zum
+Programmieren oder anderen wissenschaftlichen Anwendungsgebieten
+erleichtert werden.
+
+Bisher wurden seit der initialen Veröffentlichung im Februar 2012(\cite{rasppifoundweb})
+drei Generationen in unterschiedlichen Ausführungen
+entwickelt. Die Bezeichnung A(+) bzw. B(+) gibt jeweils Aufschluss
+über die jeweilige Ausführung.
+
+\subsubsection{Hardware Modell B}
+Das in diesem Projekt eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
+\begin{itemize}
+\item CPU - 700 MHz Singlecore ARM1176JZF-S
+\item RAM - 512 MB
+\item Speicherslot - SDHC
+\item Grafikprozessor - Broadcom VideoCore IV
+\end{itemize}
+
+\subsubsection{Betriebssystem}
+Als Betriebssystem gibt es für den Raspberry Pi eine breite Auswahl.
+Neben einer Vielzahl von Media-Center-Plattformen sind auch alle
+Desktop- bzw. Server-Versionen gängiger Linux-Derivate verfügbar:
+Arch Linux, Puppy Linux, Raspbian, openSUSE, Gentoo Linux, Ubuntu Mate,
+CentOS, Slackware, ...
+
+\paragraph{Raspbian}
+Aufgrund hoher Stabilität und Verfügbarkeit aller benötigten Treiber
+(u.a. dem SIM-Kartenleser) wurde die auf \textit{Debian GNU Linux}\footnote{\url{https://www.debian.org/}}
+basierende Distribution \textit{Raspbian}\footnote{\url{https://www.raspbian.org/}} ausgewählt.
+Es erbt somit alle Eigenschaftem vom übergeordneten Debianprojekt.
+So auch den Paketmanager \textit{dpkg} mit ca. 35.000 vorkompilierten
+Softwarepaketen - in einigen Fällen für den Betrieb mit dem
+Raspberry Pi optimiert. Nicht vorpaketierte Software kann auf dem Raspberry
+Pi durch vorhandensein einer Vielzahl von Libraries und Build-Tools
+für die ARM-Architektur kompiliert werden.
+
+Über den rein funktionalen Konsolenbetrieb hinaus, wird Raspbian standardmäßig mit den
+Windowmanagern XFCE oder LXDE ausgeliefert.
+
+Nachdem im Juni 2012(\cite{raspbianweb}) die erste
+Version fertiggestellt wurde ist Raspbian nach wie vor aktiv
+in Entwicklung. Momentan im stabilen Debian-Release \textit{Jessie}.
+Selbiges wird auch zur Umsetzung des Endgerätes eingesetzt.
+Die vorkompilierten Pakete stammen dementsprechend aus dem aktuellen
+\textit{stable}-Zweig, der häufig vor allem im Umfeld des Serverbetriebes
+anzutreffen ist. Die Ursache hierfür ist die Tatsache, dass das
+Projekt Pakete erst nach einem langen Testprozess im \textit{unstable}-
+sowie darauffolgenden \textit{testing-}Zweig für den \textit{stable}-Zweig
+freigibt. Im Kontrast zu gängigen Desktop-Distributionen, die
+im Vergleich zu Debian stärker auf Aktualität achten.
+
+Neben den Zielen der Raspberry Pi Foundation verfolgt das Projekt
+auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
+den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}}
+lizensiert und durch die Raspbian-Community unabhängig entwickelt.
+  
+\subsection{VirtualBox}
+Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
+das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
+
+\subsubsection{Grundlage}
+\textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
+ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
+Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
+nach wie vor frei zugänglich (nach der GNU GPL2 Lizenz) \cite{dash13}.
+
+\textit{VirtualBox} bietet den Hypervisor für Hostplattformen, eine API und ein SDK zur
+Bereitstellung von Werkzeugen für Gäste an. Es wird als Wirtsystem auf sowohl 32-Bit als auch
+64-Bit für x86-Architekturen angeboten.
+
+Nachfolgend werden die wichtigsten Komponenten zur Realisierung der VirtualBox-Umgebung
+erläutert.
+
+\paragraph{Wirtsystem} wird das Betriebssystem genannt, welches die Grundlage für den Hypervisor
+liefert. Es gehört entweder selbst zum Hypervisor oder intergeriert diesen so, dass Gastsysteme
+aufm ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
+erläutert.
+
+\paragraph{Gastsystem} wird das Betriebssystem genannt, welches virtualisiert auf dem Hypervisor
+abgebildet wird. Es spricht die abstrahierten, virtuellen Hardwarekomponenten an, als würde
+es sich um ein physikalisches System handeln.
+
+\paragraph{Virtuelle Maschine} (VM) benennt die Instanz aus abstrahierter Hardware und einem
+darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
+definiert und dem Gastsystem bereitgestellt.
+
+\paragraph{Gasterweiterungen} werden dazu benötigt die Integration der Gastsysteme zu verbessern.
+Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
+Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
+oder dem weiterleiten von USB-Geräten.
+
+\paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
+Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}: %TODO: #edit kann das so bleiben?
+
+    \begin{tabularx}{\textwidth}{|l||X|}
+    \hline
+      \textbf{Bezeichnung} & \textbf{Beschreibung} \\
+    \hline
+    \hline
+      vboxsrv & Der Prozess, der die Allokation aller Ressourcen verwaltet. \\
+    \hline
+    \hline
+      VBoxSVC & Der VirtualBox-Serviceprozess. Er überwacht den laufenden Betrieb von virtuellen Maschinen \\
+    \hline
+    \hline
+      vboxzoneaccess & Der solarisspezifische Daemon um VirtualBox-Devices von Oracle Slaris Containern aus anzusprechen. \\
+    \hline
+    \hline
+      VBoxXPCOMIPCD & Der Prozess der (nicht auf Windows-Hostsystemen) Interprozesskommunikation abwickelt. \\
+    \hline
+    \hline
+      VirtualBox & Der Clientdienst, der Ressourcenlimits definieren lässt und diese verwaltet. \\
+    \hline
+    \end{tabularx}%WIP
+
+\subsubsection{Hypervisor}
+\label{subsubsec:hypervisor}
+Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
+mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
+
+Bei \textit{Hypervisorn} existieren zwei verschiedene Architekturen: \textit{Typ1} und
+\textit{Typ2} \cite{dash13}.
+
+\paragraph{Typ1} wird oft auch als 'bare metal'-\textit{Hypervisor} bezeichnet, da dieser direkt
+auf der Hadware agiert. Auf ihm werden ohne weitere Zwischenschicht die virtuellen Maschinen
+betrieben (vgl. \Anhang{abb:hypervisor_type1}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind Microsoft Hyper-V\footnote{\url{https://www.microsoft.com/en-us/server-cloud/solutions/virtualization.aspx}}
+oder VMware ESX(i)\footnote{\url{https://www.vmware.com/products/esxi-and-esx/overview}}.
+
+\paragraph{Typ2} wird oft auch als 'hosted'-\textit{Hypervisor} bezeichnet, da dieser auf
+einem Hostsystem (inklusive Betriebssystem) aufbaut. Es existiert also eine weitere Schicht
+zwischen \textit{Hypervisor} und Hardware im Vergleich zu Typ 1 (vgl. \Anhang{abb:hypervisor_type2}).
+Beispiele für einen \textit{Hypervisor} dieses Typs sind (neben Oracle VirtualBox) Microsoft
+Virtual PC\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=3702&751be11f-ede8-5a0c-058c-2ee190a24fa6=True}} und
+VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
+
+\paragraph{Ressourcenverwaltung} ist einer der wichtigsten Aspekte für virtualisierte Umgebungen.
+Verschiedene Ressourcen müssen unter virtuellen Maschinen aufgeteilt werden, sodass weder für die
+Teilnehmer ein Leistungseinbruch entsteht noch die Ressourcen ineffizient genutzt werden.
+Eine zentrale Rolle spielen die Belegung von Prozessor-, Arbeitsspeicher-,
+Swapspeicher- sowie Netzwerk-Kapazität. Um diese Ressourcen zu verwalten existieren verschiendene
+Ansätze.
+
+Eine Methode ist alle Ressourcen in diskrete Teile aufzuteilen und selbige einzeln den Teilnehmern
+zuzuordnen. Diese Methode bietet sich beispielsweise bei Ressourcen mit endlicher Größe an
+(CPU, RAM). Während die Umsetzung einfach zu realisieren ist, birgt dieser Ansatz einen Nachteil.
+Auf diesem Weg werden einzelne Hardwareteile unter Umständen nicht effizient genutzt,
+da sie aktuell nicht vom besitzenden Teilnehmer in Verwendung sind, jedoch persistent zugewiesen wurden.
+
+Aus diesem Grund wurde eine weitere Methode entwickelt, die eine software-regulierte Grenze setzt.
+Hier sorgen entweder Hypervisor oder Betriebssystem dafür dass der Teilnehmer nicht mehr als
+diese bestimmte zugewiesene Obergrenze der essourcennutzung erreicht. Verbleibende, aktuell
+nicht verwendete Ressourcen können von anderen Teilnehmern beansprucht werden. Dies im Rahmen
+ihrer eigenen Ressourcenobergrenze\cite{victor10}.
+
+Die dritte verbreitete Methode ist der (auch in Betriebssystemen eingesetzte)
+\textit{Fair Share Schedule (FSS)}. Solange ausreichend Kapazitäten zur Verfügung stehen,
+erhält jeder Teilnehmer so viel Ressourcen, wie er anfordert. Ist die tatsächliche Gesamtgrenze der
+Ressource erschöpft, erhält jeder Teilnehmer nurnoch den Teil, den er als Minimum zugesichert bekam.
+Diese Methode erreicht die effizienteste Ressourcenausnutzung \cite{victor10}.
+
+Zu beachten ist, dass fehlende Arbeitsspeicherressoucen bei einem Teilnehmer weitreichendere Folgen
+haben kann, als fehlende Prozessorressourcen. Während 10\% weniger Prozessorkapazität einen
+Performanceverlust von ebenso 10\% bewirkt, kann 10\% weniger Arbeitsspeicher als erforderlich zu
+erweitertem Paging-Aufwand führen. Dies kann unter Umständen auch andere Teilnehmer beeinflussen.
+Aus diesem Grund muss auch der Speicher ausreichend restriktiv partitioniert bzw. zugewiesen werden.
+
+\paragraph{Sicherheit} und Isolation wird bei VirtualBox in erster Linie dadurch umgesetzt, dass
+es, wie alle anderen Anwendungen für Endanwender auf der x86-Architektur, sich auf Ring 3 konzentrieren.
+Dieser Ring respräsentiert die geringste Privilegierungsstufe auf dem x86-Prozessor. Der Kernel
+beispielsweise wird in Ring 0 betrieben. Dazwischen existieren zwei weitere Privilegierungsstufen.
+
+Für jeden Teilnehmer wird ein einziger Prozess eröffnet. Jeglicher Code von virtuellen Teilnehmern
+wird in diesem Rahmen in Ring 3 ausgeführt. So erreicht jede Applikation in einer virtuellen Maschine
+nahezu die gleiche Performance als würde sie nativ auf dem Host betrieben.
+
+Anders wird der Kernelcode der virtuellen Maschine behandelt. Sollte keine Hardwarevirtualisierung
+zur Verfügung stehen, wird dieser nicht in Ring 1 (wie vorgesehen), sondern lediglich in Ring 1
+ausgeführt. Dies kann insofern problematisch sein, da Befehle existieren, die ausschließlich
+in Ring 0 funktionieren oder sich auf Ring 1 abweichend verhalten. Aus diesem Grund überprüft
+VirtualBox dauerhaft Ring 1 nach Befehlen dieser Art. Wird ein Befehl gefunden, der von dieser
+Problematik betroffen ist, setzt VirtualBox diesen direkt in einen geeigneten Hypervisorbefehl
+um.
+
+In manchen Fällen ist VirtualBox nicht dazu in der Lage den entsprechenden Code korrekt zu
+interpretieren. Deshalb ist es unter Umständen notwendig gewisse Befehle in einer
+emulierten Umgebung auszuführen. Hierzu wird (unter Performanceeinbrüchen) Gebrauch von
+\textit{QEMU} gemacht. 
+
+Verfügt das Hostsystem jedoch über Hardwarevirtualisierung auf Prozessorebene 
+(z.B. intel VT-x\footnote{\url{http://ark.intel.com/Products/VirtualizationTechnology}}),
+kann entsprechender Kernelcode bis auf Ring 0 reichen und dort ordnungsgemäß ausgeführt werden.
+Auf diesem Weg ist zusätzlich
+ein Performancezuwachs bzw. kein Performanceverlust zu verzeichnen \cite{victor10}.
+
+\subsubsection{Motivation}
+\textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
+zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
+zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
+werden. So ergibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
+dedizierte Hardware erforderten und für sich alleine beanspruchten.
+
+Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
+ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
+Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
+Maschinen sehr gut zu Test- und Entwicklungszwecken. Auch das Betreiben von Legacy-Betriebssystemen
+ist in einer virtuellen Umgebuung möglich. Systeme können flexibel für unterschiedliche
+Situationen angepasst (oder auch isoliert) werden ohne dabei großen Aufwand zu generieren.
+Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (provisioniert) werden.
+
+Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
+kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
 
 \subsection{Projektumsetzung}
  \subsubsection{Anforderungen}
