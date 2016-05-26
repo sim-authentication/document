@@ -604,7 +604,7 @@ diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mi
 verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
- \subsubsection{Mathematische Grundlage}
+ \subsubsection{Algebraische endliche Körper}
  Der Algorithmus ist verständlich und anwendbar, auch ohne das Wissen über die mathematischen
  Grundlagen dazu. Trotzdem beruht die Tatsache, dass der Algorithmus funktioniert, auf Mathematik
  und diese soll hier erläutert werden. Konkret liegt dem Algorithmus die algebraische Struktur des
@@ -626,11 +626,11 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Dies ist eine kommutative Gruppe mit dem inversen Element $-a$, denn $\forall a \in \Z: a + (-a) = 0$.
  Mit der Operation $*$ hingegen gibt es kein neutrales Element, welches eine Gruppe ermöglichen
  würde. \\
- Eine weiterer Punkt ist der, dass die Menge nicht wie $\Z$ unendlich sein muss, damit eine Gruppenbildung
- möglich ist. Ein Beispiel dafür wird an dieser Stelle jedoch nicht geliefert.
+ Anzumerken ist, dass die Menge nicht wie $\Z$ unendlich sein muss, damit eine Gruppenbildung
+ möglich ist. Ein Beispiel dafür wird an jedoch erst zu einem späteren Zeitpunkt geliefert.
  
  Die Fortsetzung der Gruppe ist der Körper. Diese Struktur unterstützt die vier arithmetischen Basisoperationen
- Addition, Subtraktion, Multiplikation und Division. Die Definition für einen Körper $K$ lautet:
+ Addition, Subtraktion, Multiplikation und Division. Die Definition für einen Körper $K$ lautet \cite{paar10}:
 
  \begin{enumerate}
  	\item Alle Elemente aus $K$ bilden eine additive Gruppe mit dem Gruppenoperator ``$+$'' und dem neutralen Element 0.
@@ -639,18 +639,129 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 		$\forall a, b, c \in K: a \times (b + c) = (a \times b) + (a \times c)$
  \end{enumerate}
 
- Ähnlich wie bei Rijndael spielen im Großteil der Kryptographie die endlichen Körper eine große Rolle.
- Die endliche Menge, die einen Körper zu einem endlichen Körper machen, ist zählbar und die Anzahl
- der Elemente wird ``Ordnung'' oder ``Kardinalität'' genannt. Ein Körper kann jedoch nur
- mir folgendem Theorem endlich sein:
+ Ähnlich wie bei Rijndael spielen im Großteil der Kryptographie die endlichen Körper, oder Galois-Feld genannt,
+ eine große Rolle. Die endliche Menge, die einen Körper zu einem endlichen Körper machen, ist zählbar und
+ die Anzahl der Elemente wird ``Ordnung'' oder ``Kardinalität'' genannt. Ein Körper kann jedoch nur
+ mit folgendem Theorem endlich sein \cite{paar10}:
  
  \begin{center}
-  \parbox{14.2cm}{\centering
-   Ein Körper mit einer Ordnung $m$ existiert nur, wenn $m$ eine Primzahlpotenz ist, wie z.B.:
+  \parbox{12cm}{\centering
+   Ein Körper mit einer Ordnung $m$ existiert nur, wenn $m$ eine Primzahlpotenz ist:
    $m = p^n$, mit einer positiven ganzen Zahl $n$ und einer Primzahl $p$. $p$ heißt ``Charakteristik''
    von $K$.
   }
  \end{center} 
+ 
+ Daraus folgt, dass ein endlicher Körper mit der Kardinalität von $11 = 11^1$ oder $81 = 3^4$ existiert, aber
+ nicht 12, da $12 = 2^2 * 3$. Die einfachsten Körper sind dabei wohl die mit einer Primzahlcharakteristik, also
+ mit $n = 1$, sogenannte ``Primkörper''.
+ 
+ Die Elemente des Galois-Felds $GF(p)$ werden mit ganzen Zahlen repräsentiert: $0, 1, \dots, p-1$. Die arithmetischen
+ Rechenoperationen werden \emph{modulo} $p$ betrieben. Dadurch ist das additive Inverse eines Elements $a$ gegeben
+ mit $a + (-a) = 0$ modulo $p$ und das multiplikative Inverse jedes Elements $a$ außer 0 ist definiert als $a * a^{-1} = 1$.
+ Nachfolgend ist ein kleines Beispiel mit $GF(5)$ zum besseren Verständnis:
+ 
+ %%TODO: Kriege es nicht besser gestylt...
+\begin{minipage}{0.5\textwidth}
+\textbf{Addition:} \\ \\
+    \begin{tabular}{l|lllll}
+    $+$ & 0 & 1 & 2 & 3 & 4 \\ \hline
+    0      & 0 & 1 & 2 & 3 & 4 \\
+    1      & 1 & 2 & 3 & 4 & 0 \\
+    2      & 2 & 3 & 4 & 0 & 1 \\
+    3      & 3 & 4 & 0 & 1 & 2 \\
+    4      & 4 & 0 & 1 & 2 & 3 \\
+    \end{tabular}
+    \\
+    \\
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\textbf{Additives Inverses:}
+  \begin{flalign*}
+    -0 = 0 \\
+    -1 = 4 \\
+    -2 = 3 \\
+    -3 = 2 \\
+    -4 = 1 \\
+  \end{flalign*}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\textbf{Multiplikation:} \\ \\
+    \begin{tabular}{l|lllll}
+    $\times$ & 0 & 1 & 2 & 3 & 4 \\ \hline
+    0 	        & 0 & 0 & 0 & 0 & 0 \\
+    1             & 0 & 1 & 2 & 3 & 4 \\
+    2             & 0 & 2 & 4 & 1 & 3 \\
+    3             & 0 & 3 & 1 & 4 & 2 \\
+    4             & 0 & 4 & 3 & 2 & 1 \\
+    \end{tabular}
+    \\
+    \\
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\textbf{Multiplikatives Inverses:}
+  \begin{flalign*}
+    0^{-1} &~ \text{existiert nicht} \\
+    1^{-1} &= 1 \\
+    2^{-1} &= 3 \\
+    3^{-1} &= 2 \\
+    4^{-1} &= 4 \\
+  \end{flalign*}
+\end{minipage}
+ Ein wichtiger Primkörper ist $GF(2)$, welcher der kleinste endliche Körper ist, der existiert und wichtig
+ für AES ist. Die Addition kommt in diesem Körper der booleschen XOR-Operation gleich. Gleichzeitig
+ produziert die Multiplikation das selbe Ergebnis wie die boolesche Und-Operation:
+ 
+ \begin{minipage}{0.5\textwidth}
+\textbf{Addition:} \\
+    \begin{tabular}{l|lllll}
+    $+$  & 0 & 1 \\ \hline
+    0 	  & 0 & 1 \\
+    1       & 1 & 0 \\
+    \end{tabular}
+    \\
+    \\
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\textbf{Multiplikation:} \\
+    \begin{tabular}{l|lllll}
+    $\times$ & 0 & 1 \\ \hline
+    0 	        & 0 & 0 \\
+    1             & 0 & 1 \\
+    \end{tabular}
+    \\
+    \\
+\end{minipage}
+ 
+ Als letzte Struktur sei die Körpererweiterung erwähnt, welche als $GF(2^m)$ geschrieben werden kann,
+ mit $m > 1$. AES hat seinen Algorithmus auf der Körpererweiterung $GF(2^8)$ aufgebaut, da sich damit
+ alle 256 Werte eines Bytes repräsentieren lassen. Da 256 offensichtlich keine Primzahl ist, können die
+ Additionen und Multiplikationen nicht repräsentiert werden durch die Ganzzahlige Addition und Multiplikation
+ modulo $2^8$. Deshalb wird zum einen eine andere Notation für die Elemente des Körpers benötigt und
+ zum anderen neue Regeln für die Durchführung der arithmetischen Rechenoperationen. Nachfolgend soll
+ aufgezeigt werden, dass die Elemente als ``Polynome'' dargestellt werden können und darauf aufbauend
+ ``polynome Arithmetik'' durchgeführt werden kann \cite{paar10}. Jedes Polynom $A \in GF(2^m)$ wird
+ dargestellt als:
+ \begin{equation*}
+   A(x) = a_{m-1}x^{m-1} + \hdots + a_1x + a_0, ~~~ a_i \in GF(2)
+ \end{equation*}
+ 
+ Die polynome Arithmetik wird nun im folgenden Kapitel erklärt speziell für die Körpererweiterung
+ $GF(2^8)$.
+ 
+ \subsubsection{Polynome Arithmetik in $\mathbf{GF(2^8)}$}
+ Die Addition bei einem endlichen Körper wird erreicht durch die Addition der einzelnen Koeffizienten. Wie
+ im vorherigen Kapitel gezeigt, bedeutet das, dass die jeweiligen Koeffizienten über eine XOR-Operation
+ verrechnet werden. Nachfolgend ist ein kurzes Beispiel der Addition mit unterschiedlichen Notationen
+ aufgeführt:
+ 
+ \begin{equation*}
+  \begin{aligned}
+   (x^6 + x^4 +x^2 + x + 1) + (x^7 + x + 1) &= x^7 + x^6 + x^4 + x^2 & \text{(polynome Notation)} &\\
+   01010111_2 \oplus 10000011_2 &= 11010100_2 & \text{(binäre Notation)} &\\
+   57_{16} \oplus 83_{16} &= d4_{16} & \text{(hexadezimale Notation)} &\\
+  \end{aligned}
+ \end{equation*}
  
  
  
