@@ -750,20 +750,104 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  $GF(2^8)$.
  
  \subsubsection{Polynome Arithmetik in $\mathbf{GF(2^8)}$}
+ \label{polynome-arithmetic}
  Die Addition bei einem endlichen Körper wird erreicht durch die Addition der einzelnen Koeffizienten. Wie
  im vorherigen Kapitel gezeigt, bedeutet das, dass die jeweiligen Koeffizienten über eine XOR-Operation
- verrechnet werden. Nachfolgend ist ein kurzes Beispiel der Addition mit unterschiedlichen Notationen
+ verrechnet werden. Die Addition ist wie folgt definiert \cite{paar10}:
+ 
+ \begin{center}
+  \parbox{14cm}{\centering
+   Sei $A(x), B(x) \in GF(2^8)$, dann wird die Summe dieser wie folgt berechnet:
+   \begin{equation*}
+    C(x) = A(x) + B(x) = \sum_{i=0}^7 c_ix^i, ~~~ c_i \equiv a_i + b_i ~\text{mod}~ 2
+   \end{equation*}
+  }
+ \end{center} 
+ 
+ Nachfolgend ist ein kurzes Beispiel der Addition mit unterschiedlichen Notationen
  aufgeführt:
  
- \begin{equation*}
+ \begin{equation}
   \begin{aligned}
    (x^6 + x^4 +x^2 + x + 1) + (x^7 + x + 1) &= x^7 + x^6 + x^4 + x^2 & \text{(polynome Notation)} &\\
    01010111_2 \oplus 10000011_2 &= 11010100_2 & \text{(binäre Notation)} &\\
    57_{16} \oplus 83_{16} &= d4_{16} & \text{(hexadezimale Notation)} &\\
   \end{aligned}
+  \label{math:addition}
+ \end{equation}
+ 
+ In der polynomen Repräsentation entspricht die Multiplikation in $GF(2^8)$ (dargestellt durch $\cdot$) der
+ Multiplikation von Polynomen modulo eines ``irreduziblen Polynoms'' achten Grades. Dabei ist ein Polynom
+ irreduzibel, wenn es nur durch 1 und sich selbst teilbar ist, ähnlich einer Primzahl. Das irreduzible
+ Polynom des AES-Algorithmus ist:
+  \begin{equation}
+   m(x) = x^8 + x^4 + x^3 + x + 1
+  \label{math:aes-polynom}
+  \end{equation}
+ Ein Beispiel eines reduzierbaren Polynoms ist $x^8 +x^3 + x^2 + 1$, da
+ \begin{equation*}
+   x^8 +x^3 + x^2 + 1 = (x^5 + x^2 + 1) \cdot (x^3 + 1)
  \end{equation*}
  
+ Mit der Kenntnis des irreduziblen Polynoms, lässt sich auch die Multiplikation vollständig definieren:
  
+ \begin{center}
+  \parbox{13cm}{\centering
+   Sei $A(x), B(x) \in GF(2^8)$, dann wird die Multiplikation von zwei Elementen $A(x), B(x)$
+   und irreduziblen Polynom $m(x)$ berechnet mit
+   \begin{equation*}
+    C(x) = A(x) \cdot B(x) ~\text{mod}~ m(x)
+   \end{equation*}
+  }
+ \end{center} 
+ 
+ So ist bei der Multiplikation statt Addition der beiden Polynome aus Gleichung \ref{math:addition} das
+ Ergebnis $x^7 + x^6 +1$.
+ 
+ Das Multiplizieren zweier Polynome auf dem einfachsten Wege ohne Tricks dauert jedoch ziemlich lange
+ und im Anschluss muss noch durch $m(x)$ dividiert werden. Das führt zwar am Ende zum richtigen Ergebnis,
+ aber ist wie gesagt sehr zeitaufwändig. In der Spezifikation des AES wird deshalb eine Methode angeboten,
+ wie ebenfalls das richtige Ergebnis zustande kommt, aber wesentlich effizienter.
+ 
+ Die Funktion, die in der Spezifikation vorgeschlagen wird, heißt \emph{xtime(A(x))} und multipliziert
+ $A(x)$ mit $x$ und reduziert durch $m(x)$. Es gilt:
+ \begin{equation*}
+    C(x) = xtime(A(x)) = A(x) * x = \sum_{i=0}^7 a_ix^{i+1}, ~ \text{für}~ A \in GF(2^8)
+ \end{equation*}
+ 
+ Um bei einer Größe von 8 Bits für $C(x)$ zu bleiben, wird vor der Schiebeoperation überprüft, ob
+ $a_7$ 0 oder 1 ist. Wenn das Bit 0 ist wird nach anwenden der Funktion $C(x)$ kleiner $m(x)$ sein. In
+ diesem Falle ist im Anschluss keine Modulo-Operation nötig. Diese wird nur nötig wenn $a_7$ 1 ist. Dann
+ muss C(x) noch modulo dem hinteren Teil von $m(x)$ berechnet werden, nämlich $x^4 + x^3 + x +1$. Es
+ muss nur mit dem hinteren Teil des irreduziblen Polynom $m(x)$ reduziert werden, da $x^8$ nicht genutzt
+ wird in $C(x)$. \cite{AES-FIPS}
+ 
+ Weiter ist $C(x) = m(x) + r$, wobei $r = A(x)$ mod $m(x)$. Daraus folgt:
+ \begin{equation*}
+    C(x) = xtime(A(x)) \oplus \begin{cases}
+      0	 		& \text{wenn $a_7 = 0$},\\
+      00011011_2 	& \text{wenn $a_7 = 1$}.
+     \end{cases}
+ \end{equation*}
+ 
+ Die Funktion \emph{xtime()} kann außerdem rekursiv verwendet werden. Das bedeutet, dass
+ \begin{equation*}
+    A(x) * x^3 = xtime(A(x) * x^2) = xtime(xtime(A(x) * x)) = xtime(xtime(xtime(A(x))))
+ \end{equation*}
+ 
+ Das Ergebnis der Berechnung zweier Werte $A(x), B(x)$ kann damit erzielt werden, in dem die einzelnen
+ Zwischenergebnisse von $B(x)$ aufaddiert werden mit $A(x)$. Dazu ein letztes Beispiel:
+  \begin{flalign*}
+   &A(x) = x^6 + x^4 + x^2 + x^1 + 1, B(x) = x^4 + x^1 + 1 \\
+   &A(x) \cdot B(x) = x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + x^1 ~~\text{, weil} \\
+   &A(x) * x^1 = x^7 + x^5 + x^3 + x^2 + x^1 \\
+   &A(x) * x^4 = x^2 + x^1 + 1 \\
+   &\Rightarrow ( x^6 + x^4 + x^2 + x^1 + 1) \oplus (x^7 + x^5 + x^3 + x^2 + x^1) \oplus (x^2 + x^1 + 1) \\
+   & ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ = x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + x^1 \\
+  \end{flalign*}
+ 
+ Damit ist die Berechnung der beiden Elemente deutlich effizienter und dient als gute Grundlage für die
+ Implementierung der AES-Chiffre. Diese wird im folgenden Kapitel beschrieben.
  
  \subsubsection{Funktionsweise}
  \label{aes-funktion}
