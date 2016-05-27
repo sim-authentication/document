@@ -234,7 +234,6 @@ Die Funktion entspricht trotzdem der einer gewöhnlichen \textit{Mini-} oder \te
 Zur Verwendung der unterschiedlichen Formfaktoren muss lediglich der eingesetzte Kartenleser
 geeignet gewählt werden.
 
-
 \subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
 Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
 Chipkartenstandards. Weit verbreitete Standards für die Kommunikation sind
@@ -1012,7 +1011,17 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 
   \paragraph{Rundendurchlauf}
   Es wurde schon erwähnt, dass AES-128, der bei Milenage genutzt wird, 10 Runden durchläuft. Die einzelnen Schritte
-  der Runden und was vorher noch passiert wird dargestellt im \Anhang{abb:funktion_aes}.
+  der Runden und was vorher noch passiert wird dargestellt im \Anhang{abb:funktion_aes}. In der gezeigten Abbildung
+  wird der Rundenschlüssel für die jeweilige Runde berechnet. Alternativ können in Runde 0 aber auch direkt alle
+  Rundenschlüssel berechnet werden. Auf jeden Fall wird aber zu Beginn in Runde 0 die addRoundKey-Transformation
+  durchgeführt. \\
+  In den Runden 1 bis 9 werden alle vier Operationen abwechselnd durchgeführt. Erst werden die Bytes substituiert, dann
+  die Zeilen und Spalten vermischt und zum Schluss wieder der Rundenschlüssel addiert. Bis auf MixColumns werden werden
+  alle Transformationen auch in der letzten Runde getätigt. Der Grund dafür ist, dass MixColumns und AddRoundKey in
+  der Reihenfolge vertauscht werden können, ohne dass sich das Endergebnis ändert. Nun ist es so, dass MixColumns
+  nicht vom Schlüssel abhängig ist, was bedeutet, dass Angreifer MixColumns zurückrechnen können ohne den Schlüssel
+  zu kennen. Die Transformation in der letzten Runde anzuwenden würde also lediglich Rechenzeit benötigen, aber würde
+  den Schlüssel nicht sicherer machen, weshalb die Transformation im letzten Schritt weggelassen wurde. \cite{schmeh07}
   
    \subsubsection{AES Vizualization Tool}
    \label{subsubsec:aesviz}
