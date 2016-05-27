@@ -7,8 +7,9 @@
 	Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
 	der Linuxdistribution Ubuntu eingesetzt. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
 	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine betrieben.
-	Diese weist folgende Eigenschaften auf:\vspace*{5mm}
+	Diese weist folgende Eigenschaften auf:
 
+	\begin{table}[h]
 	\begin{tabularx}{\textwidth}{|l|X|}
     	\hline
       		\textbf{Gerät} & \textbf{Typ} \\
@@ -26,7 +27,8 @@
     		NIC & 2x Bridged (1x auf enp0s25; 1x auf wlp3s0) \\
     	\hline
     	\end{tabularx}
-        \captionof{table}{Eigenschaften der virtuellen Maschine}\vspace*{5mm}
+       	\caption{Eigenschaften der virtuellen Maschine}
+       	\end{table}
 
     	Aufgrund der Tatsache dass nur ein einziger Client über den Zugang von \textit{PPPoE}
     	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher

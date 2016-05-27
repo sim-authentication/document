@@ -79,8 +79,9 @@ linear flexibel,...).
 \paragraph{Informationen} in Dateien auf SIM-Karten können entweder read-only- oder read-write-
 Berechtigungen aufweisen. Je nach Art der Information. Sicherheits- und identitätsbezogene
 Dateien sind in der Regel read-only abgelegt, wobei SMS-Nachrichten sowie Kontaktdaten
-read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf der SIM-Karte gespeichert:\vspace*{5mm}
+read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf der SIM-Karte gespeichert:
 
+\begin{table}[h]
     \begin{tabularx}{\textwidth}{|l|X|}
     \hline
       \textbf{Name} & \textbf{Beschreibung} \\
@@ -110,7 +111,8 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
       Kontakte & Vom Teilnehmer verwaltete Kontakte \\
     \hline
     \end{tabularx}
-    \captionof{table}{Auf SIM-Karten gespeicherte Informationen}\vspace*{5mm}
+    \caption{Auf SIM-Karten gespeicherte Informationen}
+  \end{table}
 
 \paragraph{IMSI} Wie bereits aus der Tabelle hervorgeht identifiziert die \ac{IMSI} weltweit
 einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
@@ -121,6 +123,7 @@ verwendet. Nordamerika hingegen verwendet 3 Stellen.
 
 In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusammengesetzt:\vspace*{5mm}
 
+  \begin{table}[h]
     \begin{tabularx}{\textwidth}{|l||l|l|X|}
     \hline
       \textbf{Betreiber} & \textbf{MCC} & \textbf{MNC} & \textbf{MSIN} \\
@@ -132,7 +135,8 @@ In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusa
       Vodafone & 262 & 02 & ...\\
     \hline
     \end{tabularx}
-    \captionof{table}{Ländercodes und Mobilfunkbetreiber}\vspace*{5mm}
+    \caption{Ländercodes und Mobilfunkbetreiber}
+  \end{table}
 
 Nach dem \ac{MCC} und \ac{MNC} identifiziert die \ac{MSIN} letztendlich
 den Teilnehmer im jeweiligen Providerteil des Landes.
@@ -1697,6 +1701,7 @@ oder dem weiterleiten von USB-Geräten.
 \paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
 Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:\vspace*{5mm}
 
+\begin{table}
     \begin{tabularx}{\textwidth}{|l||X|}
     \hline
       \textbf{Bezeichnung} & \textbf{Beschreibung} \\
@@ -1717,7 +1722,8 @@ Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:\vspace*{5
       VirtualBox & Der Clientdienst, der Ressourcenlimits definieren lässt und diese verwaltet. \\
     \hline
     \end{tabularx}%WIP
-    \captionof{table}{Prozessarchitektur von VirtualBox}
+    \caption{Prozessarchitektur von VirtualBox}
+\end{table}
 
 \subsubsection{Hypervisor}
 \label{subsubsec:hypervisor}
