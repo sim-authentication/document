@@ -5,8 +5,8 @@
 %TODO: #edit Ubuntu und PPPoE klingen eher wie eine Anleitung, als wie eine "Dokumentation"
 	\subsubsection{Ubuntu}
 	Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
-	der Linuxdistribution Ubuntu installiert. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
-	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine installiert.
+	der Linuxdistribution Ubuntu eingesetzt. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
+	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine betrieben.
 	Diese weist folgende Eigenschaften auf:
 
 	\begin{tabularx}{\textwidth}{|l|X|}
@@ -26,6 +26,7 @@
     		NIC & 2x Bridged (1x auf enp0s25; 1x auf wlp3s0) \\
     	\hline
     	\end{tabularx}
+        \captionof{table}{Eigenschaften der virtuellen Maschine}
 
     	Aufgrund der Tatsache dass nur ein einziger Client über den Zugang von \textit{PPPoE}
     	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher
@@ -33,21 +34,21 @@
     	auf jeweils eine physikalisch Schnittstelle geleitet werden. Dies ist notwendig,
     	da sowohl die \ac{MS} über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein wird,
     	als auch eine Dauerhafte Internetverbindung mit der verbleibenden Schnittstelle
-    	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentisierung
+    	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentifizierung
     	des \ac{MS} den Zugang zum Internet freizuschalten.
 
     	\subsubsection{PPPoE}
-    	Die Einrichtung von \textit{PPPoE} kann nach der vollständigen Ubuntuinstallation durchgeführt werden. Hierzu wird die aktuelle
+    	Die Einrichtung von \textit{PPPoE} basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
-    	heruntergeladen und auf dem Server entpackt. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
+    	bezogen. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
     	des Point-To-Point-Protocol (als \textit{ppp} erhältlich) benötigt. Sind diese beiden Grundvoraussetzungen
-    	abgedeckt wird der Roaring Penguin PPPoE-Server ohne spezielle Änderungen kompiliert.
+    	abgedeckt wird der Roaring Penguin PPPoE-Server ohne spezielle Änderungen aus dem Quellcode kompiliert.
 
-    	In der Datei \textit{/etc/ppp/pppoe-server-options} werden die Parameter gesetzt. Anzugeben
+    	In der Datei \textit{/etc/ppp/pppoe-server-options} werden die notwendigen Parameter gesetzt. Anzugeben
     	sind die DNS-Server sowie die CHAP-Authentifizierung. Der User für die Authentifizierung
     	wird unter \textit{/etc/ppp/chap-secrets} definiert.
 
-    	Der zu verwendende Adresspool an IP-Adressen ist unter \textit{/etc/ppp/allip} anzugeben.
+    	Der zu verwendende Adresspool an IP-Adressen ist ebenfalls (unter \textit{/etc/ppp/allip}) anzugeben.
 
     	Abschließend fehlt noch die Deklaration der zu verwendenden Netzwerkschnittstelle (unter \textit{/etc/network/interfaces}),
     	die zum Betrieb mit PPPoE eingesetzt werden soll. Ihr muss eine valide IP-Adresse aus dem definierten
@@ -57,7 +58,7 @@
 
     	Damit die Internetverbindung nach erfolgreicher Authentifizierung des \ac{MS} auch
     	korrekt von Provider freigeschaltet und weitergeleitet wird, muss eine IPTables-Regel
-    	eingerichtet werden:
+    	folgernder Form eingerichtet werden:
 
     	\begin{lstlisting}[language=bash]
 		$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
@@ -69,7 +70,7 @@
 	Netzwerkschnittstelle bleibt mit Defaultwerten konfiguriert und fungiert als Zugangspunkt
 	zum Internet.
 
-	Nun kann der Server auf der gewünschten Netzwerkschnittstelle mit einer eigenen IP-Adresse
+	Der Server kann auf der gewünschten Netzwerkschnittstelle mit einer eigenen IP-Adresse
 	gestartet und genutzt werden:
 	\begin{lstlisting}[language=bash]
 		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
@@ -429,15 +430,15 @@
     \subsubsection{Implementierung des Clients}
     Wie bereits erläutert existiert neben dem Server (vgl. \Verweis{subsec:impl_server}) auch ein Client,
     damit die Kommunikation wie erwünscht realisiert werden kann. Hier handelt es sich um die Komponente,
-    die Zugriff auf die SIM-Karte hat (\emph{HE}) und alle notwendigen Informationen an den Server sendet.
+    die Zugriff auf die SIM-Karte hat (\emph{UE}) und alle notwendigen Informationen an den Server sendet.
     Alle notwendigen Funktionen sind entweder auf der SIM-Karte persistent gespeichert oder werden durch
     das Triggern der integrierten Funktionen generiert.
 
     Der Client wird in Python entwickelt und verwendet grundlegend die Bibliothek \textit{osmo-sim-auth}
     (vgl. \Verweis{subsec:osmosim}). Darüber hinaus kommen weitere  Bibliotheken zum Einsatz, die in
     Python den Kommunikationsaufbau mit Chipkarten ermöglicht (card-Utils, card-Sim und card-USIM).
-        % TODO: #edit wieso eigentlich keine subsubsecs?
-        \paragraph{Aufruf der Authentisierung} Diese Funktion wird im Clientprogramm im Abschnitt
+
+        \paragraph{Aufruf der Authentifizierung} Diese Funktion wird im Clientprogramm im Abschnitt
         \textit{handle\_usim} definiert. Es werden externe Informationen (falls vorhanden) für den Aufruf
         gesammelt und entsprechend an die SIM-Karte gesendet. In jedem Fall wird ein Authentifizierungsvorgang
         für eine USIM-Karte initiiert. \\
@@ -449,7 +450,7 @@
             durchzuführen.
 
             Die Form der Anfrage war korrekt, jedoch ist eine Resynchronisierung der übermittelten SQN erforderlich.
-            In diesem Fall muss der Aufruf des Authentisierungsvorgangs nach erfolgreicher neuberechnung der SQN
+            In diesem Fall muss der Aufruf des Authentifizierungsvorgangs nach erfolgreicher neuberechnung der SQN
             erneut durchgeführt werden.
 
             Die Form der Anfrage war korrekt, sowie die Beschaffenheit der übermittelten SQN. Ist dies der Fall,
@@ -469,11 +470,11 @@
 
         \paragraph{Verarbeiten der Nachrichten} Die vorliegende While-Schleife wird solange ausgeführt,
         bis entweder der Client oder der Server die Verbindung abbrechen. Dies gewährleistet die
-        Möglichkeit der erneuten Authentisierung.
+        Möglichkeit der erneuten Authentifizierung.
 
         In der Schleife werden Nachrichten auf Basis der Informationen, die von der SIM-Karte geliefert werden
         an den Server gesendet. Ebenso werden von selbigem Informationen empfangen. Je nach aktuellem Zustand
-        bzw. Position im Authentisierungsvorgang, werden unterschiedliche Operationen ausgeführt.
+        bzw. Position im Authentifizierungsvorgang, werden unterschiedliche Operationen ausgeführt.
         Welche Operationen ausgeführt werden müssen, wird anhand des Statuscodes erkannt. Dieser kann
         jeweils aus den Nachrichten des Servers extrahiert werden. Auf entsprechende Werte wird immer
         über die Länge bzw. Start- und Endstelle zugegriffen. So extrahiert der Client beispielsweise
@@ -499,8 +500,8 @@
     \paragraph{Statuscode 1:} Der Server kann aufgrund des Statuscodes die Beschaffenheit
     der Clientnachricht assoziieren und daraufhin die IMSI extrahieren. Der Client führt
     nach Empfang der Serverantwort, die einen Wert für sowohl AUTN als auch RAND enthält, den
-    ersten Authentisierungsversuch durch. Glückt dieser, generiert die SIM-Karte bereits zu diesem
-    Zeitpunkt schon Werte für die Vektoren Ck, Ik und RES und der Authentisierungsvorgang ist
+    ersten Authentifizierungsversuch durch. Glückt dieser, generiert die SIM-Karte bereits zu diesem
+    Zeitpunkt schon Werte für die Vektoren Ck, Ik und RES und der Authentifizierungsvorgang ist
     erfolgreich beendet. Sollte dies nicht der Fall sein, antwortet die SIM-Karte mit einem Wert für
     AUTS, da die Resynchronisation der SQN noch aussteht. Der Statuscode des Clients wird auf 2 gesetzt
     und eine weitere Iteration des Vorgangs aufgerufen.
@@ -510,8 +511,8 @@
 
     \paragraph{Statuscode 3:} Erhält der Server diesen Statusocde führt er die Resynchronisation der SQN
     aus. Dies erfolgt anhand der vom Client erhaltenen AUTS. Hat der Server dies abgeschlossen, übergibt er
-    den neu errechneten Wert an den Client zurück. Dieser nimmt den Wert an und führt die Authentisierung
+    den neu errechneten Wert an den Client zurück. Dieser nimmt den Wert an und führt die Authentifizierung
     erneut aus. Glückt dieser Vorgang antwortet die SIM-Karte schließlich mit den gewünschten Vektoren
-    Ck, Ik und RES. Die Authentisierung ist hier erfolgreich abgeschlossen.
+    Ck, Ik und RES. Die Authentifizierung ist hier erfolgreich abgeschlossen.
 
 \clearpage

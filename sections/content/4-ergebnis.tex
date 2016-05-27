@@ -4,7 +4,7 @@
 	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, bzw.
 	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
 
-	\subsection{Tests}
+	\subsection{Funktionsprüfung}
 	\label{ergebnis-tests}
 	Nachfolgende Tabelle liefert zunächst eine Übersicht zu implementierten und im Anschluss
 	getesteten Funktionen:
@@ -14,7 +14,7 @@
       \textbf{Funktion} & \textbf{Komplikationen bei Integration bzw. Implementierung} & \textbf{Abschliessender Erfolg} \\
     \hline
     \hline
-     	Bereitstellung des Raspberry Pis (HE) & $\bullet$ & $\checkmark$ \\
+     	Bereitstellung des Raspberry Pis (UE) & $\bullet$ & $\checkmark$ \\
     \hline
     \hline
      	Bereitstellung der virtuellen Maschine (Provider) & $\circ$ & $\checkmark$ \\
@@ -38,6 +38,9 @@
     	Integration aller Komponenten zur Athentisierung & $\bullet$ & $\checkmark$ \\
     \hline
     \end{tabularx}
+    \captionof{table}{Ergebnisse der Funktionsprüfung}
+
+    $\bullet$=eingetreten; $\circ$=nicht eingetreten; $\checkmark$=Erfolg; \ding{55}=Misserfolg
 
     Wie dieser Tabelle zu entnehmen ist, konnten alle gewünschten Funktionen sichergestellt werden.
     Welche Komplikationen auftraten und mit welchen Mitteln diese behoben wurden, ist im
@@ -46,16 +49,16 @@
 
 		\subsubsection{AES}
 		Wie bereits unter Kapitel \Verweis{implementierung-aes} erläutert, basierte die Implementierungsphase
-		primär auf der Entwicklung der \textbf{AES}-Verschlüsselung. 
+		primär auf der Entwicklung der \textit{AES}-Verschlüsselung. 
 
 		Während der Implementierung wurde das Tool AES-Vizualization\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}} eingesetzt (vgl. \Verweis{subsubsec:aesviz}).
-		Dieses ermöglicht es den \textbf{AES}-Algorithmus schrittweise zu durchlaufen.
+		Dieses ermöglicht es den \textit{AES}-Algorithmus schrittweise zu durchlaufen.
 		Um die Korrektheit der Implementierung nachzuvollziehen wurde der \textit{Practice-Mode}
 		des Tools verwendet. Nach dem Start des Tools werden zwei Testwerte für den
 		Eingabetext sowie den CypherKey generiert. Diese wurden jeweils in die eigene
 		Implementierung übertragen und dann alle Folgeschritte geprüft.
 
-		Auf diesem Weg konnten alle Funktionen vom \textbf{SubBytes}, über \textit{ShiftRows},
+		Auf diesem Weg konnten alle Funktionen vom \textit{SubBytes}, über \textit{ShiftRows},
 		\textit{MixColumns}, \textit{AddRoundKey} bis hin zum \textit{KeySchedule} erfolgreich verifiziert
 		werden.
 
@@ -90,18 +93,18 @@
 		Teiberinterne Scan-Mechanismen gaben Auskunft über das vorhandensein einer SIM-Karte,
 		sowie rudimentäre Abfragen. So kann z.B. die IMSI direkt ausgelesen werden.
 
-		\subsubsection{HeuKel}
+		\subsubsection{Client- und Server-Kommunikation}
 		Die Kommunikation zwischen Client- und Server-Komponenten wurden über die bereits zuvor
 		fertiggestellte Implementierung der jeweiligen Gegenseite getestet.
 
-		Auf der Seite des Providers (HLR) wurden zuerst die erwarteten Werte der SIM-Karte, sowie
-		das Initiieren der Authentisierung hart kodiert. Hierbei wurde natürlich die spätere
-		Reihenfolge des Authentisierungsvorgangs eingehalten. Nach Sicherstellung dieses Vorgangs
+		Auf der Seite des Providers (AuC) wurden zuerst die erwarteten Werte der SIM-Karte, sowie
+		das Initiieren der Authentifizierung hart kodiert. Hierbei wurde natürlich die spätere
+		Reihenfolge des Authentifizierungsvorgangs eingehalten. Nach Sicherstellung dieses Vorgangs
 		konnten umgekehrt die Antworten bzw. Anfragen des Providers auf der Seite des Teilnehmers
 		simuliert werden. Ebenfalls hart kodiert.
 
 		Im Anschluss daran wurden beide Teilkomponenten im realen Umfeld verbunden und der
-		Authentisierungsablauf erneut geprüft.
+		Authentifizierungsablauf erneut geprüft.
 
 		\subsubsection{PPPoE}
 		Der ordnungsgemäße Aufbau der PPPoE-Verbindung ließ sich durch die Diensteigene

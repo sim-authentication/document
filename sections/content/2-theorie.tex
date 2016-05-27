@@ -92,7 +92,7 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
           \ac{PUK} & Sicherheitscode bei Wiederfreischaltung der SIM-Karte \\
     \hline
     \hline
-      K\textsubscript{i} & Eindeutiger Authentisierungsschlüssel. Teilnehmer und Provider verfügen über ihn. \\
+      K\textsubscript{i} & Eindeutiger Authentifizierungsschlüssel. Teilnehmer und Provider verfügen über ihn. \\
     \hline
     \hline
       \ac{IMSI} & Identifiziert einen Netzteilnehmer weltweit anhand dieser Zeichenfolge \\
@@ -110,8 +110,8 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
       Kontakte & Vom Teilnehmer verwaltete Kontakte \\
     \hline
     \end{tabularx}
+    \captionof{table}{Auf SIM-Karten gespeicherte Informationen}
 
-% TODO: #edit poor citation
 \paragraph{IMSI} Wie bereits aus der Tabelle hervorgeht identifiziert die \ac{IMSI} weltweit
 einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
 \ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
@@ -131,7 +131,8 @@ In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusa
     \hline
       Vodafone & 262 & 02 & ...\\
     \hline
-    \end{tabularx}%WIP
+    \end{tabularx}
+    \captionof{table}{Ländercodes und Mobilfunkbetreiber}
 
 Nach dem \ac{MCC} und \ac{MNC} identifiziert die \ac{MSIN} letztendlich
 den Teilnehmer im jeweiligen Providerteil des Landes.
@@ -145,7 +146,6 @@ Aus diesem Grund wird gemieden die IMSI öfter als tatsächlich notwendig
 zu versenden. Damit diese nicht immer benötigt wird, generiert das
 \ac{VLR} immer eine vorübergehend gültige \ac{TMSI} \cite{3gpp.33.003}.
 
-% TODO: #edit poor citation
 \paragraph{TMSI} Diese Zahl wird generiert, damit Teilnehmer nicht
 durch die Übermittlung ihrer \ac{IMSI} identifiziert und abgehört werden.
 Ist ein mobiles Endgerät im Mobilfunknetz angemeldet, bekommt es vom
@@ -156,7 +156,7 @@ Die Erneuerung kann von beiden Seiten initiiert werden \cite{3gpp.33.003}.
 
 \label{par:imsicatcher}
 \paragraph{IMSI-Catcher} Machen sich zu Nutze, dass der
-Authentisierungsvorgang nur den Mobilfunkteilnehmer, nicht aber den 
+Authentifizierungsvorgang nur den Mobilfunkteilnehmer, nicht aber den 
 Provider, verifiziert. Dies wurde erst mit der Einführung von \ac{UMTS}
 nachgerüstet.
 
@@ -178,9 +178,7 @@ Sie wird nicht auf der SIM-Karte gespeichert. % TODO: #edit gehört dementsprech
 Gestohlene Geräte können auf diesem Weg von der Nutzung in
 Mobilfunknetzen ausgeschlossen werden. 
 
-%% TODO #edit bei bedarf hier noch formfaktoren einbringen
-
-\paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentisierung, Kryptographie
+\paragraph{Befehlsklassen} werden nach Dateiverwaltung, Authentifizierung, Kryptographie
 und Zählvariablen unterschieden\cite{spitz11}. Einzelne Kommandos, die in diese
 Klassen eingeteilt sind, werden immer als \ac{APDU} versandt sowie empfangen.
 
@@ -259,7 +257,7 @@ nachfolgenden Abbildung wird der Zusammenhang dargestellt.
  \begin{center}
   \includegraphics[width=180pt]{simauth_chipkartensicherheit}
  \end{center}
- \caption[Ablauf der GSM-Authentisierung]{Ablauf der GSM-Authentisierung \cite{spitz11}}
+ \caption[Ablauf der GSM-Authentifizierung]{Ablauf der GSM-Authentifizierung \cite{spitz11}}
  \label{abb:simauth}
 \end{figure}
 
@@ -272,7 +270,7 @@ mit welchen die Nutzdaten (z.B. Sprache) sicher übertragen werden können.
 \paragraph{UMTS} weist einige Unterschiede zum GSM-Mobilfunknetz auf, wobei die
 vorhergehende Architektur aus Gründen der Abwärtskompatibilität weiterhin bestehen bleibt
 (\ac{VLR},\ac{HLR},\ac{AuC}). Es wird die Variante der USIM als zentrale Chipkarte
-eingesetzt. Der Ablauf der Authentisierung hingegen weicht vom Vorgänger etwas ab.
+eingesetzt. Der Ablauf der Authentifizierung hingegen weicht vom Vorgänger etwas ab.
 Dieser wird dadurch erweitert, dass das \ac{AuC} sich nun auch gegenüber der \ac{USIM}
 authentisiert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
 geprüft wird, ob eine valide Gegenstelle vorliegt. \ac{IMSI}-Catchern wird es damit
@@ -280,10 +278,9 @@ schwerer gemacht eine Form des \textit{Man-In-The-Middle}-Angriffs zu ermöglich
 Dementsprechend wird auch das Mitschneiden von Gesprächen erschwert. Weiterführend
 wird im Gegensatz zu \ac{GSM} nun auch der Verkehr zwischen \ac{HLR} und \ac{VLR}
 verschlüsselt realisiert \cite{spitz11}.
-Die Authentisierung selbst über den Milenage-Algorithmus ist ebenfalls ausgebaut
+Die Authentifizierung selbst über den Milenage-Algorithmus ist ebenfalls ausgebaut
 und verfügt nun über weitere Vektoren, die im nachfolgenden Kapitel näher
 erläutert werden.
-%% TODO #edit hier vielleicht noch die abbildung für umts einfügen!?
 
 %% Authentifizierungsvorgang %%
 \subsection{Authentifizierungsvorgang}
@@ -1311,7 +1308,6 @@ Ethernet-Devices ausgetauscht werden.
 
 %% PC/SC %%
 \subsection{PC/SC}
-%TODO: Die Kausalkette ist für mich nicht logisch #CHECK
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
 mit mehreren (parallel arbeitenden) Teilnehmern zu organisieren. Ein Standard, der sich mit genau
@@ -1520,7 +1516,7 @@ Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit 
 in ihrer Funktion erweitert.
 
 \subsection{Bibliotheken}
-\subsubsection{pysim} % TODO #edit bei bedarf noch syntax etc nachtragen
+\subsubsection{pysim}
 \label{subsec:pysim}
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
 python-Skript, geschrieben von Kevin Prince,
@@ -1580,7 +1576,7 @@ APDUs stattfinden.
 Veröffentlicht wurde pyscard als freie Software unter der
 \textit{GNU Lesser General Public License}.
 
-\subsection{Ubuntu} % TODO: #edit vielleicht noch verschieben
+\subsection{Ubuntu}
 \label{subsec:ubuntu}
 Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
 gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
@@ -1698,7 +1694,7 @@ Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integratio
 oder dem weiterleiten von USB-Geräten.
 
 \paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
-Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}: %TODO: #edit kann das so bleiben?
+Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:
 
     \begin{tabularx}{\textwidth}{|l||X|}
     \hline
@@ -1720,6 +1716,7 @@ Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}: %TODO: #e
       VirtualBox & Der Clientdienst, der Ressourcenlimits definieren lässt und diese verwaltet. \\
     \hline
     \end{tabularx}%WIP
+    \captionof{table}{Prozessarchitektur von VirtualBox}
 
 \subsubsection{Hypervisor}
 \label{subsubsec:hypervisor}
