@@ -1,7 +1,7 @@
 \section{Ergebnis}
 	Die beiden nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests und deren Ergebnisse.
 	Hierbei wird näher darauf eingegangen für welche Teilaspekte welche Prüfmechanismen
-	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, bzw.
+	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, beziehungsweise
 	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
 
 	\subsection{Funktionsprüfung}
@@ -12,7 +12,7 @@
 	\begin{table}[h]
 	\begin{tabularx}{\textwidth}{|X||X|X|}
     \hline
-      \textbf{Funktion} & \textbf{Komplikationen bei Integration bzw. Implementierung} & \textbf{Abschliessender Erfolg} \\
+      \textbf{Funktion} & \textbf{Komplikationen bei Integration bzw. Implementierung} & \textbf{Abschließender Erfolg} \\
     \hline
     \hline
      	Bereitstellung des Raspberry Pis (UE) & $\bullet$ & $\checkmark$ \\
@@ -36,7 +36,7 @@
     	Integration PPPoE (Client und Server) & $\circ$ & $\checkmark$ \\
     \hline
     \hline
-    	Integration aller Komponenten zur Athentisierung & $\bullet$ & $\checkmark$ \\
+    	Integration aller Komponenten zur Authentisierung & $\bullet$ & $\checkmark$ \\
     \hline
     \end{tabularx}
     \caption{Ergebnisse der Funktionsprüfung}
@@ -92,7 +92,7 @@
 		Die Funktionalität des Treibers konnte durch ein entsprechendes identifizieren des
 		Betriebssystems in Form eines PC/SC-Gerät sichergestellt werden.
 
-		Teiberinterne Scan-Mechanismen gaben Auskunft über das vorhandensein einer SIM-Karte,
+		Teiberinterne Scan-Mechanismen gaben Auskunft über das Vorhandensein einer SIM-Karte,
 		sowie rudimentäre Abfragen. So kann z.B. die IMSI direkt ausgelesen werden.
 
 		\subsubsection{Client- und Server-Kommunikation}
@@ -102,14 +102,14 @@
 		Auf der Seite des Providers (AuC) wurden zuerst die erwarteten Werte der SIM-Karte, sowie
 		das Initiieren der Authentifizierung hart kodiert. Hierbei wurde natürlich die spätere
 		Reihenfolge des Authentifizierungsvorgangs eingehalten. Nach Sicherstellung dieses Vorgangs
-		konnten umgekehrt die Antworten bzw. Anfragen des Providers auf der Seite des Teilnehmers
+		konnten umgekehrt die Antworten beziehungsweise Anfragen des Providers auf der Seite des Teilnehmers
 		simuliert werden. Ebenfalls hart kodiert.
 
 		Im Anschluss daran wurden beide Teilkomponenten im realen Umfeld verbunden und der
 		Authentifizierungsablauf erneut geprüft.
 
 		\subsubsection{PPPoE}
-		Der ordnungsgemäße Aufbau der PPPoE-Verbindung ließ sich durch die Diensteigene
+		Der ordnungsgemäße Aufbau der PPPoE-Verbindung ließ sich durch die diensteigene
 		Log-Ausgabe verfolgen. Nach dem Start des Serverdienstes gibt dieser Auskunft
 		darüber, ob jetzt einkommende Verbindungen erwartet werden.
 
@@ -138,10 +138,10 @@
 
 			\paragraph{Ubuntu} konnte ohne Probleme installiert sowie betrieben werden.
 			Schon in der Standardinstallation des Server-Images können Netzwerkschnittstellen,
-			von Virtualbox bereitgestellt und direkt konfiguriert bzw. auch genutzt werden.
+			von Virtualbox bereitgestellt und direkt konfiguriert beziehungsweise auch genutzt werden.
 
 		\subsubsection{Fehleinschätzungen}
-		Die meisten und gravierendsten Fehleinschätzunden bzw. Probleme
+		Die meisten und gravierendsten Fehleinschätzungen beziehungsweise Probleme
 		wurden während der Inbetriebnahme der Karte sowie der Entwicklung
 		der Softwarekomponenten aufgedeckt.
 
@@ -175,7 +175,7 @@
 		\paragraph{AUTN} Unsicherheiten enstanden auch bei ersten Testdurchläufen
 		mit \textit{osmo-sim-auth}. Da zu diesem Zeitpunkt noch keine 
 		vollständige Implementierung zur Generierung aller benötigten
-		Werte existierte, wurde die Zusammensetzug für den
+		Werte existierte, wurde die Zusammensetzung für den
 		Parameter \textit{AUTN} zufällig gesetzt. Dies resultierte jedoch
 		darin, dass die SIM-Karte einen Fehler zurück lieferte. Mit
 		Analyse des Fehlercodes \textit{SW 98 62} wurde schnell klar,
@@ -192,7 +192,7 @@
 
 		Mit der bereits erläuterten Milenage-Prüfsoftware konnten fast
 		alle berechneten, übertragenen sowie von der SIM-Karte empfangenen
-		Werte korrekt verifiziert werden. Ausgehend von den festegelegten
+		Werte korrekt verifiziert werden. Ausgehend von den festgelegten
 		Geheimnissen \textit{K}, \textit{OP(c)}, dem ausgetauschten \textit{RAND}
 		über die berechneten Variablen \textit{f1-f5} bis hin zu \textit{Kc} sowie
 		\textit{SRES} auf beiden teilnehmenden Seiten.
@@ -201,14 +201,14 @@
 
 		Problematisch war jedoch die Integration des Codes in die bereitstehende
 		Umgebung. Während die Übertragung der Werte plangemäß verlief, antwortete
-		die SIM-Karte nicht mit den erwarteten Vektoren \textit{Ck}, \textit{Ik}
+		die SIM-Karte nicht mit den erwarteten Vektoren \textit{CK}, \textit{IK}
 		und \textit{Kc}, sondern lediglich mit einem einzigen Wert. Dieser
 		stellte sich nach wiederholter Recherche in den 3GPP-Dokumenten als
 		\textit{AUTS} heraus, welcher zur Resynchronisation der \textit{SQN}
 		benötigt wird (vgl. \Verweis{par:resynchronisation}).
 
 		Selbige Resynchronisation wurde im entwickelten
-		Protokoll bzw. Authentifizierungsvorgang bis zu diesem Zeitpunkt
+		Protokoll beziehungsweise Authentifizierungsvorgang bis zu diesem Zeitpunkt
 		nicht berücksichtigt. Nach der Identifikation dieses Defizits
 		konnte bei der Implementierung nachgebessert werden.
 
@@ -218,7 +218,7 @@
 		und weiterverarbeitet werden, sodass die \textit{SQN} erfolgreich
 		resynchronisiert wird. 
 
-		Mit der Integration dieser Funktion konntem auch erfolgreich die
-		Vektoren \textit{Ck}, \textit{Ik} und \textit{Kc} generiert werden.
+		Mit der Integration dieser Funktion könnten auch erfolgreich die
+		Vektoren \textit{CK}, \textit{IK} und \textit{Kc} generiert werden.
 
 \clearpage

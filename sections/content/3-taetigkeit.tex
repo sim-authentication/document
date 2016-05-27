@@ -56,7 +56,7 @@
     	die zum Betrieb mit PPPoE eingesetzt werden soll. Ihr muss eine valide IP-Adresse aus dem definierten
     	Pool sowie eine Subnetzmaske zugewiesen werden.
 
-    	Alle Konfigurationsdateien befinden sich im Anhang. %TODO: #edit Anhang pflegen
+    	Alle Konfigurationsdateien befinden sich im Anhang. %TODO: #edit Anhang pflegen #CHECK
 
     	Damit die Internetverbindung nach erfolgreicher Authentifizierung des \ac{MS} auch
     	korrekt von Provider freigeschaltet und weitergeleitet wird, muss eine IPTables-Regel
@@ -86,11 +86,11 @@
 	\subsubsection{Implementierung AES}
 	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
-	logische Teile unterteilt, nämlich die Variablen\-deklaration, die Main-Funktion, die die
+	logische Teile unterteilt, nämlich die Variablendeklaration, die Main-Funktion, die die
 	einzelnen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
 	Transformation bereitstellen. Des weiteren wurde ein eigener Variablentyp \emph{u8} definiert,
 	der eine verkürzte Form des unsigned integer ist. \\
-%%TODO: #anhang C-Code hinzufügen
+%%TODO: #anhang C-Code hinzufügen #CHECK
 	Der gesamte Code steht im Anhang ??? und wird in den folgenden Paragraphen näher erläutert.
 
 		\paragraph{Variablen}
@@ -129,12 +129,7 @@
 
 		\emph{j} ist die Spalte in dem Array und \emph{i} die Zeile. Durch die einfache
 		Rechnung $j*4+i$ kann das Array nacheinander durchgegangenen werden und spaltenweise
-		abgespeichert werden. 
-		%Die Art der Speicherung hat das Programmieren der shiftRows-
-		%Transformation vereinfacht, und andere Transformationen nicht erschwert. Die
-		%Umwandlung des Textblocks und Schlüssel in ein Array und zurück wäre jedoch einfacher,
-		%da jediglich die Arraystruktur verändert werden müsste, aber nicht die Speicher\-
-		%struktur, wie in dem hier umgesetzten Fall.
+		abgespeichert werden.
 
 		Anschließend wird gemäß der Spezifikation der Rundenschlüssel generiert, allerdings
 		wie schon erwähnt für alle zehn Runden und nicht für jede Runde einzeln. Wie im
@@ -197,14 +192,15 @@
 		anderen Bytes in der Zeile iteriert wird. 
 
 		\paragraph{mixColumn}
-		In mixColumn findet eine umgekehrte Herangehensweise statt als in shiftRow.
-		mixColumn iteriert erst durch die Zeilen und dann duch die Spalten. Dementsprechend
-		wird in das temporäre Array die aktuelle Spalte geschrieben. \\
-		Anschließend wird gemäß der Rijndael-Definition die MixColumns-Tranformation
+		Im Code wurde mixColumns nicht mit der zugrunde liegenden Mathematik, also der
+		Polynome mit Koeffizienten aus $GF(2^8)$ gelöst, sondern weniger effizient über
+		einen switch-case Block. Die Umsetzung ist vermutlich weniger effizient, aber trotzdem
+		erfolgreich und einfacher zu schreiben.
+		So wird gemäß der Beispielimplementierung die MixColumns-Tranformation
 		durchgeführt für jedes Byte in jeder Spalte. Das Array \emph{mixMatrix} gibt vor,
 		ob die Funktion $T_2$ oder $T_3$ angewendet werden muss. In der Implementierung
 		wurde jedoch nur eine t2-Funktion geschrieben und $T_3$ wird mit Hilfe der 
-		t2-Funktion umesetzt, ähnlich der mathematischen Definition in Kapitel
+		t2-Funktion umgesetzt, ähnlich der mathematischen Definition in Kapitel
 		\Verweis{milenage-funktion}.
 
 	\subsubsection{Implementierung Milenage}
@@ -320,11 +316,11 @@
 
             Die SD-Karte muss nicht weiter formatiert und für die Installation vorbereitet werden. Das
             bereitstehende ISO-Image ist ein Abbild eines bereits korrekt formatierten sowie installierten
-            Raspbian (Jessie). Nach kopieren (blockweise) des Images auf die SD-Karte kann von dieser direkt
+            Raspbian (Jessie). Nach (blockweisem) kopieren des Images auf die SD-Karte kann von dieser direkt
             gebootet werden.
 
             Nach dem initialen Bootvorgang können Userspezifische Änderungen durchgeführt werden. Hierzu
-            gehört das anpassen von Netzwerk- und Hostinformationen. Um später eine Administation via
+            gehört das anpassen von Netzwerk- und Hostinformationen. Um später eine Administration via
             \ac{ssh}-Remotezugang zu ermöglichen wird auch dieser in der entsprechenden Konfigurationsdatei
             zum automatischen starten aktiviert.
 
@@ -345,19 +341,20 @@
             Hotplugfähig ist kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
             eingesetzt wird.
 
-			\paragraph{pysim} kann von Kevin Prince's Githubrepository\footnote{\url{https://github.com/kevinprince/pysim}} bezogen werden. Es benötigt ebenso
+	\paragraph{pysim} kann von Kevin Prince's Githubrepository\footnote{\url{https://github.com/kevinprince/pysim}} bezogen werden. Es benötigt ebenso
             wie andere nachfolgend genannte Python-Skripte noch das Paket \textit{pysim}, welches
             in den offiziellen Raspbian Paketquellen zur Verfügung steht. Nach erfolgreicher Installation
             von Pysim und pullen des Skriptes wird selbiges über Python verwendet.
 
-            \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth} des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem pullen
+            \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth}
+            des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem pullen
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
 	\subsection{Integration mit PPPoE}
         Um den Verbindungsaufbau zwischen \ac{MS} und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
         als auch der Server für \ac{PPPoE} konfiguriert sowie gestartet sein.
 
-		 \subsubsection{Server}
+	\subsubsection{Server}
          Hier muss initial der Daemon für den \ac{PPPoE}-Server gestartet sein. Anzugeben ist das gewünschte
          Netz mit zugehöriger Netzwerkschnittstelle. Ebenso muss die IPTables-Regel zur Weiterleitung
          des Internetverkehrs gesetzt sein.
@@ -389,7 +386,7 @@
 		socket erfolgreich geschieht, sofern sie keinen Fehlercode zurückgibt, der in der if-Abfrage abgefangen wird.
 		Anschließend muss	der Serversocket konfiguriert werden. Er wird mit der Funktion \emph{bind} so eingestellt, dass er
 		auf jede IP-Adresse mit Port 12345 hört. Nachdem dies konfiguriert ist, wartet das Programm auf eine Verbindungsanfrage
-		durch die Funktion \emph{listen}. Neben der Socket-Beschriebung muss der Funktion listen mitgeteilt werden, wie viele Verbindungen
+		durch die Funktion \emph{listen}. Neben der Socket-Beschreibung muss der Funktion listen mitgeteilt werden, wie viele Verbindungen
 		der Server maximal zulässt. Da in diesem Projekt nur mit einer SIM-Karte gearbeitet wird, ist der Wert also auf 1 gesetzt.
 		Nach diesen Schritten akzeptiert der Server einen Client und speichert die Daten des Clients in \emph{client\_sock}.
 		Wenn ein Client nun eine Verbindung aufbaut, wird dies vom Server registriert und die Infos des Clients abgespeichert,
@@ -406,7 +403,7 @@
 		Wenn eine Nachricht empfangen wurde ist sie im übergeben Array \emph{client\_message} eingetragen. Dieses
 		Array ist eine Zeichenkette und kein Array aus unsigned chars. Außerdem sind in dieser Nachricht einige
 		Werte konkateniert gespeichert, weshalb diese nun getrennt werden. Zu erst wird das Statusbyte in eine
-		temporäre Varaible gespeichert mit Hilfe der Standardfunktion strcpy und anschließend wird der Wert
+		temporäre Variable gespeichert mit Hilfe der Standardfunktion strcpy und anschließend wird der Wert
 		umgewandelt in eine Dezimalzahl mit strtol. Die Konsolenausgabe ist abhängig davon, ob eine erste Anfrage
 		oder eine Resynchronisation nötig ist. \\
 		Als nächstes wird die IMSI extrahiert, welche unbearbeitet in \emph{response\_message} später wieder
@@ -454,11 +451,11 @@
             durchzuführen.
 
             Die Form der Anfrage war korrekt, jedoch ist eine Resynchronisierung der übermittelten SQN erforderlich.
-            In diesem Fall muss der Aufruf des Authentifizierungsvorgangs nach erfolgreicher neuberechnung der SQN
+            In diesem Fall muss der Aufruf des Authentifizierungsvorgangs nach erfolgreicher Neuberechnung der SQN
             erneut durchgeführt werden.
 
             Die Form der Anfrage war korrekt, sowie die Beschaffenheit der übermittelten SQN. Ist dies der Fall,
-            kann die SIM-Karte ohne weiteres die Vektoren Ck, Ik und RES generieren. Diese werden entsprechend
+            kann die SIM-Karte ohne weiteres die Vektoren CK, IK und RES generieren. Diese werden entsprechend
             ausgegeben.
             \end{addmargin}
         Der Aufruf des Authentifizierungsvorgangs kann im Abschnitt \textit{main} über \textit{authenticate}
@@ -470,18 +467,18 @@
 
         Nach dem Aufbau der Verbindung beginnt die Realisierung des Informationsaustauschs zwischen
         Client und Server.
-        Alle weiteren Operationen werden in der nachfolgenden While-Schleife abgearbeitet.
+        Alle weiteren Operationen werden in der nachfolgenden while-Schleife abgearbeitet.
 
-        \paragraph{Verarbeiten der Nachrichten} Die vorliegende While-Schleife wird solange ausgeführt,
+        \paragraph{Verarbeiten der Nachrichten} Die vorliegende while-Schleife wird solange ausgeführt,
         bis entweder der Client oder der Server die Verbindung abbrechen. Dies gewährleistet die
         Möglichkeit der erneuten Authentifizierung.
 
         In der Schleife werden Nachrichten auf Basis der Informationen, die von der SIM-Karte geliefert werden
         an den Server gesendet. Ebenso werden von selbigem Informationen empfangen. Je nach aktuellem Zustand
-        bzw. Position im Authentifizierungsvorgang, werden unterschiedliche Operationen ausgeführt.
+        beziehungsweise Position im Authentifizierungsvorgang, werden unterschiedliche Operationen ausgeführt.
         Welche Operationen ausgeführt werden müssen, wird anhand des Statuscodes erkannt. Dieser kann
         jeweils aus den Nachrichten des Servers extrahiert werden. Auf entsprechende Werte wird immer
-        über die Länge bzw. Start- und Endstelle zugegriffen. So extrahiert der Client beispielsweise
+        über die Länge beziehungsweise Start- und Endstelle zugegriffen. So extrahiert der Client beispielsweise
         den Statuscode aus den Stellen 0-1 der Antwortnachricht.
 
         \paragraph{Beenden der Verbindung} Die Verbindung wird dann beendet, wenn entweder Client
@@ -493,7 +490,7 @@
     verlangt, wird ein Statuscode in jede Nachricht integriert. Anhand dieses Statuscodes
     können dann beide Kommunikationsteilnehmer jeweils erforderliche Operationen ausführen.
 
-    Der Client bleibt so lange in der Authentisieurngsschleife, bis diese erfolgreich abgeschlossen werden.
+    Der Client bleibt so lange in der Authentisierungsschleife, bis diese erfolgreich abgeschlossen werden.
     Gleiches gilt für den Server. Beide reagieren je nach Statuscode (extrahiert aus den ersten Stellen)
     mit nachfolgend erläuterten Aktionen.
 
@@ -513,10 +510,10 @@
     \paragraph{Statuscode 2:} In dieser Iteration sendet der Client neben der IMSI auch die AUTS an den
     Server. Zusätzlich wird dem Server der Statuscode 3 übermittelt.
 
-    \paragraph{Statuscode 3:} Erhält der Server diesen Statusocde führt er die Resynchronisation der SQN
+    \paragraph{Statuscode 3:} Erhält der Server diesen Statuscode führt er die Resynchronisation der SQN
     aus. Dies erfolgt anhand der vom Client erhaltenen AUTS. Hat der Server dies abgeschlossen, übergibt er
     den neu errechneten Wert an den Client zurück. Dieser nimmt den Wert an und führt die Authentifizierung
     erneut aus. Glückt dieser Vorgang antwortet die SIM-Karte schließlich mit den gewünschten Vektoren
-    Ck, Ik und RES. Die Authentifizierung ist hier erfolgreich abgeschlossen.
+    CK, IK und RES. Die Authentifizierung ist hier erfolgreich abgeschlossen.
 
 \clearpage
