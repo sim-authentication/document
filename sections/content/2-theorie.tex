@@ -105,7 +105,7 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
       \ac{LAI} & nimmt den aktuellen Locationcode beim eingewählten Punkt auf \\ 
     \hline
     \hline
-      \ac{SMS} & Vom Teilnehmer empfangene oder versandte Nachrichten \\
+      SMS & Vom Teilnehmer empfangene oder versandte Nachrichten \\
     \hline
     \hline
       Kontakte & Vom Teilnehmer verwaltete Kontakte \\
@@ -118,10 +118,10 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
 einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
 \ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
 Üblicherweise wird die \ac{IMSI} als 15-stellige Zahl angegeben, sofern das
-Land keine andere Vorgabe macht. Nach dem \ac{MCC} werden in Europa beispielsweise 2-stellige \ac{MNC}s
+Land keine andere Vorgabe macht. Nach dem \ac{MCC} werden in Europa beispielsweise 2-stellige \acp{MNC}
 verwendet. Nordamerika hingegen verwendet 3 Stellen. 
 
-In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusammengesetzt:\vspace*{5mm}
+In Deutschlande wird der Code für z.B. die Telekom oder Vodafone wie folgt zusammengesetzt:
 
   \begin{table}[h]
     \begin{tabularx}{\textwidth}{|l||l|l|X|}
@@ -200,7 +200,7 @@ näher erläutert.
 \paragraph{Angriffe} auf die Architektur waren vor allem vor den aktuell durch UMTS
 integrierten Funktionen möglich. Hierzu gilt die Implementierung des \textit{COMP128}-Algorithmus.
 Er ist dazu entwickelt dem A3- und A8-Algorithmus bei der GSM-Architektur zu realisieren.
-Bei der Authentifikation des \ac{MS} beim \ac{AuC} erweist sich das eingesetzte Hashverfahren
+Bei der Authentifikation des UC beim \ac{AuC} erweist sich das eingesetzte Hashverfahren
 als problematisch, da kleine Veränderungen in der Eingabe nicht ausreichend streuen. Somit
 ist es möglich, dass auf der SIM-Karte gespeicherte geheime Schlüssel durch Kollisionsangriffe
 ausgelesen werden können.
@@ -238,7 +238,7 @@ geeignet gewählt werden.
 Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
 Chipkartenstandards. Weit verbreitete Standards für die Kommunikation sind
 \textit{UMTS} und \textit{GSM}. Sie schließen neben den Chipkarten einen weiteren
-Kontext mit ein. So gehören zu diesen Standards auch die Rollen des Mobiltelefons (\ac{MS}),
+Kontext mit ein. So gehören zu diesen Standards auch die Rollen des Mobiltelefons (UE),
 Authentifizierungsstellen (\ac{AuC}) sowie vielen weiteren Teilnehmern.
 
 Die GSM- umd UMTS-Kryptoalgorithmen basieren auf symmetrischen Verfahren, die nicht
@@ -309,7 +309,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  Die Authentifizierung mit \ac{USIM}-Karten geschieht in zwei Richtungen. Es muss nicht nur die
  USIM verifizieren können, dass sie eine valide Karte ist, sondern der Netzprovider muss sich auch
  gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten schickt sie
- Registrierungsanfrage an den nächsten \ac{SGSN}. Diese fragt daraufhin beim \ac{AuC} des
+ Registrierungsanfrage an den nächsten \ac{MSC}. Diese fragt daraufhin beim \ac{AuC} des
  Netzproviders nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel
  \ref{milenage} auf S. \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
  Der AV ist ein Quintett und besteht aus
@@ -326,12 +326,12 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   \end{description}
  \end{description}
  
- Die Werte XRES, CK und IK speichert der SGSN zwischen und RAND, sowie AUTN werden an die USIM
+ Die Werte XRES, CK und IK speichert der MSC zwischen und RAND, sowie AUTN werden an die USIM
  weitergegeben als Antwort auf die Registrierungsanfrage.
 
  Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerktoken um
  zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
- und MAC-A nicht übereinstimmen, wird dem SGSN mitgeteilt, dass die Authentifizierung nicht erfolgreich
+ und MAC-A nicht übereinstimmen, wird dem MSC mitgeteilt, dass die Authentifizierung nicht erfolgreich
  war und die Kommunikation beendet.
 
  Sollten die Werte jedoch wie erwartet übereinstimmen, überprüft die USIM, ob die SQN im erlaubten
@@ -342,8 +342,8 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  werden muss, welche am Ende dieses Kapitels erklärt wird.
  
  Wenn die SQN im erlaubten Bereich liegt, generiert die USIM ihrerseits RES und schickt diesen an
- den SGSN. Der SGSN überprüft nun, ob XRES des Authenticaton Centers mit dem RES der USIM
- übereinstimmt. Je nach Ergebnis erteilt der SGSN dem \ac{UE} den Zutritt zum Mobilfunknetz oder
+ den MSC. Der MSC überprüft nun, ob XRES des Authenticaton Centers mit dem RES der USIM
+ übereinstimmt. Je nach Ergebnis erteilt der MSC dem \ac{UE} den Zutritt zum Mobilfunknetz oder
  nicht.
  
  \paragraph{Resynchronisation}
@@ -360,8 +360,8 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   erklärt.\\
   Ähnlich wie bei der Authentifizierung berechnet diesmal das AuC eine XMAC-S und vergleicht
   diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich geht wieder eine Meldung an den
-  SGSN, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
-  jedoch gleich sind, wird mit Hilfe der neuen SQN nochmal der AV berechnet und an den SGSN
+  MSC, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
+  jedoch gleich sind, wird mit Hilfe der neuen SQN nochmal der AV berechnet und an den MSC
   geschickt. Dieser gibt wieder AUTN und RAND an die USIM weiter welche die selben Schritte
   wie zuvor ausführt und diesmal zu dem Ergebnis kommen sollte, dass SQN im erlaubten
   Bereich liegt.
@@ -413,12 +413,6 @@ an diese Algorithmen definiert \cite{3gpp.35.205}.
 Der Milenage Algorithmus hat wie erwähnt zwei Hauptaufgaben, nämlich einerseits die
 Authentifizierung und anderereits die Generierung eines Schlüssel, um die versendeten Nachrichten zu
 ver- und entschlüsseln.
-% Wenn es um die Authentifizierung geht muss sich einerseits die USIM
-% beziehungsweise das \ac{UE}, gegenüber dem Netzprovider authentifizieren, aber andererseits
-% muss sich auch der Netzprovider gegenüber der USIM authentifizieren. Damit soll die
-% Möglichkeit der Man-in-the-Middle Attacken reduziert werden, die es einem Außenstehenden
-% erlauben die Kommunikation mitzulesen. Auch so genannte Replay-Attacken, bei denen zuvor
-% aufgezeichnete Daten genutzt werden, sind nicht möglich, auf Grund der \acl{SQN} \cite{spitz11}.
 
 In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des
 Algorithmus, erläutert.
@@ -436,7 +430,7 @@ Algorithmus, erläutert.
  wesentliche Gründe auf, die den Algorithmus sicher machen:
  
  \paragraph{Ergebnisse mit hoher Entropie}
- Wenn der Schlüssel \ac{K} unbekannt ist und die Eingabeparameter \ac{SQN}, \ac{RAND}
+ Wenn der Schlüssel K unbekannt ist und die Eingabeparameter \ac{SQN}, RAND
  und \ac{AMF} variieren, dann werden ``sehr gute Pseudo-Zufalls-Ergebnisse mit einer hohen
  Entropie'' \cite{spitz11} erreicht. Dafür muss aber auch eine gute Blockchiffre wie AES
  eingesetzt werden.
@@ -458,7 +452,7 @@ Algorithmus, erläutert.
  In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen
  \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es
  gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert
- sind. Diese sind der \ac{OP} und \ac{K}, sowie jeweils fünf Rotations- und XOR-Konstanten
+ sind. Diese sind der \ac{OP} und K, sowie jeweils fünf Rotations- und XOR-Konstanten
  (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert zeigt dabei \Abbildung{funktionsubersicht}.
  
  \begin{figure}[htp]
@@ -488,7 +482,7 @@ Algorithmus, erläutert.
  Auf die anderen  Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit
  keine Anwendung finden und deutlich komplexer sind.
  
- Als nächstes wird die \ac{RAND} gebildet. Das Verfahren, wie der Netzprovider diese RAND
+ Als nächstes wird die RAND gebildet. Das Verfahren, wie der Netzprovider diese RAND
  generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Die
  Spezifikation gibt deshalb für die Generierung der RAND keine Empfehlung, wie für die anderen
  Werte. Generell handelt es sich bei der RAND um eine 128-bit lange Zufallszahl, die für alle
@@ -506,7 +500,7 @@ Algorithmus, erläutert.
   $OP_{C} = OP \oplus E(OP)_{K}$
  \end{center}
  
- $E()$ ist die Blockchiffre. In diesem Falle wird also \ac{OP} mit dem Schlüssel \ac{K}
+ $E()$ ist die Blockchiffre. In diesem Falle wird also \ac{OP} mit dem Schlüssel K
  verschlüsselt. Welche Verschlüsselung gewählt wird, wird von 3GPP nicht vorgegeben. In
  dieser Arbeit wurde \ac{AES} verwendet, welche im Kapitel \Verweis{aes} näher beschrieben wird. \\
  Der verschlüsselte OP wird dann im zweiten Schritt über XOR ($\oplus$) mit dem ursprünglichen
@@ -529,7 +523,7 @@ Algorithmus, erläutert.
  ausgehen von einem verschlüsselten $RAND \oplus OP_C$, welcher in der Dokumentation
  auch als TEMP bezeichnet wird. Dieser Wert wird wieder über XOR-mit $OP_ C$ verknüpft
  und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR
- Verknüpfung mit der speziellen XOR-Konstante c und die Chiffrierung des Ausgabewertes. Im
+ Verknüpfung mit der speziellen XOR-Konstante c und die Chiffre des Ausgabewertes. Im
  letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
  Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr
  ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits
@@ -559,7 +553,6 @@ Algorithmus, erläutert.
  Netzproviders.
  
 %% AES/Rijndael %%
-%% TODO: #edit Kapitel über synchrone/asynchrone Verschlüsselung
 \subsection{AES / Rijndael}
 \label{aes}
  Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
@@ -568,7 +561,7 @@ Algorithmus, erläutert.
  Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- sowie
  Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
  unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
- beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\ %TODO: #edit quelle?
+ beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\ %TODO: #edit quelle? #CHECK
  AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssel\-länge
  darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}. Welche Schlüssel\-länge genutzt
  wird, kann die unterschiedlichen Bezeichnung AES-128, AES-192 und AES-256 deutlich gemacht
@@ -606,6 +599,31 @@ An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in
 diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu
 verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
+ 
+ \subsubsection{Mitbewerber}
+ Als die größten Konkurrenten von Rijndael werden ``Twofish'' und ``Serpent'' gesehen. Um zu verstehen
+ warum die Entscheidung am Ende trotzdem auf Rijndael fiel sollen die beiden Konkurrenten an dieser
+ Stelle untersucht werden. Beide verfolgen einen klassischen Ansatz.
+ 
+ \paragraph{Serpent}
+ Entwickelt wurde der Algorithmus von drei bekannten Kyrptografen. Sie haben bei der Entwicklung ihres
+ Algorithmus darauf geachtet, dass er noch in mindestens einem Jahrhundert sicher ist und deswegen auch
+ auf Experimente verzichtet. Serpent ist wie AES eine Substitutions-Permutations-Chiffre. Sie nutzen
+ hauptsächlich Substitutionsboxen und einige lineare Funktionen, welche
+ in der Kombination seit den siebziger Jahren bekannt sind und deshalb als gut erforscht gelten.
+ Außerdem nutzen sie 32 statt, wie in anderen Verfahren, die üblichen acht bis 16 Runden, um sicher zu gehen. \\
+ Serpent hat nach aktuellem Stand einen sehr großen Sicherheitspuffer, da 32 Runden verwendet werden, aber
+ diese hohe Anzahl machen ihn auch zu dem langsamsten von den drei Algorithmen. \cite{schmeh07}
+ 
+ \paragraph{Twofish}
+ Der Nachfolger von Blowfish ist Twofish entwickelt unter anderem von Bruce Schneider und ist eine Feistel-Chiffre.
+ In Twofish werden vier S-Boxen aus dem
+ Schlüssel generiert, die jeweils zwei mal pro Runde eingesetzt werden. Insgesamt sieht Twofish 16 Runden vor.
+ Wie auch bei Serpent sind abgesehen von den Substitutionsboxen alle Schritte linear. Es werden insgesamt 40
+ Subschlüssel je 32 Bits Länge benötigt und die S-Boxen müssen generiert werden. \\
+ Daraus folgt dass Twofish mit seiner Geschwindigkeit zwischen Rijndael und Serpent liegt. Auch was die Innovationen
+ im Design angeht ist Twofish zwischen Serpent und Rijndael anzusehen. Bislang ist nur eine theoretische Schwachstelle
+ bekannt, aber keine konkrete Methode diese zu nutzen. \cite{schmeh07}
  
  \subsubsection{Algebraische endliche Körper}
  Der Algorithmus ist verständlich und anwendbar, auch ohne das Wissen über die mathematischen
@@ -752,7 +770,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Die polynome Arithmetik wird nun im folgenden Kapitel erklärt speziell für die Körpererweiterung
  $GF(2^8)$.
  
- \subsubsection{Polynome Arithmetik in $\mathbf{GF(2^8)}$}
+ \subsubsection{Polynome Arithmetik in $GF(2^8)$}
  \label{polynome-arithmetic}
  Die Addition bei einem endlichen Körper wird erreicht durch die Addition der einzelnen Koeffizienten. Wie
  im vorherigen Kapitel gezeigt, bedeutet das, dass die jeweiligen Koeffizienten über eine XOR-Operation
@@ -1022,6 +1040,14 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   nicht vom Schlüssel abhängig ist, was bedeutet, dass Angreifer MixColumns zurückrechnen können ohne den Schlüssel
   zu kennen. Die Transformation in der letzten Runde anzuwenden würde also lediglich Rechenzeit benötigen, aber würde
   den Schlüssel nicht sicherer machen, weshalb die Transformation im letzten Schritt weggelassen wurde. \cite{schmeh07}
+  
+  \subsubsection{Bewertung von AES}
+  Wie in den vorherigen Kapitel aufgezeigt verfolgt Rijndael einen innovativen und eleganten Ansatz gegenüber Twofish und
+  Serpent. Da in der Wettbewerbsphasen keine Sicherheitslücken sichtbar wurden und die Verschlüsselungsgeschwindigkeit
+  sehr schnell ist setzte sich dieser durch. Nach einigen weiteren Jahren in denen sich Kryptoanalytiker mit dem Algorithmus
+  beschäftigt haben, ist Kritik an Rijndael aufgekommen. Rijndael gilt immer noch als sicher, aber der Sicherheitspuffer ist beträgt
+  nur drei bis fünf Runden. Konkret bedeutet das, dass ein mit Rijndael verschlüsselter Text bis zur siebten Runde bei einer
+  Schlüssellänge von 128 Bits geknackt werden kann. Bei 192 Bits braucht es acht Runden und bei 256 Bits neun von 14 Runden.
   
    \subsubsection{AES Vizualization Tool}
    \label{subsubsec:aesviz}
@@ -1525,7 +1551,7 @@ ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
 \subsubsection{Motivation zur Nutzung}
 Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
 Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
-(also auf der Seite der \ac{MS}) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
+(also auf der Seite des UE) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
 Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
 in ihrer Funktion erweitert.
 
@@ -1533,7 +1559,7 @@ in ihrer Funktion erweitert.
 \subsubsection{pysim}
 \label{subsec:pysim}
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
-python-Skript, geschrieben von Kevin Prince,
+Python-Skript, geschrieben von Kevin Prince,
 welches Operationen direkt auf der SIM-Karte implementiert.
 Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
 bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
@@ -1547,13 +1573,13 @@ Device (im Betriebssystem /dev/ttyX) und Baudrate\cite{pysimprince}.
 ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
 
 Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
-python-Shell verwendbar.
+Python-Shell verwendbar.
 
 \subsubsection{osmo-sim-auth}
 \label{subsec:osmosim}
 \textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
 überschneidet sich im Unfang angebotener Funktionen mit \textit{pysim}. Hauptsächlich ist es,
-genau wie \textit{pysim} eine Implementierung in python, um den Authentifizierungsprozess
+genau wie \textit{pysim} eine Implementierung in Python, um den Authentifizierungsprozess
 einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
 \textit{PCSClite}-Treibers und der \textit{pyscard}-Library.
 
@@ -1575,7 +1601,7 @@ Funktionalitäten durch das Projekt realisiert:
 
 \subsubsection{pyscard}
 \label{pyscard}
-Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine python-Bibliothek benötigt,
+Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine Python-Bibliothek benötigt,
 die Smartcard-Support für Python bereitstellt. Diese Bibliothek
 ist pysim. Sie fungiert als Schnittstelle zwischen dem Treiber \textit{PC/SC}
 beziehungsweise \textit{PCSClite} und der Python-Anwendung 
@@ -1622,7 +1648,7 @@ erleichtert werden.
 
 Bisher wurden seit der initialen Veröffentlichung im Februar 2012(\cite{rasppifoundweb})
 drei Generationen in unterschiedlichen Ausführungen
-entwickelt. Die Bezeichnung A(+) bzw. B(+) gibt jeweils Aufschluss
+entwickelt. Die Bezeichnung A(+) beziehungsweise B(+) gibt jeweils Aufschluss
 über die jeweilige Ausführung.
 
 \subsubsection{Hardware Modell B}
@@ -1843,7 +1869,7 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
  ein Raspberry Pi mit einem Kartenleser als \ac{UE} dienen soll und der Netzprovider
  simuliert wird auf einer virtuellen Maschine. Die Kommunikation der beiden Geräte
  wird über eine \ac{PPPoE}-Verbindung realisiert. Was nicht simuliert wird, ist der
- \ac{SGSN}, da dafür eine weitere virtuelle Maschine aufgesetzt werden muss und die
+ \ac{MSC}, da dafür eine weitere virtuelle Maschine aufgesetzt werden muss und die
  Funktionalität des Knotens darauf reduziert wäre RES und XRES (vgl. Kapitel \ref{authentifizierungsvorgang})
  miteinander zu vergleichen.
  

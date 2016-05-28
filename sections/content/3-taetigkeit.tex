@@ -34,10 +34,10 @@
     	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher
     	recht gering. Wichtig ist das Vorhandensein zweier Netzwerkschnittstellen, die
     	auf jeweils eine physikalisch Schnittstelle geleitet werden. Dies ist notwendig,
-    	da sowohl die \ac{MS} über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein wird,
+    	da sowohl die UE über eine Ethernetverbindung mit der virtuellen Maschine angebunden sein wird,
     	als auch eine Dauerhafte Internetverbindung mit der verbleibenden Schnittstelle
     	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentifizierung
-    	des \ac{MS} den Zugang zum Internet freizuschalten.
+    	des UE den Zugang zum Internet freizuschalten.
 
     	\subsubsection{PPPoE}
     	Die Einrichtung von \textit{PPPoE} basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
@@ -58,7 +58,7 @@
 
     	Alle Konfigurationsdateien befinden sich im Anhang. %TODO: #edit Anhang pflegen #CHECK
 
-    	Damit die Internetverbindung nach erfolgreicher Authentifizierung des \ac{MS} auch
+    	Damit die Internetverbindung nach erfolgreicher Authentifizierung des UE auch
     	korrekt von Provider freigeschaltet und weitergeleitet wird, muss eine IPTables-Regel
     	folgernder Form eingerichtet werden:
 
@@ -351,7 +351,7 @@
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
 	\subsection{Integration mit PPPoE}
-        Um den Verbindungsaufbau zwischen \ac{MS} und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
+        Um den Verbindungsaufbau zwischen UE und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
         als auch der Server für \ac{PPPoE} konfiguriert sowie gestartet sein.
 
 	\subsubsection{Server}
