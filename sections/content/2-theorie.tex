@@ -6,14 +6,14 @@
 %% Chipkarten %%
 \subsection{Chipkarten (Schenkel)}
 \subsubsection{Entwicklung (Schenkel)}
-Wie bereits in der Einleitung erwähnt startete die Verbreitung der SIM-Karten
+Wie bereits in der Einleitung erwähnt, startete die Verbreitung der SIM-Karten
 mit Einführung der Telefon- und Krankenversicherungskarten im Jahr 1985.
 Bereits 6 Jahre später kamen die ersten Karten mit Mikroprozessoren - die \ac{SIM}-Karten
 - zum Einsatz. Seit diesem Zeitpunkt haben sich die Chipkarten unter anderem
 mit der enorm wachsenden Mobilfunkbranche stetig weiterentwickelt. Für diese
 Arbeit ist vor allem die Chipkartenvariante \ac{SIM} wichtig.
 Neben den klassischen Mikroprozessorkarten für \ac{GSM}-Netze wurden im Jahr
-1998 damit begonnen JavaCards zu entwickeln. Diese verfügen über eine
+1998 damit begonnen, JavaCards zu entwickeln. Diese verfügen über eine
 Java-Laufzeitumgebung.
 
 \subsubsection{Typen (Schenkel)}
@@ -41,7 +41,7 @@ zu ändern oder erweitern.
 eines Prozessors, der dazu in der Lage ist verschiedene (z.B. arithmetische)
 Operationen auszuführen. Diese sind für rechenintensive Implementierungen
 von Kryptoalgorithmen wie z.B. auch AES wichtig. Ebenfalls verfügt diese
-Variante von Chipkarten über ein spezifisches Betriebssystem mithilfe derer
+Variante von Chipkarten über ein spezifisches Betriebssystem, mithilfe dessen
 die verschiedenen Anwendungen ausgeführt werden können.
 Neuere Architekturen erlauben es nach der Ausgabe der Karten Codestrecken
 zu ändern oder erweitern.
@@ -191,7 +191,7 @@ Auflistung der verschiedenen Befehle mit zugehörigen \ac{APDU}-Beispielen.
 
 \paragraph{Sicherheit}
 Über Chipkarten wird in \ac{GSM}- und \ac{UMTS}-Netzen Sicherheit abgebildet.
-Sie fassen Kryptoalgorithmen auf Prozessoren sowie Kryptoschlüssel im
+Sie enthalten Kryptoalgorithmen auf Prozessoren sowie Kryptoschlüssel im
 Filesystem. So werden beispielsweise die Kryptoalgorithmen A3, A5 und A8
 auf SIM-Karten ausgeliefert, die zum Nachweis der Authentizität des Benutzers dienen.
 Diese werden in Abschnitt \Verweis{authentifizierungsvorgang}
@@ -199,22 +199,22 @@ näher erläutert.
 
 \paragraph{Angriffe} auf die Architektur waren vor allem vor den aktuell durch UMTS
 integrierten Funktionen möglich. Hierzu gilt die Implementierung des \textit{COMP128}-Algorithmus.
-Er ist dazu entwickelt dem A3- und A8-Algorithmus bei der GSM-Architektur zu realisieren.
+Er ist dazu entwickelt dem \textit{A3}- und \textit{A8}-Algorithmus bei der GSM-Architektur zu realisieren.
 Bei der Authentifikation des UC beim \ac{AuC} erweist sich das eingesetzte Hashverfahren
 als problematisch, da kleine Veränderungen in der Eingabe nicht ausreichend streuen. Somit
 ist es möglich, dass auf der SIM-Karte gespeicherte geheime Schlüssel durch Kollisionsangriffe
 ausgelesen werden können.
 
-Ebenso ist es bedingt möglich SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
+Ebenso ist es bedingt möglich, SIM-Karten zu klonen. Mit zunehmender Anzahl von implementierten
 Sicherheitsmechanismen steigt die Herausforderung an den Klonprozess. So reicht es mittlerweile
-nicht mehr aus nur Informationen auszulesen und zu klonen.
-Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen
+nicht mehr aus, nur Informationen auszulesen und zu klonen.
+Aufgrund der Tatsache, dass SIM-Karten mittlerweile nicht nur gespeicherte Informationen %TODO schenkel etwas besseres überlegen
 ausliefern, sondern auch eigene Funktionen integrieren.
-Dazu gehört beispielsweise das ableiten des Sitzungsschlüssels
-mittels abgelegter und mit dem \ac{AuC} ausgetauschter Informationen. Ebenso wird das auslesen
+Dazu gehört beispielsweise das Ableiten des Sitzungsschlüssels
+mittels abgelegter und mit dem \ac{AuC} ausgetauschter Informationen. Ebenso wird das Auslesen
 von Informationen durch das bereits erwähnte Berechtigungssystem erschwert.
 
-Bei der Nutzung älterer Architekturen ist ein Man-In-The-Middle-Angriff via IMSI-Catcher weiter
+Bei der Nutzung älterer Architekturen ist ein Man-In-The-Middle-Angriff via IMSI-Catcher ebenso
 zu beachten. Dieser wurde unter \Verweis{par:imsicatcher} bereits genauer beschrieben.
 
 \paragraph{\ac{USIM}} ist die Weiterentwicklung der vorhergehenden normalen \ac{SIM}-Karte. Sie wird
@@ -234,7 +234,7 @@ Die Funktion entspricht trotzdem der einer gewöhnlichen \textit{Mini-} oder \te
 Zur Verwendung der unterschiedlichen Formfaktoren muss lediglich der eingesetzte Kartenleser
 geeignet gewählt werden.
 
-\subsection{Mobilfunkstandards (Schenkel)} % TODO: #edit umbenennen?
+\subsection{Mobilfunkstandards (Schenkel)} % TODO: schenkel nochmal über die basis meditieren
 Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
 Chipkartenstandards. Weit verbreitete Standards für die Kommunikation sind
 \textit{UMTS} und \textit{GSM}. Sie schließen neben den Chipkarten einen weiteren
@@ -265,7 +265,7 @@ nachfolgenden Abbildung wird der Zusammenhang dargestellt.
 \end{figure}
 
 Das \ac{HLR} überprüft dann mittels \ac{IMSI} die Benutzerrechte des Teilnehmers und
-stößt den Authentifizierungsvorgang an. Selbiger wird dann auf Seite des
+stößt den Authentifizierungsvorgang an. Selbiger wird dann auf der Seite des
 Mobilfunkteilnehmers sowie Providers ausgeführt und das Ergebnis verglichen.
 Stimmen beide Ergebnisse überein werden weiterführend Sitzungsschlüssel erzeugt,
 mit welchen die Nutzdaten (z.B. Sprache) sicher übertragen werden können.
@@ -275,9 +275,9 @@ vorhergehende Architektur aus Gründen der Abwärtskompatibilität weiterhin bes
 (\ac{VLR},\ac{HLR},\ac{AuC}). Es wird die Variante der USIM als zentrale Chipkarte
 eingesetzt. Der Ablauf der Authentifizierung hingegen weicht vom Vorgänger etwas ab.
 Dieser wird dadurch erweitert, dass das \ac{AuC} sich nun auch gegenüber der \ac{USIM}
-authentisiert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
+authentifiziert. Auf diesem wird die Sicherheit verbessert, da in beide Richtungen
 geprüft wird, ob eine valide Gegenstelle vorliegt. \ac{IMSI}-Catchern wird es damit
-schwerer gemacht eine Form des \textit{Man-In-The-Middle}-Angriffs zu ermöglichen.
+schwerer gemacht, eine Form des \textit{Man-In-The-Middle}-Angriffs zu ermöglichen.
 Dementsprechend wird auch das Mitschneiden von Gesprächen erschwert. Weiterführend
 wird im Gegensatz zu \ac{GSM} nun auch der Verkehr zwischen \ac{HLR} und \ac{VLR}
 verschlüsselt realisiert \cite{spitz11}.

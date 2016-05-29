@@ -30,7 +30,7 @@
        	\caption{Eigenschaften der virtuellen Maschine}
        	\end{table}
 
-    	Aufgrund der Tatsache dass nur ein einziger Client über den Zugang von \textit{PPPoE}
+    	Aufgrund der Tatsache, dass nur ein einziger Client über den Zugang von \textit{PPPoE}
     	zu erwarten ist, sind die Anforderungen an CPU, Arbeits- und Festplattenspeicher
     	recht gering. Wichtig ist das Vorhandensein zweier Netzwerkschnittstellen, die
     	auf jeweils eine physikalisch Schnittstelle geleitet werden. Dies ist notwendig,
@@ -315,16 +315,16 @@
 
             Die SD-Karte muss nicht weiter formatiert und für die Installation vorbereitet werden. Das
             bereitstehende ISO-Image ist ein Abbild eines bereits korrekt formatierten sowie installierten
-            Raspbian (Jessie). Nach (blockweisem) kopieren des Images auf die SD-Karte kann von dieser direkt
+            Raspbian (Jessie). Nach (blockweisem) Kopieren des Images auf die SD-Karte kann von dieser direkt
             gebootet werden.
 
-            Nach dem initialen Bootvorgang können Userspezifische Änderungen durchgeführt werden. Hierzu
-            gehört das anpassen von Netzwerk- und Hostinformationen. Um später eine Administration via
-            \ac{ssh}-Remotezugang zu ermöglichen wird auch dieser in der entsprechenden Konfigurationsdatei
-            zum automatischen starten aktiviert.
+            Nach dem initialen Bootvorgang können userspezifische Änderungen durchgeführt werden. Hierzu
+            gehört das Anpassen von Netzwerk- und Hostinformationen. Um später eine Administration via
+            \ac{ssh}-Remotezugang zu ermöglichen, wird auch dieser in der entsprechenden Konfigurationsdatei
+            zum automatischen Starten aktiviert.
 
             Für den weiteren Betrieb müssen Pakete aus dem offiziellen Resporitory
-            nachinstalliert werden. Spezielle Pakete, die dort nicht verfügbar sind werden
+            nachinstalliert werden. Spezielle Pakete, die dort nicht verfügbar sind, werden
             manuell kompiliert.
 
             \paragraph{SIM-Kartenleser} Der benötigte (herstellerspezifische)
@@ -334,24 +334,24 @@
             Selbiger kann nach Installation der nativen \textit{pcsc}-Pakete (aus dem Repository)
             kompiliert und eingesetzt werden.
 
-            Sind diese Softwarepakete eingerichtet kann der Leser via USB verbunden, die SIM-Karte eingesetzt
+            Sind diese Softwarepakete eingerichtet, kann der Leser via USB verbunden, die SIM-Karte eingesetzt
             und erste Kommunikationsversuche durchgeführt werden. Hier bietet sich der vom
             Treiber mitgelieferte Scanmechanismus für neue Devices an. Da der Treiber
-            Hotplugfähig ist kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
+            Hotplugfähig ist, kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
             eingesetzt wird.
 
 	\paragraph{pysim} kann von Kevin Prince's Githubrepository\footnote{\url{https://github.com/kevinprince/pysim}} bezogen werden. Es benötigt ebenso
             wie andere nachfolgend genannte Python-Skripte noch das Paket \textit{pysim}, welches
             in den offiziellen Raspbian Paketquellen zur Verfügung steht. Nach erfolgreicher Installation
-            von Pysim und pullen des Skriptes wird selbiges über Python verwendet.
+            von Pysim und Pullen des Skriptes wird selbiges über Python verwendet.
 
             \paragraph{osmo-sim-auth} ist vom Gitrepository\footnote{\url{}http://cgit.osmocom.org/cgit/osmo-sim-auth}
-            des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem pullen
+            des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem Pullen
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
 	\subsection{Integration mit PPPoE (Schenkel)}
         Um den Verbindungsaufbau zwischen UE und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
-        als auch der Server für \ac{PPPoE} konfiguriert sowie gestartet sein.
+        als auch der Server für \ac{PPPoE} konfiguriert, sowie gestartet sein.
 
 	\subsubsection{Server (Schenkel)}
          Hier muss initial der Daemon für den \ac{PPPoE}-Server gestartet sein. Anzugeben ist das gewünschte
@@ -439,7 +439,7 @@
     Python den Kommunikationsaufbau mit Chipkarten ermöglicht (card-Utils, card-Sim und card-USIM).
 
         \paragraph{Aufruf der Authentifizierung} Diese Funktion wird im Clientprogramm im Abschnitt
-        \textit{handle\_usim} definiert. Es werden externe Informationen (falls vorhanden) für den Aufruf
+        \textit{handle\_usim} definiert. Es werden externe Informationen (sofern vorhanden) für den Aufruf
         gesammelt und entsprechend an die SIM-Karte gesendet. In jedem Fall wird ein Authentifizierungsvorgang
         für eine USIM-Karte initiiert. \\
         Abhängig von gegebenen Information ist die SIM-Karte daraufhin in der Lage Ergebnisvektoren
@@ -460,7 +460,7 @@
         Der Aufruf des Authentifizierungsvorgangs kann im Abschnitt \textit{main} über \textit{authenticate}
         eingeleitet werden.
 
-        \paragraph{Kommunikationsaufbau} Zu Beginn der Laufzeit des Client, wird wie bereits bei der 
+        \paragraph{Kommunikationsaufbau} Zu Beginn der Laufzeit des Client, wird wie bei der 
         Serverkomponente ein Socket definiert. Über die Angabe des gewünschten Hostnamens und des Ports
         kann die Verbindung mit dem Socket auf dem Server aufgebaut werden.
 
@@ -468,7 +468,7 @@
         Client und Server.
         Alle weiteren Operationen werden in der nachfolgenden while-Schleife abgearbeitet.
 
-        \paragraph{Verarbeiten der Nachrichten} Die vorliegende while-Schleife wird solange ausgeführt,
+        \paragraph{Verarbeiten der Nachrichten} Die vorliegende while-Schleife wird solange ausgeführt
         bis entweder der Client oder der Server die Verbindung abbrechen. Dies gewährleistet die
         Möglichkeit der erneuten Authentifizierung.
 
@@ -489,7 +489,7 @@
     verlangt, wird ein Statuscode in jede Nachricht integriert. Anhand dieses Statuscodes
     können dann beide Kommunikationsteilnehmer jeweils erforderliche Operationen ausführen.
 
-    Der Client bleibt so lange in der Authentisierungsschleife, bis diese erfolgreich abgeschlossen werden.
+    Der Client bleibt so lange in der Authentisierungsschleife, bis diese erfolgreich abgeschlossen ist.
     Gleiches gilt für den Server. Beide reagieren je nach Statuscode (extrahiert aus den ersten Stellen)
     mit nachfolgend erläuterten Aktionen.
 
@@ -501,7 +501,7 @@
     der Clientnachricht assoziieren und daraufhin die IMSI extrahieren. Der Client führt
     nach Empfang der Serverantwort, die einen Wert für sowohl AUTN als auch RAND enthält, den
     ersten Authentifizierungsversuch durch. Glückt dieser, generiert die SIM-Karte bereits zu diesem
-    Zeitpunkt schon Werte für die Vektoren Ck, Ik und RES und der Authentifizierungsvorgang ist
+    Zeitpunkt bereits Werte für die Vektoren Ck, Ik und RES und der Authentifizierungsvorgang ist
     erfolgreich beendet. Sollte dies nicht der Fall sein, antwortet die SIM-Karte mit einem Wert für
     AUTS, da die Resynchronisation der SQN noch aussteht. Der Statuscode des Clients wird auf 2 gesetzt
     und eine weitere Iteration des Vorgangs aufgerufen.
