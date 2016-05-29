@@ -1,6 +1,6 @@
 \section[Ergebnis (Schenkel)]{Ergebnis}
-	Die beiden nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests und deren Ergebnisse.
-	Hierbei wird näher darauf eingegangen für welche Teilaspekte welche Prüfmechanismen
+	Die beiden nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests und deren Ergebnis.
+	Hierbei wird näher darauf eingegangen, für welche Teilaspekte welche Prüfmechanismen
 	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, beziehungsweise
 	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
 
@@ -54,9 +54,9 @@
 		primär auf der Entwicklung der \textit{AES}-Verschlüsselung. 
 
 		Während der Implementierung wurde das Tool AES-Vizualization\footnote{\url{http://www.cs.mtu.edu/~shene/NSF-4/AES-Downloads/index.html}} eingesetzt (vgl. \Verweis{subsubsec:aesviz}).
-		Dieses ermöglicht es den \textit{AES}-Algorithmus schrittweise zu durchlaufen.
-		Um die Korrektheit der Implementierung nachzuvollziehen wurde der \textit{Practice-Mode}
-		des Tools verwendet. Nach dem Start des Tools werden zwei Testwerte für den
+		Dieses ermöglicht es, den \textit{AES}-Algorithmus schrittweise zu durchlaufen.
+		Um die Korrektheit der Implementierung nachzuvollziehen, wurde der \textit{Practice-Mode}
+		des Tools verwendet. Nach dem Start des Tools wurden zwei Testwerte für den
 		Eingabetext sowie den CypherKey generiert. Diese wurden jeweils in die eigene
 		Implementierung übertragen und dann alle Folgeschritte geprüft.
 
@@ -78,7 +78,7 @@
 		von Fabricio Ferraz\footnote{\url{http://fabricioapps.blogspot.de/2011/05/umts-security-algorithm-milenage.html}}
 		geprüft werden. Das Tool wurde auf Empfehlung von Herrn. Prof. Dr. Müller eingesetzt.
 
-		Besonders hilfreich ist die Ausgabe aller Zwischenergebnisse von Teilfunktionen
+		Besonders hilfreich war die Ausgabe aller Zwischenergebnisse von Teilfunktionen
 		\textit{f1}-\textit{f5} sowie \textit{AUTN}, \textit{Kc} und \textit{SRES} auf
 		den Seiten beider Teilnehmer. Auf diesem Weg konnten alle festen (geheimen) sowie
 		dynamisch generierten Werte in das Tool eingesetzt und Ergebnisse Schritt für
@@ -89,11 +89,11 @@
 		Diese beiden Komponenten konnten direkt nach der Treiberintegration im Betriebssystem
 		geprüft werden.
 
-		Die Funktionalität des Treibers konnte durch ein entsprechendes Identifizieren des
-		Betriebssystems in Form eines PC/SC-Gerät sichergestellt werden.
+		Die Funktionalität des Treibers konnte, durch ein entsprechendes Identifizieren des
+		Betriebssystems sichergestellt werden. So legt dieses ein PC/SC-Gerät (als Devicefile) an.
 
 		Teiberinterne Scan-Mechanismen gaben Auskunft über das Vorhandensein einer SIM-Karte,
-		sowie rudimentäre Abfragen. So kann z.B. die IMSI direkt ausgelesen werden.
+		sowie rudimentäre Abfragen. So konnte z.B. die IMSI direkt ausgelesen werden.
 
 		\subsubsection[Client- und Server-Kommunikation (Schenkel)]{Client- und Server-Kommunikation}
 		Die Kommunikation zwischen Client- und Server-Komponenten wurden über die bereits zuvor
@@ -151,23 +151,23 @@
 		SIM-Karte angedacht war. Es stellte sich während der Implementierungsphase
 		als problematisch heraus, da es nicht über alle der benötigten 
 		Funktionalitäten verfügt. Zwar konnte mit pysim ein erster
-		Kommunikationsversuch erfolgreich gestartet und abgeschlossen werden,
+		Kommunikationsversuch erfolgreich gestartet und abgeschlossen,
 		nicht jedoch eine Authentifizierung initiiert werden. Dies lag
-		vor allem daran, dass die beiden Verfassern dieser Studienarbeit sich nicht
+		vor allem daran, dass die beiden Verfasser dieser Studienarbeit sich nicht
 		sicher waren, welche Art der Authentifizierung angewandt werden muss.
 		Die für eine GSM- oder UMTS-fähige SIM-Karte.
 
 		Bei ersten Tests mittels pysim wurde schnell deutlich, dass es
 		sich um eine UMTS-Authentifizierung handeln muss. Die vorliegende
-		Python-Bibliothek pysim ist jedoch nicht dazu in der Lage diese
+		Python-Bibliothek pysim ist jedoch nicht dazu in der Lage, diese
 		Art von Authentifizierung zu initiieren. Wie unter \Verweis{subsec:pysim}
-		genauer erläutert konzentriert sich pysim von Kevin Prince auch
+		genauer erläutert, konzentriert sich pysim von Kevin Prince auch
 		eher auf die Programmierung entsprechender SIM-Karten, statt
 		dem universellen Auslesen dieser.
 
 		Nachdem sich herausstellte, dass \ac{UMTS}-Kartensupport ebenfalls 
 		notwendig ist, fiel die Alternativwahl
-		auf die Bibliothek \textit{osmo-sim-auth} eingesetzt
+		auf die Bibliothek \textit{osmo-sim-auth}
 		(vgl. \Verweis{subsec:osmosim}). Über diese Bibliothek konnten
 		alle Funktionen auf der Seite des UE in der Sprache Python
 		implementiert werden.
@@ -192,7 +192,7 @@
 
 		Mit der bereits erläuterten Milenage-Prüfsoftware konnten fast
 		alle berechneten, übertragenen sowie von der SIM-Karte empfangenen
-		Werte korrekt verifiziert werden. Ausgehend von den festgelegten
+		Werte korrekt verifiziert werden: ausgehend von den festgelegten
 		Geheimnissen \textit{K}, \textit{OP(c)}, dem ausgetauschten \textit{RAND}
 		über die berechneten Variablen \textit{f1-f5} bis hin zu \textit{Kc} sowie
 		\textit{SRES} auf beiden teilnehmenden Seiten.
