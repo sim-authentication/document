@@ -1,10 +1,10 @@
-\section{Ergebnis (Schenkel)}
+\section[Ergebnis (Schenkel)]{Ergebnis}
 	Die beiden nachfolgenden Kapitel beschäftigen sich mit der Offenlegung durchgeführter Tests und deren Ergebnisse.
 	Hierbei wird näher darauf eingegangen für welche Teilaspekte welche Prüfmechanismen
 	eingesetzt wurden. Ebenso wird verdeutlicht, welche Funktionen erfolgreich, beziehungsweise
 	mit zwischenzeitlichen Komplikationen implementiert werden konnten.
 
-	\subsection{Funktionsprüfung (Schenkel)}
+	\subsection[Funktionsprüfung (Schenkel)]{Funktionsprüfung}
 	\label{ergebnis-tests}
 	Nachfolgende Tabelle liefert zunächst eine Übersicht zu implementierten und im Anschluss
 	getesteten Funktionen:\vspace*{5mm}
@@ -49,7 +49,7 @@
     nächsten Kapitel beschrieben (vgl. \Verweis{subsec:fehler}).
 
 
-		\subsubsection{AES (Schenkel)}
+		\subsubsection[AES (Schenkel)]{AES}
 		Wie bereits unter Kapitel \Verweis{implementierung-aes} erläutert, basierte die Implementierungsphase
 		primär auf der Entwicklung der \textit{AES}-Verschlüsselung. 
 
@@ -72,7 +72,7 @@
 		wie erwünscht arbeitet.
 
 
-		\subsubsection{Milenage (Schenkel)}
+		\subsubsection[Milenage (Schenkel)]{Milenage}
 		Der Austausch verschiedener, generierter bzw. auch statischer Werte zwischen eigenem
 		Implementierung und der SIM-Karte konnte mit \textit{UMTS Security Algorithms}
 		von Fabricio Ferraz\footnote{\url{http://fabricioapps.blogspot.de/2011/05/umts-security-algorithm-milenage.html}}
@@ -85,7 +85,7 @@
 		Schritt verifiziert werden. Bei auftretenden Fehlern im Endergebnis konnten Ursachen
 		genauer eingegrenzt und behoben werden.
 
-		\subsubsection{SIM-Karte und SIM-Kartenleser (Schenkel)}
+		\subsubsection[SIM-Karte und SIM-Kartenleser (Schenkel)]{SIM-Karte und SIM-Kartenleser}
 		Diese beiden Komponenten konnten direkt nach der Treiberintegration im Betriebssystem
 		geprüft werden.
 
@@ -95,7 +95,7 @@
 		Teiberinterne Scan-Mechanismen gaben Auskunft über das Vorhandensein einer SIM-Karte,
 		sowie rudimentäre Abfragen. So kann z.B. die IMSI direkt ausgelesen werden.
 
-		\subsubsection{Client- und Server-Kommunikation (Schenkel)}
+		\subsubsection[Client- und Server-Kommunikation (Schenkel)]{Client- und Server-Kommunikation}
 		Die Kommunikation zwischen Client- und Server-Komponenten wurden über die bereits zuvor
 		fertiggestellte Implementierung der jeweiligen Gegenseite getestet.
 
@@ -108,7 +108,7 @@
 		Im Anschluss daran wurden beide Teilkomponenten im realen Umfeld verbunden und der
 		Authentifizierungsablauf erneut geprüft.
 
-		\subsubsection{PPPoE (Schenkel)}
+		\subsubsection[PPPoE (Schenkel)]{PPPoE}
 		Der ordnungsgemäße Aufbau der PPPoE-Verbindung ließ sich durch die diensteigene
 		Log-Ausgabe verfolgen. Nach dem Start des Serverdienstes gibt dieser Auskunft
 		darüber, ob jetzt einkommende Verbindungen erwartet werden.
@@ -119,9 +119,9 @@
 		IP-Tables-Route zu prüfen. Mit der Auslieferung von Ressourcen aus
 		dem Internet war auch diese Funktion über PPPoE sicherzustellen.
 
-	\subsection{Fehler (Schenkel)}
+	\subsection[Fehler (Schenkel)]{Fehler}
 	\label{subsec:fehler}
-		\subsubsection{Einrichtung verwendeter Werkzeuge (Schenkel)}
+		\subsubsection[Einrichtung verwendeter Werkzeuge (Schenkel)]{Einrichtung verwendeter Werkzeuge}
 			\paragraph{Raspbian} konnte ohne Probleme installiert und in
 			Betrieb genommen werden (vgl. \Verweis{subsubsec:installpi}). Der einzige Zwischenfall ist auf eine
 			defekte SD-Speicherkarte zurückzuführen. Nach wenigen Wochen
@@ -140,7 +140,7 @@
 			Schon in der Standardinstallation des Server-Images können Netzwerkschnittstellen,
 			von Virtualbox bereitgestellt und direkt konfiguriert beziehungsweise auch genutzt werden.
 
-		\subsubsection{Fehleinschätzungen (Schenkel)}
+		\subsubsection[Fehleinschätzungen (Schenkel)]{Fehleinschätzungen}
 		Die meisten und gravierendsten Fehleinschätzungen beziehungsweise Probleme
 		wurden während der Inbetriebnahme der Karte sowie der Entwicklung
 		der Softwarekomponenten aufgedeckt.

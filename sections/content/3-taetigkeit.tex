@@ -1,9 +1,9 @@
-\section{Tätigkeit (Schenkel \& Heumann)}
+\section[Tätigkeit (Schenkel \& Heumann)]{Tätigkeit}
 
-\subsection{Aufsetzen der Umgebung des Netzproviders (Schenkel \& Heumann)}
+\subsection[Aufsetzen der Umgebung des Netzproviders (Schenkel \& Heumann)]{Aufsetzen der Umgebung des Netzproviders}
 
 %TODO: #edit Ubuntu und PPPoE klingen eher wie eine Anleitung, als wie eine "Dokumentation"
-	\subsubsection{Ubuntu (Schenkel)}
+	\subsubsection[Ubuntu (Schenkel)]{Ubuntu}
 	Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
 	der Linuxdistribution Ubuntu eingesetzt. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
 	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine betrieben.
@@ -39,7 +39,7 @@
     	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentifizierung
     	des UE den Zugang zum Internet freizuschalten.
 
-    	\subsubsection{PPPoE (Schenkel)}
+    	\subsubsection[PPPoE (Schenkel)]{PPPoE}
     	Die Einrichtung von \textit{PPPoE} basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
     	bezogen. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
@@ -83,7 +83,7 @@
         Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
-	\subsubsection{Implementierung AES (Heumann)}
+	\subsubsection[Implementierung AES (Heumann)]{Implementierung AES}
 	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
 	logische Teile unterteilt, nämlich die Variablendeklaration, die encrypt-Funktion, die die
@@ -200,7 +200,7 @@
 		t2-Funktion umgesetzt, ähnlich der mathematischen Definition in Kapitel
 		\Verweis{milenage-funktion}.
 
-	\subsubsection{Implementierung Milenage (Heumann)}
+	\subsubsection[Implementierung Milenage (Heumann)]{Implementierung Milenage}
 	\label{implementierung-milenage}
 	Die Implementierung des Milenage Algorithmus wurde nicht auf Basis der Funktionen
 	strukturiert sondern der Ausgabeblöcke. Die Funktionen \emph{f2} und \emph{f5} sind
@@ -304,8 +304,8 @@
 		Das vordere und hintere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 
-	\subsection{Erstellen des UE (Schenkel)}
-		\subsubsection{Aufsetzen des Raspberry Pis (Schenkel)}
+	\subsection[Erstellen des UE (Schenkel)]{Erstellen des UE}
+		\subsubsection[Aufsetzen des Raspberry Pis (Schenkel)]{Aufsetzen des Raspberry Pis}
         \label{subsubsec:installpi}
 			\paragraph{Raspbian} wird über die von der Webpräsenz\footnote{\url{https://www.raspberrypi.org/downloads/raspbian/}}
             des Projekts gehosteten vorgefertigten Builds aufgesetzt.
@@ -346,16 +346,16 @@
             des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem Pullen
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
-	\subsection{Integration mit PPPoE (Schenkel)}
+	\subsection[Integration mit PPPoE (Schenkel)]{Integration mit PPPoE}
         Um den Verbindungsaufbau zwischen UE und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
         als auch der Server für \ac{PPPoE} konfiguriert, sowie gestartet sein.
 
-	\subsubsection{Server (Schenkel)}
+	\subsubsection[Server (Schenkel)]{Server}
          Hier muss initial der Daemon für den \ac{PPPoE}-Server gestartet sein. Anzugeben ist das gewünschte
          Netz mit zugehöriger Netzwerkschnittstelle. Ebenso muss die IPTables-Regel zur Weiterleitung
          des Internetverkehrs gesetzt sein.
 
-         \subsubsection{Client (Schenkel)}
+         \subsubsection[Client (Schenkel)]{Client}
          Hier müssen einmalig über das Tool \textit{pppoe-conf} die Parameter und Authentifizierungsdaten
          für die \ac{PPPoE}-Verbindung eingepflegt werden.
 
@@ -364,9 +364,9 @@
          des Systems oder Verbindungsabbruch (regulär oder durch technische Zwischenfälle) greift dieser
          Mechanismus ebenfalls.
          
-\subsection{Implementierung der Server-Client Architektur (Schenkel \& Heumann)}
+\subsection[Implementierung der Server-Client Architektur (Schenkel \& Heumann)]{Implementierung der Server-Client Architektur}
 \label{server-client-architektur}
-	\subsubsection{Implementierung des Servers (Heumann)}
+	\subsubsection[Implementierung des Servers (Heumann)]{Implementierung des Servers}
     	\label{subsec:impl_server}
 	Das Hauptprogramm, das am Ende in \emph{main.c} (vgl. Listing \ref{lst:main.c}) gestartet wird, ist der eigentliche
 	Netzprovider beziehungsweise
@@ -425,7 +425,7 @@
 		es, dass die Nachricht des Clients nicht gelesen werden konnte. \\
 		In beiden Fällen wird das Programm und damit der Server beendet.
 
-    \subsubsection{Implementierung des Clients (Schenkel)}
+    \subsubsection[Implementierung des Clients (Schenkel)]{Implementierung des Clients}
     Wie bereits erläutert, existiert neben dem Server (vgl. \Verweis{subsec:impl_server}) auch ein Client,
     damit die Kommunikation wie erwünscht realisiert werden kann. Hier handelt es sich um die Komponente,
     die Zugriff auf die SIM-Karte hat (\emph{UE}) und alle notwendigen Informationen an den Server sendet.
@@ -481,7 +481,7 @@
         \paragraph{Beenden der Verbindung} Die Verbindung wird dann beendet, wenn entweder Client
         oder Server dies initiieren. 
 	
-    \subsubsection{Kommunikationsablauf zwischen Client und Server (Schenkel)}
+    \subsubsection[Kommunikationsablauf zwischen Client und Server (Schenkel)]{Kommunikationsablauf zwischen Client und Server}
     Dieser Ablauf wird über die durch Sockets initiierte Verbindung realisiert. Aufgrund
     der Tatsache, dass der Vorgang je nach Ausgangszustand den Aufruf verschiedener Operationen
     verlangt, wird ein Statuscode in jede Nachricht integriert. Anhand dieses Statuscodes
