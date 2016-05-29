@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+\subsection*{Autoren}
+Marco Heumann und Marco Schenkel
+
+\subsection*{Thema der Arbeit}
+Programmierung einer SIM-Authentifizierung
+
+\subsection*{Stichworte}
+Authentifizierung, SIM-Karten, UMTS
+
+\subsection{*Kurzzusammenfassung}
+=======
 In dieser Arbeit wurde die Authentifizierung einer SIM-Karte
 bei einem Netzprovider nachgebaut. Die Idee dahinter ist, dass
 ein Hotel seinen Gästen eine SIM-Karte gibt. Diese müssen die
@@ -22,3 +34,4 @@ ein Ethernetkabel und dem PPPoE-Protokoll.
 Zum Schluss wird auch eine Auswertung über den Ablauf des Projektes angefertigt und
 eine Diskussion, die mögliche weitere Punkte, im Zusammenhang mit diesem Projekt,
 anspricht.
+>>>>>>> ebd4c319742eed10cfbd0e20a66dedc55b8ec2f4
