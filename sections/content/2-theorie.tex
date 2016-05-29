@@ -407,7 +407,7 @@ Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \e
 Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei für die
 Re-synchonisation nötig, welche im Zuge dieser Arbeit auch durchgeführt wird. \\
 3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht
-den Netzprovidern eigene Lösungen zu implementieren. Deshalb wird nur beschriebe,n in
+den Netzprovidern eigene Lösungen zu implementieren. Deshalb wird nur beschrieben, in
 welchem Kontext diese Funktionen Anwendung finden und generelle Anforderungen
 an diese Algorithmen definiert \cite{3gpp.35.205}.
 
@@ -451,10 +451,10 @@ Algorithmus, erläutert.
  \subsubsection{Funktionsweise (Heumann)}
  \label{milenage-funktion}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen
- \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es
+ \ac{AuC} und \ac{UE} verschickt, jedoch nicht, wie diese Daten generiert werden. Es
  gibt einige Werte, die auf der \ac{USIM} und der Datenbank des \ac{AuC} fest eingespeichert
  sind. Diese sind der \ac{OP} und K, sowie jeweils fünf Rotations- und XOR-Konstanten
- (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert zeigt dabei \Abbildung{funktionsubersicht}.
+ (r1, ..., r5 und c1, ... c5). Welche Funktion welche Werte benötigt und generiert, zeigt dabei \Abbildung{funktionsubersicht}.
  
  \begin{figure}[htp]
   \begin{center}
@@ -483,14 +483,14 @@ Algorithmus, erläutert.
  Auf die anderen  Möglichkeiten wird hier nicht näher eingegangen, da sie in dieser Arbeit
  keine Anwendung finden und deutlich komplexer sind.
  
- Als nächstes wird die RAND gebildet. Das Verfahren, wie der Netzprovider diese RAND
- generiert darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Die
+ Als nächstes wird die RAND gebildet. Das Verfahren, mit dem der Netzprovider diese RAND
+ generiert, darf nicht offen gelegt werden, da dies die Sicherheit stark beeinflussen würde. Die
  Spezifikation gibt deshalb für die Generierung der RAND keine Empfehlung, wie für die anderen
- Werte. Generell handelt es sich bei der RAND um eine 128-bit lange Zufallszahl, die für alle
- anderen Funktion benötigt wird.
+ Werte. Generell handelt es sich bei der RAND um eine 128 Bits lange Zufallszahl, die für alle
+ anderen Funktionen benötigt wird.
  
  \Abbildung{funktionsubersicht} zeigt zwar, welche Variablen in die Funktionen einfließen und
- welche Werte sie zurückgeben, aber sie zeigt nicht näher wie diese Werte nun in den einzelnen
+ welche Werte sie zurückgeben, aber sie zeigt nicht näher, wie diese Werte nun in den einzelnen
  Funktionen angewendet werden. Dies zeigt \Abbildung{schematisch_milenage} besser. Dort ist
  zu erkennen, dass \emph{f2} bis \emph{f5*} nach dem selben Schema berechnet werden können und
  \emph{f1}, sowie \emph{f1*} noch einige zusätzliche Parameter benötigen.
@@ -501,8 +501,8 @@ Algorithmus, erläutert.
   $OP_{C} = OP \oplus E(OP)_{K}$
  \end{center}
  
- $E()$ ist die Blockchiffre. In diesem Falle wird also \ac{OP} mit dem Schlüssel K
- verschlüsselt. Welche Verschlüsselung gewählt wird, wird von 3GPP nicht vorgegeben. In
+ $E()$ ist die Blockchiffre. In diesem Fall wird also \ac{OP} mit dem Schlüssel K
+ verschlüsselt. Welche Verschlüsselung gewählt wird, gibt 3GPP nicht vor. In
  dieser Arbeit wurde \ac{AES} verwendet, welche im Kapitel \Verweis{aes} näher beschrieben wird. \\
  Der verschlüsselte OP wird dann im zweiten Schritt über XOR ($\oplus$) mit dem ursprünglichen
  OP verknüpft.
@@ -515,28 +515,28 @@ Algorithmus, erläutert.
   \label{fig:schematisch_milenage}
  \end{figure}
  
- In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu lesen.
- Beim rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und %TODO: #edit -nach- rechts? 
- die Bits die herausfallen links wieder eingefügt. Beispielsweise wird aus 110101 bei einem
+ In \Abbildung{schematisch_milenage} ist weiterhin der Funktionsblock ``rotate by r'' zu sehen.
+ Beim Rotieren wird der Eingabewert um die Anzahl an Bits des Wertes von r rechts rotiert und
+ die Bits, die herausfallen, links wieder eingefügt. Beispielsweise wird aus 110101 bei einem
  Rotationswert r von 2: 011101.
  
  Mit den genannten Infos ist verständlich, dass die Funktionen \emph{f2} bis \emph{f5*}
- ausgehen von einem verschlüsselten $RAND \oplus OP_C$, welcher in der Dokumentation
+von einem verschlüsselten $RAND \oplus OP_C$ ausgehen, welcher in der Dokumentation
  auch als TEMP bezeichnet wird. Dieser Wert wird wieder über XOR-mit $OP_ C$ verknüpft
- und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wieder eine XOR
- Verknüpfung mit der speziellen XOR-Konstante c und die Chiffre des Ausgabewertes. Im
+ und um die entsprechende Rotationskonstante r rotiert. Im Anschluss wird wieder eine XOR
+ Verknüpfung mit der speziellen XOR-Konstante c und die Chiffre des Ausgabewertes durchgeführt. Im
  letzten Schritt wird dieser dann nochmal über XOR mit $OP_{C}$ verknüpft. \\
- Wie die \Abbildung{schematisch_milenage} zeigt funktionieren \emph{f1} und {f1*} sehr
- ähnlich. Bevor jedoch TEMP in die Berechnung einfließt wird SQN und AMF auf 128 Bits
+ Wie die \Abbildung{schematisch_milenage} zeigt, funktionieren \emph{f1} und {f1*} sehr
+ ähnlich. Bevor jedoch TEMP in die Berechnung einfließt, wird SQN und AMF auf 128 Bits
  erweitert und bekommt in der Dokumentation die Bezeichnung IN1. IN1 besteht aus SQN und
  AMF abwechselnd konkateniert, also SQN $\|$ AMF $\|$ SQN $\|$ AMF. \cite{3gpp.33.102}
  
- Wie im Kapitel \ref{aes} erklärt wird, sind die Blöcke, die verschlüsselt werden immer
- 128 Bits lang. Deshalb sind auch RAND, TEMP oder IN1 128 Bits lang. Ein MAC-A oder RES
- jedoch sind kürzer, weshalb diese nur aus Teilen eines Blocks bestehen. Deswegen stehen
+ Wie im Kapitel \ref{aes} erklärt wird, sind die Blöcke, die verschlüsselt werden, immer
+ 128 Bits lang. Das gilt auch für RAND, TEMP oder IN1. Ein MAC-A oder RES
+ jedoch sind kürzer, weshalb diese nur aus Teilen eines Blocks bestehen. Deswegen steht
  an manchen Enden des Diagramms in \Abbildung{schematisch_milenage} auch mehr als ein
  Funktionsname. \\
- Es gibt fünf Blöcke aus denen sich die sieben Funktionswerte bilden. Sie werden in der
+ Es gibt fünf Blöcke, aus denen sich die sieben Funktionswerte bilden. Sie werden in der
  Spezifikation von Milenage mit OUT\emph{n} bezeichnet.
  
  \begin{description}
@@ -548,38 +548,38 @@ Algorithmus, erläutert.
  \end{description}
  
  Es ist kein Fehler, dass AK sowohl bei OUT2 als auch bei OUT5 erwähnt wird, sondern
- wie schon in Kapitel \Verweis{authentifizierungsvorgang} geschrieben, wird
- der Anonymitätsschlüssel AK der mit SQN verknüpft wird im Falle der Resynchronisation
+ wie schon in Kapitel \Verweis{authentifizierungsvorgang} beschrieben, wird
+ der Anonymitätsschlüssel AK, der mit SQN verknüpft wird, im Falle der Resynchronisation
  anders berechnet als bei der Generierung der Authentifizierungsvektoren seitens des
  Netzproviders.
  
 %% AES/Rijndael %%
 \subsection{AES / Rijndael (Heumann)}
 \label{aes}
- Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
+ Rijndael oder \ac{AES} sind beides Blockverschlüsselungen. Das bedeutet, dass der zu
  verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel
- chiffriert wird. Die Blocklänge des verschlüsselten Text bleibt dabei gleich. \\
+ chiffriert wird. Die Blocklänge des verschlüsselten Textes bleibt dabei gleich. \\
  Der Unterschied zwischen Rijndael und AES besteht lediglich in der Länge der Text- sowie
  Schlüsselblöcke und ist sonst identisch. Für Rijndael gilt, dass Block- und Schlüssellänge
  unabhängig von einander auf Vielfache von 32 Bits definiert werden können. Minimal müssen
  beide aber 128 Bits lang sein und maximal 256 Bits \cite{daemon02}. \\ %TODO: #edit quelle? #CHECK
  AES auf der anderen Seite hat die Blocklänge auf 128 Bits festgelegt und die Schlüssel\-länge
  darf nur 128, 192 oder 256 Bits betragen \cite{AES-FIPS}. Welche Schlüssel\-länge genutzt
- wird, kann die unterschiedlichen Bezeichnung AES-128, AES-192 und AES-256 deutlich gemacht
+ wird, kann durch die unterschiedlichen Bezeichnung AES-128, AES-192 und AES-256 deutlich gemacht
  werden.
  
  Im folgenden soll kurz die Geschichte von AES beziehungsweise Rijndael erläutert werden und
  wie der Verschlüsselungs\-algorithmus der beiden funktioniert. Nicht angesprochen wird der
- Entschlüsselungs\-algorithmus, da der für diese Arbeit keine Relevanz hat.
+ Entschlüsselungs\-algorithmus, da er für diese Arbeit keine Relevanz hat.
  
  \subsubsection{Geschichte (Heumann)}
  \label{aes-geschichte}
  Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war
  \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei
  DES betrug die Blockgröße nur 64 Bits, was lange Zeit ausreichend war, aber mit Fortschreiten
- der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffen (weitere
- Argumente finden sich in \cite{paar10}). Es gab deswegen die Empfehlung den dreifach DES zu
- nutzen, aber der war nochmal langsamer, als der einfache DES, weshalb das NIST eine neue
+ der Rechenleistungen nicht mehr lange genügen würde gegen Brute-Force Angriffe (weitere
+ Argumente finden sich in \cite{paar10}). Es gab deswegen die Empfehlung, den dreifach DES zu
+ nutzen, aber der war nochmal langsamer als der einfache DES, weshalb das NIST eine neue
  Blockverschlüsselung suchte über eine Ausschreibung (1997).
  
  An die neue Verschlüsselung wurden folgende Bedingungen gestellt:
@@ -592,39 +592,39 @@ Algorithmus, erläutert.
 
 Die Suche nach dem neuen Algorithmus fand öffentlich statt, sodass sich jeder auf der ganzen
 Welt beteiligen konnte und im August 1999 fünf Finalisten gekürt wurden. Dabei wurden
-öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 hat NIST
-mit Rijndael den Gewinner bekannt gegeben. Dieser wurde von den beiden Belgiern Joan
+öffentlich die Vor- und Nachteile der einzelnen Algorithmen diskutiert und Ende 2000 gab NIST
+mit Rijndael den Gewinner bekannt. Dieser wurde von den beiden Belgiern Joan
 Daemon und Vincent Rijmen entwickelt.
 
-An dieser Stelle sei auch zu erwähnen, dass die \ac{NSA} sehr viel vertrauen in AES hat. So hat
-diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mit AES zu
+An dieser Stelle sei auch erwähnt, dass die \ac{NSA} sehr viel Vertrauen in AES hat. So erteilte
+sie diesem die generelle Erlaubnis, als \emph{SECRET} eingestufte Dokumente mit AES zu
 verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
  \subsubsection{Mitbewerber (Heumann)}
- Als die größten Konkurrenten von Rijndael werden ``Twofish'' und ``Serpent'' gesehen. Um zu verstehen
- warum die Entscheidung am Ende trotzdem auf Rijndael fiel sollen die beiden Konkurrenten an dieser
+ Als die größten Konkurrenten von Rijndael werden ``Twofish'' und ``Serpent'' gesehen. Um zu verstehen,
+ warum die Entscheidung am Ende trotzdem auf Rijndael fiel, sollen die beiden Konkurrenten an dieser
  Stelle untersucht werden. Beide verfolgen einen klassischen Ansatz.
  
  \paragraph{Serpent}
  Entwickelt wurde der Algorithmus von drei bekannten Kyrptografen. Sie haben bei der Entwicklung ihres
  Algorithmus darauf geachtet, dass er noch in mindestens einem Jahrhundert sicher ist und deswegen auch
- auf Experimente verzichtet. Serpent ist wie AES eine Substitutions-Permutations-Chiffre. Sie nutzen
+ auf Experimente verzichtet. Serpent ist wie AES eine Substitutions-Permutations-Chiffre. Sie nutzt
  hauptsächlich Substitutionsboxen und einige lineare Funktionen, welche
  in der Kombination seit den siebziger Jahren bekannt sind und deshalb als gut erforscht gelten.
- Außerdem nutzen sie 32 statt, wie in anderen Verfahren, die üblichen acht bis 16 Runden, um sicher zu gehen. \\
+ Außerdem nutzen sie 32, statt, wie in anderen Verfahren, die üblichen acht bis 16 Runden, um sicher zu gehen. \\
  Serpent hat nach aktuellem Stand einen sehr großen Sicherheitspuffer, da 32 Runden verwendet werden, aber
- diese hohe Anzahl machen ihn auch zu dem langsamsten von den drei Algorithmen. \cite{schmeh07}
+ diese hohe Anzahl macht ihn auch zu dem langsamsten der Algorithmen. \cite{schmeh07}
  
  \paragraph{Twofish}
- Der Nachfolger von Blowfish ist Twofish entwickelt unter anderem von Bruce Schneider und ist eine Feistel-Chiffre.
+ Der Nachfolger von Blowfish ist Twofish, entwickelt unter anderem von Bruce Schneider. Es handelt sich dabei um eine Feistel-Chiffre.
  In Twofish werden vier S-Boxen aus dem
  Schlüssel generiert, die jeweils zwei mal pro Runde eingesetzt werden. Insgesamt sieht Twofish 16 Runden vor.
  Wie auch bei Serpent sind abgesehen von den Substitutionsboxen alle Schritte linear. Es werden insgesamt 40
  Subschlüssel je 32 Bits Länge benötigt und die S-Boxen müssen generiert werden. \\
- Daraus folgt dass Twofish mit seiner Geschwindigkeit zwischen Rijndael und Serpent liegt. Auch was die Innovationen
- im Design angeht ist Twofish zwischen Serpent und Rijndael anzusehen. Bislang ist nur eine theoretische Schwachstelle
- bekannt, aber keine konkrete Methode diese zu nutzen. \cite{schmeh07}
+ Daraus folgt, dass Twofish mit seiner Geschwindigkeit zwischen Rijndael und Serpent liegt. Auch was die Innovationen
+ im Design angeht, liegt Twofish zwischen Serpent und Rijndael. Bislang ist nur eine theoretische Schwachstelle
+ bekannt, aber keine konkrete Methode, diese zu nutzen. \cite{schmeh07}
  
  \subsubsection{Algebraische endliche Körper (Heumann)}
  Der Algorithmus ist verständlich und anwendbar, auch ohne das Wissen über die mathematischen
@@ -649,7 +649,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Mit der Operation $*$ hingegen gibt es kein neutrales Element, welches eine Gruppe ermöglichen
  würde. \\
  Anzumerken ist, dass die Menge nicht wie $\Z$ unendlich sein muss, damit eine Gruppenbildung
- möglich ist. Ein Beispiel dafür wird an jedoch erst zu einem späteren Zeitpunkt geliefert.
+ möglich ist. Ein Beispiel dafür wird zu einem späteren Zeitpunkt geliefert.
  
  Die Fortsetzung der Gruppe ist der Körper. Diese Struktur unterstützt die vier arithmetischen Basisoperationen
  Addition, Subtraktion, Multiplikation und Division. Die Definition für einen Körper $K$ lautet \cite{paar10}:
@@ -662,7 +662,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  \end{enumerate}
 
  Ähnlich wie bei Rijndael spielen im Großteil der Kryptographie die endlichen Körper, oder Galois-Feld genannt,
- eine große Rolle. Die endliche Menge, die einen Körper zu einem endlichen Körper machen, ist zählbar und
+ eine große Rolle. Die endliche Menge, die einen Körper zu einem endlichen Körper macht, ist zählbar und
  die Anzahl der Elemente wird ``Ordnung'' oder ``Kardinalität'' genannt. Ein Körper kann jedoch nur
  mit folgendem Theorem endlich sein \cite{paar10}:
  
@@ -681,7 +681,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Die Elemente des Galois-Felds $GF(p)$ werden mit ganzen Zahlen repräsentiert: $0, 1, \dots, p-1$. Die arithmetischen
  Rechenoperationen werden \emph{modulo} $p$ betrieben. Dadurch ist das additive Inverse eines Elements $a$ gegeben
  mit $a + (-a) = 0$ modulo $p$ und das multiplikative Inverse jedes Elements $a$ außer 0 ist definiert als $a * a^{-1} = 1$.
- Nachfolgend ist ein kleines Beispiel mit $GF(5)$ zum besseren Verständnis:
+ Nachfolgend gibt es ein kleines Beispiel mit $GF(5)$ zum besseren Verständnis:
  
  %%TODO: Kriege es nicht besser gestylt...
 \begin{minipage}{0.5\textwidth}
@@ -768,8 +768,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    A(x) = a_{m-1}x^{m-1} + \hdots + a_1x + a_0, ~~~ a_i \in GF(2)
  \end{equation*}
  
- Die polynome Arithmetik wird nun im folgenden Kapitel erklärt speziell für die Körpererweiterung
- $GF(2^8)$.
+ Die polynome Arithmetik wird nun im folgenden Kapitel speziell für die Körpererweiterung
+ $GF(2^8)$ erklärt.
  
  \subsubsection{Polynome Arithmetik in $GF(2^8)$ (Heumann)}
  \label{polynome-arithmetic}
@@ -800,8 +800,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
  In der polynomen Repräsentation entspricht die Multiplikation in $GF(2^8)$ (dargestellt durch $\cdot$) der
  Multiplikation von Polynomen modulo eines ``irreduziblen Polynoms'' achten Grades. Dabei ist ein Polynom
- irreduzibel, wenn es nur durch 1 und sich selbst teilbar ist, ähnlich einer Primzahl. Das irreduzible
- Polynom des AES-Algorithmus ist:
+ irreduzibel, wenn es nur durch 1 und sich selbst teilbar ist ähnlich einer Primzahl. Das irreduzible
+ Polynom des AES-Algorithmus lautet:
   \begin{equation}
    m(x) = x^8 + x^4 + x^3 + x + 1
   \label{math:aes-polynom}
@@ -811,7 +811,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    x^8 +x^3 + x^2 + 1 = (x^5 + x^2 + 1) \cdot (x^3 + 1)
  \end{equation*}
  
- Mit der Kenntnis des irreduziblen Polynoms, lässt sich auch die Multiplikation vollständig definieren:
+ Mit der Kenntnis des irreduziblen Polynoms lässt sich auch die Multiplikation vollständig definieren:
  
  \begin{center}
   \parbox{13cm}{\centering
@@ -826,10 +826,10 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  So ist bei der Multiplikation statt Addition der beiden Polynome aus Gleichung \ref{math:addition} das
  Ergebnis $x^7 + x^6 +1$.
  
- Das Multiplizieren zweier Polynome auf dem einfachsten Wege ohne Tricks dauert jedoch ziemlich lange
+ Das Multiplizieren zweier Polynome auf dem einfachsten Weg ohne Tricks dauert jedoch ziemlich lange
  und im Anschluss muss noch durch $m(x)$ dividiert werden. Das führt zwar am Ende zum richtigen Ergebnis,
- aber ist wie gesagt sehr zeitaufwändig. In der Spezifikation des AES wird deshalb eine Methode angeboten,
- wie ebenfalls das richtige Ergebnis zustande kommt, aber wesentlich effizienter.
+ aber ist, wie gesagt, sehr zeitaufwändig. In der Spezifikation des AES wird deshalb eine Methode angeboten,
+ mit der ebenfalls das richtige Ergebnis zustande kommt, aber wesentlich effizienter.
  
  Die Funktion, die in der Spezifikation vorgeschlagen wird, heißt \emph{xtime(A(x))} und multipliziert
  $A(x)$ mit $x$ und reduziert durch $m(x)$. Es gilt:
@@ -838,8 +838,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  \end{equation*}
  
  Um bei einer Größe von 8 Bits für $C(x)$ zu bleiben, wird vor der Schiebeoperation überprüft, ob
- $a_7$ 0 oder 1 ist. Wenn das Bit 0 ist wird nach anwenden der Funktion $C(x)$ kleiner $m(x)$ sein. In
- diesem Falle ist im Anschluss keine Modulo-Operation nötig. Diese wird nur nötig wenn $a_7$ 1 ist. Dann
+ $a_7$ 0 oder 1 ist. Wenn das Bit 0 ist, wird nach Anwendung der Funktion $C(x)$ kleiner $m(x)$ sein. In
+ diesem Falle ist im Anschluss keine Modulo-Operation notwendig. Diese wird nur erforderlich, wenn $a_7$ 1 ist. Dann
  muss C(x) noch modulo dem hinteren Teil von $m(x)$ berechnet werden, nämlich $x^4 + x^3 + x +1$. Es
  muss nur mit dem hinteren Teil des irreduziblen Polynom $m(x)$ reduziert werden, da $x^8$ nicht genutzt
  wird in $C(x)$. \cite{AES-FIPS}
@@ -857,7 +857,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
     A(x) * x^3 = xtime(A(x) * x^2) = xtime(xtime(A(x) * x)) = xtime(xtime(xtime(A(x))))
  \end{equation*}
  
- Das Ergebnis der Berechnung zweier Werte $A(x), B(x)$ kann damit erzielt werden, in dem die einzelnen
+ Das Ergebnis der Berechnung zweier Werte $A(x), B(x)$ kann dadurch erzielt werden, dass die einzelnen
  Zwischenergebnisse von $B(x)$ aufaddiert werden mit $A(x)$. Dazu ein letztes Beispiel:
   \begin{flalign*}
    &A(x) = x^6 + x^4 + x^2 + x^1 + 1, B(x) = x^4 + x^1 + 1 \\
@@ -875,52 +875,52 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  \subsubsection{Funktionsweise (Heumann)}
  \label{aes-funktion}
  Bei der Blockverschlüsselung gibt es fünf verschiedene Betriebsmodi, die in der ISO/IEC 10116:2006
- \cite{ISO10116} beschrieben sind. Diese Betriebsmodi beschreiben wie ein Text bestehend aus
+ \cite{ISO10116} beschrieben sind. Diese Betriebsmodi geben an, wie ein Text bestehend aus
  mehreren Blöcken verschlüsselt wird.
  
   \paragraph{Electronic Codeblock (ECB)}
    Jeder Textblock wird unabhängig vom vorherigen Block verschlüsselt. Daraus resultieren vor allem
-   zwei Dinge. Zum einen bewirkt eine Vertauschung der Blöcke im chiffrierten Text zur gleichen Vertauschung
+   zwei Dinge. Zum einen führt eine Vertauschung der Blöcke im chiffrierten Text zur gleichen Vertauschung
    im entschlüsselten Text und zum anderen beeinflusst ein Fehler bei der Entschlüsselung eines Blocks
-   nicht die anderen Blöcke. Es wird deshalb davon abgeraten diesen Modus zu verwenden bei mehr
+   nicht die anderen Blöcke. Es wird deshalb davon abgeraten, diesen Modus zu verwenden bei mehr
    als einem Block.
 
   \paragraph{Cipher Block Chaining (CBC)}
    Beim CBC werden die Schwächen von ECB verkleinert, in dem eine Verkettung der Blöcke vorgenommen
    wird. So gibt es beim ersten Block zusätzlich zum Schlüssel noch einen Initialisierungsvektor. Bei den
    folgenden Textblöcken wird der Schlüssel mit dem vorhergehenden verschlüsselten Textblock
-   verknüpft. Dadurch können Blöcke nicht mehr vertauscht werden und wenn ein Fehler bei der Ent\-
-   schlüsselung in einem Block passiert ist zusätzlich zu diesem auch der nachfolgende Block nicht mehr
+   verknüpft. Dadurch können Blöcke nicht mehr vertauscht werden und wenn ein Fehler bei der Entschlüsselung
+   in einem Block entsteht, ist zusätzlich zu diesem auch der nachfolgende Block nicht mehr
    zu entschlüsseln.
    
   Neben den beiden genannten Modi existieren noch ``Cipher Feedback'', ``Output Feedback'' und
-  ``Counter''. Auf diese soll hier aber nicht näher eingegangen werden, da diese Elemente der
-  Stromchiffre nutzen. Ihre Erklärung wäre deshalb für diesen Rahmen zu umfangreich, da beim
+  ``Counter''. Auf diese soll hier aber nicht näher eingegangen werden, da diese Elemente die
+  Stromchiffre nutzen. Ihre Erklärung wäre deshalb in diesen Rahmen zu umfangreich, da beim
   Mileange-Algorithmus nur Zeichenketten verschlüsselt werde, die nicht länger oder kürzer als ein Block
-  sind. Das ist auch der Grund warum bei Milenage bedenkenlos der ECB eingesetzt werden kann.
+  sind. Das ist auch der Grund, warum bei Milenage bedenkenlos der ECB eingesetzt werden kann.
   
   Beim AES-Algorithmus werden nicht nur Teile sondern immer alle 128 Bits bearbeitet, weshalb die
-  Anzahl der Iterationen relativ gering ist und den Algorithmus schnell macht. Bei einer Schlüssellänge
+  Anzahl der Iterationen relativ gering ist und den Algorithmus schnell machen. Bei einer Schlüssellänge
   von 128 Bits werden 10 Runden benötigt, bei 192 Bits 12 und bei der Schlüssellänge von 256 Bits
   sind 14 Runden nötig. In jeder Runde werden vier Funktionen auf den Textblock angewendet, um
-  den Textblock gut zu verschlüsseln. In welcher Reihenfolge diese angewendet werden, wird später
+  ihn gut zu verschlüsseln. In welcher Reihenfolge diese angewendet werden, wird später
   in diesem Kapitel erläutert.
   
   Damit der Textblock mit einem Schlüssel verschlüsselt werden kann, müssen beide in ein rechteckiges
   Array aus Bytes transformiert werden. Die Anzahl der Reihen ist immer vier, aber die Anzahl der Spalten
-  variiert je nach Textlänge. Mit der Umwandlung des Textblocks in das Array, spricht man vom Zustand
+  variiert je nach Textlänge. Mit der Umwandlung des Textblocks in das Array spricht man vom Zustand
   und der umgewandelte Schlüssel ist nun der Chiffrierschlüssel. \\
-  Der Zustand ist bei AES immer vier Spalten breit und der Chiffrierschlüssel vier, sechs oder acht Spalten
+  Der Zustand ist bei AES immer vier Spalten und der Chiffrierschlüssel vier, sechs oder acht Spalten
   breit. In beiden Fällen wird das Array zeilenweise gebildet. Das bedeutet, dass bei einer Blocklänge von
   128 Bits in den ersten vier Arrayelementen des Zustands die ersten 32 Bits des Blocks stehen.
   
-  Nachfolgend werden nun die vier Funktionen beschrieben die den Zustand verändern.
+  Nachfolgend werden nun die vier Funktionen beschrieben, die den Zustand verändern.
   
   \paragraph{SubBytes}
    Bei der SubBytes-Transformation handelt es sich um eine nicht-lineare Bytesubstitution, welche
    separat auf jedes Byte des Status angewendet wird. Die Substitutionstabelle, auch S-Box genannt,
-   ist 16 x 16 Felder groß und ist damit eine bijektive Abbildung aller 256 möglichen Eingabemöglichkeiten.
-   Wie die Tabelle gebildet wird, wird an dieser Stelle nicht näher beschrieben, aber im \Anhang{abb:s-box}
+   ist 16 x 16 Felder groß und damit eine bijektive Abbildung aller 256 möglichen Eingabemöglichkeiten.
+   Wie die Tabelle gebildet wird, wird an dieser Stelle nicht näher beschrieben aber im \Anhang{abb:s-box}
    befindet sich die Tabelle.
    
    Mit dem Wert das Statuselements wird nun der Wert aus der Substitutionstabelle ermittelt. Die ersten vier
@@ -931,16 +931,16 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Bei dieser Funktion werden die Bytes in jeder Zeile des Zustands-Arrays zirkulär verschoben. Das bedeutet,
    dass die einzelnen Bytes vorne, also links, ``rausgeschoben'' werden und hinten/rechts, wieder
    ``reingeschoben''. Dabei ist  die Anzahl der Verschiebungen in jeder Zeile unterschiedlich. In Zeile eins wird
-   gar nicht verschoben, in Zeile zwei um ein Byte, Zeile drei um zwei Bytes und in Zeile vier das Array um drei
-   Bytes verschoben. Für die Berechnug existiert keine matematische Grundlage, sondern es geht einfach
+   das Array gar nicht verschoben, in Zeile zwei um ein Byte, Zeile drei um zwei Bytes und in Zeile vier um drei
+   Bytes. Für die Berechnung existiert keine mathematische Grundlage, sondern es geht einfach
    um die Konfusion des Arrays.
    
-   Als Beispiel, sei der String in der vierten Zeile $3B | 2A | 34 | 71$, so würde dieser durch die Rotation anschließend
+   Als Beispiel sei der String in der vierten Zeile $3B | 2A | 34 | 71$, so würde dieser durch die Rotation anschließend
    so aussehen: $71 | 3B | 2A | 34$.
    
   \paragraph{MixColumns}
-   In der MixColumns-Transformation wird nicht jedes Byte einzeln transformiert, sonder die gesamte Spalte.
-   Die Berechnung ist hierbei etwas umfangreicher, als in den Transformationen zuvor. Nehmen wir eine Spalte
+   In der MixColumns-Transformation wird nicht jedes Byte einzeln transformiert, sondern die gesamte Spalte.
+   Die Berechnung ist hierbei etwas umfangreicher als in den Transformationen zuvor. Nehmen wir eine Spalte
    $j$, dann wird folgende Berechnung durchgeführt:
    
     \begin{equation*}
@@ -975,14 +975,14 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
     
     Mathematisch betrachtet beruht diese Funktion auf Polynomen mit Koeffizienten aus $GF(2^8)$. Statt also
     Koeffizienten, die ein Bit repräsentieren, repräsentiert in diesem Fall ein Koeffizient ein ganzes Byte. Für diese
-    Polynome kann gezeigt werden, dass die Funktion $T_2(a)$ auch beschrieben werden kann, als $2 \cdot a$.
+    Polynome kann gezeigt werden, dass die Funktion $T_2(a)$ auch beschrieben werden kann als $2 \cdot a$.
     Ähnliches gilt für $T_3(a)$ mit $3 \cdot a$ \cite{schmeh07}.
    
   \paragraph{AddRoundKey}
    In dieser Funktion wird jedes einzelne Zustandsbyte mit einem Byte aus dem Rundenschlüssel bitweise über
-   ein exklusives Oder verrechnet. Der Rundenschlüssel ist ein ein erweiterter Chiffrierschlüssel. Die Berechnung
+   ein exklusives Oder verrechnet. Der Rundenschlüssel ist ein erweiterter Chiffrierschlüssel. Die Berechnung
    des Rundenschlüssels wird im Anschluss erklärt. In jeder Runde kommt ein neuer Rundenschlüssel zum
-   Einsatz, welcher die selbe Größe, wie das Zustands-Array hat. Die Formel dafür lautet:
+   Einsatz, welcher die selbe Größe wie das Zustands-Array hat. Die Formel dafür lautet:
    
    \begin{equation*}
     b_{i,j} = a_{i,j} \oplus rk_{i,j}
@@ -991,8 +991,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    $b$ ist der neue Zustand, $a$ der initiale und $rk$ ist der Rundenschlüssel.
    
    Der gesamte Ablauf der einzelnen Runden und angewendeten Transformationen ist auch grafisch in der
-   Abbildung \ref{abb:funktion_aes} im Anhang dargestellt. Dort steht ebenfalls was bereits erwähnt wurde,
-   nämlich dass aus dem ursprünglichen Chiffrierschlüssel die Rundenschlüssel bilden.
+   Abbildung \ref{abb:funktion_aes} im Anhang dargestellt. Dort steht ebenfalls, was bereits erwähnt wurde,
+   nämlich dass aus dem ursprünglichen Chiffrierschlüssel die Rundenschlüssel gebildet werden.
    
   \paragraph{Key Schedule}
    Mit dem (Rijndael) Key Schedule werden die Rundenschlüssel ermittelt. Der erste Rundenschlüssel ist
@@ -1024,29 +1024,29 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Zusammengefasst wird die erste Spalte des neuen Rundenschlüssels berechnet aus der Verknüpfung
    von der ersten Spalte des vorherigen Rundenschlüssels mit der substituierten vierten Spalte aus dem vorherigen
    Rundenschlüssel. Außerdem wird vor der Substitution das oberste Byte zyklisch oben rausgeschoben und unten
-   wieder reingeschoben. Zum Schluss wird das erste Byte noch mit einer Rundenkonstanten verrechnet. \\
+   wieder reingeschoben. Zum Schluss wird das erste Byte noch mit einer Rundenkonstante verrechnet. \\
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
   \paragraph{Rundendurchlauf}
   Es wurde schon erwähnt, dass AES-128, der bei Milenage genutzt wird, 10 Runden durchläuft. Die einzelnen Schritte
-  der Runden und was vorher noch passiert wird dargestellt im \Anhang{abb:funktion_aes}. In der gezeigten Abbildung
+  der Runden und was vorher noch passiert, wird dargestellt im \Anhang{abb:funktion_aes}. In der gezeigten Abbildung
   wird der Rundenschlüssel für die jeweilige Runde berechnet. Alternativ können in Runde 0 aber auch direkt alle
   Rundenschlüssel berechnet werden. Auf jeden Fall wird aber zu Beginn in Runde 0 die addRoundKey-Transformation
   durchgeführt. \\
   In den Runden 1 bis 9 werden alle vier Operationen abwechselnd durchgeführt. Erst werden die Bytes substituiert, dann
-  die Zeilen und Spalten vermischt und zum Schluss wieder der Rundenschlüssel addiert. Bis auf MixColumns werden werden
+  die Zeilen und Spalten vermischt und zum Schluss wieder der Rundenschlüssel addiert. Bis auf MixColumns werden
   alle Transformationen auch in der letzten Runde getätigt. Der Grund dafür ist, dass MixColumns und AddRoundKey in
   der Reihenfolge vertauscht werden können, ohne dass sich das Endergebnis ändert. Nun ist es so, dass MixColumns
   nicht vom Schlüssel abhängig ist, was bedeutet, dass Angreifer MixColumns zurückrechnen können ohne den Schlüssel
-  zu kennen. Die Transformation in der letzten Runde anzuwenden würde also lediglich Rechenzeit benötigen, aber würde
+  zu kennen. Die Transformation in der letzten Runde anzuwenden, würde also lediglich Rechenzeit benötigen, aber würde
   den Schlüssel nicht sicherer machen, weshalb die Transformation im letzten Schritt weggelassen wurde. \cite{schmeh07}
   
   \subsubsection{Bewertung von AES (Heumann)}
-  Wie in den vorherigen Kapitel aufgezeigt verfolgt Rijndael einen innovativen und eleganten Ansatz gegenüber Twofish und
-  Serpent. Da in der Wettbewerbsphasen keine Sicherheitslücken sichtbar wurden und die Verschlüsselungsgeschwindigkeit
-  sehr schnell ist setzte sich dieser durch. Nach einigen weiteren Jahren in denen sich Kryptoanalytiker mit dem Algorithmus
-  beschäftigt haben, ist Kritik an Rijndael aufgekommen. Rijndael gilt immer noch als sicher, aber der Sicherheitspuffer ist beträgt
+  Wie in den vorherigen Kapitel aufgezeigt, verfolgt Rijndael einen innovativen und eleganten Ansatz gegenüber Twofish und
+  Serpent. Da in der Wettbewerbsphase keine Sicherheitslücken sichtbar wurden und die Verschlüsselungsgeschwindigkeit
+  sehr schnell ist, setzte sich dieser durch. Nach einigen weiteren Jahren, in denen sich Kryptoanalytiker mit dem Algorithmus
+  beschäftigt haben, ist Kritik an Rijndael aufgekommen. Rijndael gilt immer noch als sicher, aber der Sicherheitspuffer beträgt
   nur drei bis fünf Runden. Konkret bedeutet das, dass ein mit Rijndael verschlüsselter Text bis zur siebten Runde bei einer
   Schlüssellänge von 128 Bits geknackt werden kann. Bei 192 Bits braucht es acht Runden und bei 256 Bits neun von 14 Runden.
   
@@ -1062,7 +1062,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Microsoft Windows, GNU Linux und Apple Mac OS.
 
    Jede dieser angebotenen Versionen verfügt über zwei verschiedene Betriebsmodi: dem \textit{Demo Modus}
-   und den \textit{Practice Modus}. Beide sind dazu entwickelt den Ablauf des AES-Algorithmus für
+   und den \textit{Practice Modus}. Beide sind dazu entwickelt, den Ablauf des AES-Algorithmus für
    einen 128 Bit langen Textblock beziehungsweise Schlüssel zu verdeutlichen\cite{michiganuni}.
    Jeder Modus verfügt über vier verschiedene Module:
 
@@ -1090,7 +1090,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die Verschlüsselung verfügt im Modul \textit{SubstituteBytes} über eine Funktion,
    die automatisch einen zufälligen Klartext sowie
    Cipherkey generiert. Jeweils wird eine Länge von 128 Bit verwendet.
-   Selbige können mit einen RoundKey zusammengeführt und dann unter Zuhilfenahme
+   Diese können mit einen RoundKey zusammengeführt und dann unter Zuhilfenahme
    der S-Box in das ShiftRows-Modul übergeben werden.
 
    Im \textit{ShiftRows}-Modul wird lediglich visualisiert, welche Zeilen um welchen Wert verschoben
@@ -1100,14 +1100,14 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Matrix gekreuzt. Einzelne Spalten können bei Bedarf separat ausgewählt und in der
    mathematischen Berechnung nachvollzogen werden. Die Ergebnismatrix übergibt die Daten
    an das Modul \textit{AddRoundKey}.
-   Hier wird der verschlüsselte Text offengelegt. Erneut besteht die Möglichkeit einzelne Schritte
+   Hier wird der verschlüsselte Text offengelegt. Erneut besteht die Möglichkeit, einzelne Schritte
    durch Auswahl der Felder in der Matrix nachzuvollziehen.
 
    Der gleiche Funktionsumfang liegt auch für den Prozess der Entschlüsselung vor. Lediglich in
    inverser Reihenfolge\cite{michiganuni}.
 
    \paragraph{Practice Modus}
-   Dieser Modus ist dazu entwickelt, um den Ablauf des AES-Algorithmus sprichwörtlich zu üben.
+   Dieser Modus ist dazu entwickelt, den Ablauf des AES-Algorithmus sprichwörtlich zu üben.
    Im Ablauf entspricht dieser Modus dem des Demo Modus. Lediglich die Ergebnisse werden
    abweichend getriggert.
 
