@@ -29,7 +29,7 @@ Anwendungsgebiete für diese verschiedene Varianten von Chipkarten sind:
 \item Sicherheitskritische Anwendungen - Identifizierung und Authentifizierung
 \item Service-Anwendungen - Pay-TV
 \end{itemize}
-
+\clearpage
 \paragraph{Speicherkarten} werden dort verwendet wo kleine Datenmengen abrufbar
 sein müssen. Meist wird dies in Form von \ac{EEPROM}-Speicherbausteinen realisiert,
 die über ein serielles Protokoll beschrieben und gelesen werden können \cite{spitz11}.
@@ -114,6 +114,8 @@ read-write-fähig sein müssen. Unter anderem werden folgende Informationen auf 
     \caption{Auf SIM-Karten gespeicherte Informationen}
   \end{table}
 
+\clearpage
+
 \paragraph{IMSI} Wie bereits aus der Tabelle hervorgeht identifiziert die \ac{IMSI} weltweit
 einen Netzteilnehmer. Sie wird von Netzbetreibern ausgelesen und besteht aus drei Abschnitten:
 \ac{MCC} (3 Stellen), \ac{MNC} (2-3 Stellen) und \ac{MSIN} ($\leq$ 10 Stellen).
@@ -197,6 +199,8 @@ auf SIM-Karten ausgeliefert, die zum Nachweis der Authentizität des Benutzers d
 Diese werden in Abschnitt \Verweis{authentifizierungsvorgang}
 näher erläutert.
 
+\clearpage
+
 \paragraph{Angriffe} auf die Architektur waren vor allem vor den aktuell durch UMTS
 integrierten Funktionen möglich. Hierzu gilt die Implementierung des \textit{COMP128}-Algorithmus.
 Er ist dazu entwickelt dem \textit{A3}- und \textit{A8}-Algorithmus bei der GSM-Architektur zu realisieren.
@@ -223,6 +227,8 @@ Diese Funktionen werden verwendet sofern das Gerät, in die sie eingesetzt wird 
 von USIM-Karten unterstützt. Manche Ausprägungen dieser Kartenvariante erlauben auch das Ablegen
 von Mailadressen zu Kontakten. Der Hardwarekern dieser Architektur ist die \ac{UICC}.
 
+\clearpage
+
 \paragraph{Formfaktoren} der SIM-Karte können \textit{Full}, \textit{Mini}, \textit{Micro},
 \textit{Nano} und \textit{Embedded} sein. Sie reichen von den Abmessungen einer Kreditkarte über
 nur wenige Millimeter bis hin zur kompletten Integration in ein Gerät. Sie werden von unterschiedlichen
@@ -233,6 +239,8 @@ wird das eigentliche SIM-Modul in eine Kunststoffkarte der Größe einer Kreditk
 Die Funktion entspricht trotzdem der einer gewöhnlichen \textit{Mini-} oder \textit{Micro}-SIM.
 Zur Verwendung der unterschiedlichen Formfaktoren muss lediglich der eingesetzte Kartenleser
 geeignet gewählt werden.
+
+\clearpage
 
 \subsection{Mobilfunkstandards (Schenkel)} % TODO: schenkel nochmal über die basis meditieren
 Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
@@ -284,6 +292,8 @@ verschlüsselt realisiert \cite{spitz11}.
 Die Authentifizierung selbst über den Milenage-Algorithmus ist ebenfalls ausgebaut
 und verfügt nun über weitere Vektoren, die im nachfolgenden Kapitel näher
 erläutert werden.
+
+\clearpage
 
 %% Authentifizierungsvorgang %%
 \subsection{Authentifizierungsvorgang (Heumann)}
@@ -393,6 +403,8 @@ eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  Als letzter Punkt ist zu erwähnen, dass Daten noch länger verschlüsselt bleiben, als noch
  bei GSM, was die Angriffspunkte, an denen man an die unverschlüsselten Daten direkt
  kommt, weiter minimiert. \cite{spitz11}
+
+\clearpage
 
 %% Milenage Algorithmus %%
 \subsection{Milenage Algorithmus (Heumann)}
@@ -552,6 +564,8 @@ von einem verschlüsselten $RAND \oplus OP_C$ ausgehen, welcher in der Dokumenta
  der Anonymitätsschlüssel AK, der mit SQN verknüpft wird, im Falle der Resynchronisation
  anders berechnet als bei der Generierung der Authentifizierungsvektoren seitens des
  Netzproviders.
+
+\clearpage
  
 %% AES/Rijndael %%
 \subsection{AES / Rijndael (Heumann)}
@@ -615,6 +629,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Außerdem nutzen sie 32, statt, wie in anderen Verfahren, die üblichen acht bis 16 Runden, um sicher zu gehen. \\
  Serpent hat nach aktuellem Stand einen sehr großen Sicherheitspuffer, da 32 Runden verwendet werden, aber
  diese hohe Anzahl macht ihn auch zu dem langsamsten der Algorithmen. \cite{schmeh07}
+
+ \clearpage
  
  \paragraph{Twofish}
  Der Nachfolger von Blowfish ist Twofish, entwickelt unter anderem von Bruce Schneider. Es handelt sich dabei um eine Feistel-Chiffre.
@@ -993,6 +1009,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Der gesamte Ablauf der einzelnen Runden und angewendeten Transformationen ist auch grafisch in der
    Abbildung \ref{abb:funktion_aes} im Anhang dargestellt. Dort steht ebenfalls, was bereits erwähnt wurde,
    nämlich dass aus dem ursprünglichen Chiffrierschlüssel die Rundenschlüssel gebildet werden.
+
+   \clearpage
    
   \paragraph{Key Schedule}
    Mit dem (Rijndael) Key Schedule werden die Rundenschlüssel ermittelt. Der erste Rundenschlüssel ist
@@ -1028,6 +1046,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    Die restlichen drei Spalten des Rundenschlüssels generieren sich aus der exklusiven Oder-Verknüpfung der
    jeweiligen Spalte im vorherigen Rundenschlüssel und der vorherigen Spalte im aktuellen Rundenschlüssel.
 
+   \clearpage
+
   \paragraph{Rundendurchlauf}
   Es wurde schon erwähnt, dass AES-128, der bei Milenage genutzt wird, 10 Runden durchläuft. Die einzelnen Schritte
   der Runden und was vorher noch passiert, wird dargestellt im \Anhang{abb:funktion_aes}. In der gezeigten Abbildung
@@ -1050,6 +1070,8 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   nur drei bis fünf Runden. Konkret bedeutet das, dass ein mit Rijndael verschlüsselter Text bis zur siebten Runde bei einer
   Schlüssellänge von 128 Bits geknackt werden kann. Bei 192 Bits braucht es acht Runden und bei 256 Bits neun von 14 Runden.
   
+  \clearpage
+
    \subsubsection{AES Vizualization Tool (Schenkel)}
    \label{subsubsec:aesviz}
    Die Implementierung des AES-Algorithmus wird neben genannter Literatur auch unter
@@ -1112,7 +1134,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
    abweichend getriggert.
 
 
-
+\clearpage
 %% Point-to-Point %%
 \subsection{PPP (Schenkel)}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
@@ -1336,7 +1358,7 @@ assoziierten Ethernet-Interface kommuniziert (eth\textit{X}).
 Der Informationsfluss findet somit in nachfolgender Hierarchie statt:
  \begin{figure}[htp]
   \begin{center}
-   \includegraphics[width=300pt]{pppoe_roaringpenguin_2000}
+   \includegraphics[width=420pt]{pppoe_roaringpenguin_2000}
   \end{center}
   \caption[Roaring Penguin PPPoE Devicehierarchie]{Roaring Penguin PPPoE Devicehierarchie \cite{roaringpenguinpres}}
   \label{fig:pppoe_roaringpenguin_devicehierarchy}
@@ -1349,6 +1371,7 @@ das tty\textit{X}-Device weitergeleitet.
 Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
 Ethernet-Devices ausgetauscht werden.
 
+\clearpage
 %% PC/SC %%
 \subsection{PC/SC (Schenkel)}
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
@@ -1473,6 +1496,8 @@ BSD- sowie Unix-Derivate unterstützt.
  Funktionen, die auf Zeichenketten und Arrays angewendet werden können. \cite{kernighan88} \\
  Welche Besonderheiten diese Aspekte mit sich bringen, soll im Folgenden aufgezeigt werden.
 
+\clearpage
+
  \paragraph{Pointers}
   Pointers sind Variablen, die die Speicheradressen von Variablen speichern. Sie werden in C häufig
   angewendet, da sie oft die einzige Möglichkeit sind, eine Berechnung durchzuführen und teilweise
@@ -1507,6 +1532,8 @@ BSD- sowie Unix-Derivate unterstützt.
   erforderlich. Es werden die sechs Operationen Und (\&), Oder ($|$), Exklusiv-Oder ($^{\wedge}$), Verschiebung nach
   links ($<<$) oder rechts ($>>$) und das Komplement ($\sim$) von C unterstützt.
 
+\clearpage
+
   \paragraph{Bibliotheken}
   Zum Schluss soll noch etwas zu den Bibliotheken gesagt werden. In prozeduralen Sprachen lassen sich
   Funktionen in Bibliotheken bündeln. Da C jedoch von Haus aus nur wenige Funktionen bereitstellt, gibt es
@@ -1522,6 +1549,8 @@ BSD- sowie Unix-Derivate unterstützt.
   zu Beginn eines C-Programms eingebunden und der Compiler kann auf Basis der Header-Datei eine Überprüfung
   durchführen, ob alle genutzten Funktionen seitens des Programms in einer eingebunden Bibliothek zur
   Verfügung stehen.
+
+\clearpage
 
 \subsection{Die Sprache Python (Schenkel)}
 \subsubsection{Grundlagen (Schenkel)}
@@ -1619,6 +1648,7 @@ APDUs stattfinden.
 Veröffentlicht wurde pyscard als freie Software unter der
 \textit{GNU Lesser General Public License}.
 
+\clearpage
 \subsection{Ubuntu (Schenkel)}
 \label{subsec:ubuntu}
 Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
@@ -1636,6 +1666,7 @@ allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paket
 Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
 mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11). 
 
+\clearpage
 \subsection{Raspberry Pi (Schenkel)}
 
 Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
@@ -1700,7 +1731,8 @@ Neben den Zielen der Raspberry Pi Foundation verfolgt das Projekt
 auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
 den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}}
 lizenziert und durch die Raspbian-Community unabhängig entwickelt.
-  
+
+\clearpage
 \subsection{VirtualBox (Schenkel)}
 Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
 das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
@@ -1730,6 +1762,8 @@ es sich um ein physikalisches System handeln.
 \paragraph{Virtuelle Maschine} (VM) benennt die Instanz aus abstrahierter Hardware und einem
 darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
 definiert und dem Gastsystem bereitgestellt.
+
+\clearpage
 
 \paragraph{Gasterweiterungen} werden dazu benötigt, die Integration der Gastsysteme zu verbessern.
 Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
@@ -1843,6 +1877,8 @@ kann entsprechender Kernelcode bis auf Ring 0 reichen und dort ordnungsgemäß a
 Auf diesem Weg ist zusätzlich
 ein Performancezuwachs beziehungsweise kein Performanceverlust zu verzeichnen \cite{victor10}.
 
+\clearpage
+
 \subsubsection{Motivation (Schenkel)}
 \textit{VirtualBox} ermöglicht es auf einem Hostsystem, mehrere virtuelle Maschinen nebeneinander
 zu betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
@@ -1860,6 +1896,8 @@ Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (p
 
 Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
 kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
+
+\clearpage
 
 \subsection{Projektumsetzung (Heumann)}
  \subsubsection{Anforderungen (Heumann)}
@@ -1915,6 +1953,8 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
  Durch die Meilensteine ist eine klare Struktur gegeben und es gibt einen Zeitpuffer am Ende,
  um eventuell auftretende Komplikationen und Verzögerungen ausgleichen zu können ohne den
  Erfolg des Projektes zu gefährden.
+
+ \clearpage
 
  \subsubsection{Unterstützende Tools (Heumann)}
   Im Projekt werden einige Tools genutzt, die die Arbeit unterstützen und die Kommunikation
