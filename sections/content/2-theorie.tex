@@ -1210,7 +1210,7 @@ sich eine Abbildung, die diesen Vorgang illustriert.
 Quell- und Zielsystem fangen mit dieser Phase an und enden hiermit wieder.
 Grundlage ist, dass außer (maximal) dem Link auf physischer Ebene,
 keine Verbindung zwischen beiden Endpunkten besteht. Normalerweise
-wird nach sicherstellen des physischen Links von einer Seite der
+wird nach Sicherstellung des physischen Links von einer Seite der
 Aufbau der Verbindung initiiert. Dies geschieht meist mit einer Form von Modem.
 Nach Abschluss der Initiierung beginnt die nachfolgende Phase.
 
@@ -1232,7 +1232,7 @@ Authentifizierungsoption in der LCP-Konfigurationsnachricht.
 Zur Auswahl stehen z.B. \ac{PAP} oder \ac{CHAP}.
 Hierbei greift PAP auf Nutzername und Passwort, CHAP auf einen komplexeren Informationsaustausch
 mit einem Challenge-Response-Verfahren zurück. Der Erfolg führt immer zur nächsten
-Phase führt, aber die Reaktion bei Misserfolg des Vorgangs ist protokollabhängig.
+Phase, aber die Reaktion bei Misserfolg des Vorgangs ist protokollabhängig.
 
 \textbf{Link Quality Monitoring:}
 Diese Phase ist wie ihr Vorgänger ebenfalls optional - ebenfalls ausgelöst durch
@@ -1242,7 +1242,7 @@ das 'Link Quality Report Protocol'. Registriert werden unter anderem der Linktra
 sowie Fehlermeldungen.
 
 \textbf{Network Layer Protocol Configuration:}
-Wie bereits erwähnt unterstützt PPP  das multiplexen von Protokollen auf
+Wie bereits erwähnt, unterstützt PPP  das multiplexen von Protokollen auf
 Netzwerklayerebene. Für jedes einzelne, das eingesetzt wird,
 führt das System einen separaten Prozess des Verbindungsaufbaus durch.
 Jedes Netzwerklayerprotokoll verfügt über einen eigenes \ac{NCP} sowie \ac{IPCP}.
@@ -1270,8 +1270,8 @@ Endgerät wurde in diesem Projekt aufgrund der Beschaffenheit des Raspberry Pis 
 Ethernetverbindung gewählt. Dieser wird das im vorangegangenen
 Abschnitt erläuterte \ac{PPP}-Protokoll zugrunde gelegt.
 In Ethernetframes werden PPP-Daten als Nutzdaten gekapselt.
-Diese Methode wurde auch im realen Umfeld dazu entwickelt \acp{ISP} die
-Möglichkeit zu geben Verbindungen über Kabelmodem oder DSL in Form
+Diese Methode wurde auch im realen Umfeld dazu entwickelt, \acp{ISP} die
+Möglichkeit zu geben, Verbindungen über Kabelmodem oder DSL in Form
 von Bridged-Topologien zu realisieren. Provider bewerkstelligen
 so auch die Endpunktidentifikation, Accounting und Rechnungserstellung
 (beschrieben wird der Standard in RFC2516).
@@ -1281,7 +1281,7 @@ Diese sind im Kontext einer PPPoE-Verbindung Discovery und Session.
 Beide werden nachfolgend erläutert.
 
 \paragraph{Discovery}
-Der Client verwendet PPPoE-Frames in der Discovery-Phase dazu einen
+Der Client verwendet PPPoE-Frames in der Discovery-Phase dazu, einen
 Zugangspunkt zu finden.
 
 Dies geschieht in den folgenden Schritten bzw. Frames:
@@ -1312,7 +1312,7 @@ Dies geschieht in den folgenden Schritten bzw. Frames:
 In der Sessionn-Phase, ist die PPPoE-Verbindung bereits erfolgreich
 aufgebaut und Daten können ausgetauscht werden.
 Dieser Zustand ist erreicht, sobald die Discovery-Phase
-erfolgreich abgeschlossen ist.
+erfolgreich abgeschlossen.
 
 \subsubsection{Roaring Penguin PPPoE (Schenkel)}
 Die eingesetzte Software zur Realisierung der PPPoE-Verbindung ist der
@@ -1321,10 +1321,10 @@ Roaring Penguin\footnote{\url{https://www.roaringpenguin.com/products/pppoe}} PP
 Er implementiert den PPPoE-Standard (\Verweis{subsubsection:architecture_pppoe}) auf Basis
 von \textit{TCP/IP} und \textit{PPP} als eine \textit{Userland}-Anwendung.
 Dementsprechend ist es nicht notwendig hierfür den Kernel zu patchen und neu zu bauen.
-Ein einfaches installieren und konfigurieren genügt.
+Ein einfaches Installieren und konfigurieren genügt.
 
 \paragraph{pppd}
-Der im Userland installierte Dienst heißt pppd. Um eine Verbindung aufzubauen
+Der im Userland installierte Dienst heißt pppd. Um eine Verbindung aufzubauen,
 erstellt er eine virtuelle Netzwerkschnittstelle (der Form ppp\textit{X}) und verknüpft diese
 mit einem Pseudo-\ac{tty}. %TODO: Abkürzung? Was ist tty #CHECK
 Typischerweise handelt es sich hier um einem seriellen Port \cite{roaringpenguinpres}).
@@ -1379,7 +1379,7 @@ eine \textit{PC/SC}-konforme Chipkarte (\ac{ICC} nach ISO7816-1,2 und 3).
  \end{figure}
 
 Der Unterschied zum ähnlichen CT-API-Standard fängt in der Ebene
-des \textit{ICC Resource Managers} an. Also der Abstraktion der
+des \textit{ICC Resource Managers} an - also der Abstraktion der
 APDU-Schnittstelle in der Chipkartenmiddleware \cite{spitz11}.
 Selbiger Manager organisiert sowohl die Vergabe von Terminals inklusive
 der vorhandenen Chipkarte, als auch das Zuordnen zusammenhängender
@@ -1535,26 +1535,26 @@ Somit wird neben etablierten Sprachen eine Alternative für sowohl umfangreiche 
 als auch kleinere Einsatzgebiete wie Skripting im Heimcomputerbereich angeboten.
 
 \textit{Python} konzentriert sich nicht ausschließlich auf ein einziges Programmierparadigma.
-Es unterstützt objektorientierte, funktionale sowie prozedurale Programmierung. Zusätzliche
+Die Sprache unterstützt objektorientierte, funktionale sowie prozedurale Programmierung. Zusätzliche
 Paradigmen (unter anderem auch logische) können über Erweiterungen nachgerüstet werden.
 Weiterhin verfügt \textit{Python} dynamische Typisierung und automatisches Speichermanagement. Aus
 diesen Gründen ist \textit{Python} vor allem auch für Einsteiger in das Thema der Programmierung
-gut geeignet. Nichts desto Trotz ist \textit{Python} auch aufgrund seiner hohen Flexibilität
+gut geeignet. Dennoch ist \textit{Python} auch aufgrund seiner hohen Flexibilität
 bei erfahrenen Entwicklern verbreitet.
 
 In vielen Linux-Distributionen gehört \textit{Python} im gewissem Umfang zur Standardinstallation.
-Mit dem ausgelieferten Interpreter können plattformübergreifend Programme ausgeführt werden. Bei
+Mit dem ausgelieferten Interpreter können (plattformübergreifend) Programme ausgeführt werden. Bei
 Bedarf ist es möglich auf eine Große Anzahl von Paketen in Standardbibliotheken zuzugreifen.
 
-In seltenen Fällen kann es auch notwendig sein Binärcode auszuliefern, ohne den
+In seltenen Fällen kann es auch notwendig sein, Binärcode auszuliefern, ohne den
 \textit{Python}-Interpreter zu installieren. Hierfür existieren Tools von Drittanbietern,
 die aus vorliegendem \textit{Python}-Code ausführbare Programme generieren. Ein Beispiel hierfür
 ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
 
 \subsubsection{Motivation zur Nutzung (Schenkel)}
-Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
+Die Entscheidung für diese Programmiersprache fällt vor allem aufgrund der Tatsache, dass bereits eine
 Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
-(also auf der Seite des UE) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
+(also auf der Seite des UE) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegenden
 Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
 in ihrer Funktion erweitert.
 
@@ -1563,8 +1563,8 @@ in ihrer Funktion erweitert.
 \label{subsec:pysim}
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
 Python-Skript, geschrieben von Kevin Prince,
-welches Operationen direkt auf der SIM-Karte implementiert.
-Sowohl Kryptoalgorithmen wie Milenage als auch administrative Dateisystemzugriffe
+welches Operationen direkt auf der SIM-Karte implementiert:
+von Kryptoalgorithmen (wie  z.B. Milenage) über administrative Dateisystemzugriffe
 bis hin zur Verwaltung von Telefonbuch, SMS oder ähnlichem.
 Unterstützt wird der GSM-Authentifizierungsvorgang.
 
@@ -1573,7 +1573,7 @@ Parameter entgegen. Verfügbare Parameter sind Chipkartentyp, verwendetes
 Device (im Betriebssystem /dev/ttyX) und Baudrate\cite{pysimprince}.
 
 Über den normalen Betrieb einer SIM-Karte (also Authentifizierung, Auslesen, etc.)
-ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
+ist es mit Pysim auch möglich, Werte auf programmierbaren SIM-Karten zu setzen.
 
 Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
 Python-Shell verwendbar.
@@ -1589,14 +1589,14 @@ einer Chipkarte zu steuern. Es basiert ebenfalls auf der Grundlage des
 Ein Unterschied zwischen beiden python-Skripten stellte sich bei der
 Realisierung der Kommunikation in der Praxis heraus:
 Während \textit{pysim} auch die Programmierung von Chipkarten anbietet, ist
-\textit{osmo-sim-auth} dazu in der Lage über \ac{GSM}- hinaus auch
+\textit{osmo-sim-auth} dazu in der Lage, über \ac{GSM}- hinaus auch
 eine \ac{UMTS}-Authentifizierung zu leiten.
 Der jeweilige Modus wird über Parameter übermittelt.
 Dementsprechend verfügt \textit{osmo-sim-auth} auch über die Funktion der
 Resynchronisation bezüglich der \ac{SQN}-Nummer\cite{osmosimweb}.
 
 Entwickelt wird es vom Osmocom OpenBSC-Project, welches sich damit
-beschäftigt eine (A)GPL-lizenzierte Implementierung für den
+beschäftigt, eine (A)GPL-lizenzierte Implementierung für den
 GSM/3GPP-Protokollstack zu erzielen. Neben der Authentifizierung
 in direkter Kommunikation mit der SIM-Karte werden auch folgende
 Funktionalitäten durch das Projekt realisiert:
@@ -1623,7 +1623,7 @@ Veröffentlicht wurde pyscard als freie Software unter der
 \label{subsec:ubuntu}
 Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
 gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
-Unter anderem, da eines der Ziele des Projektes ist eine stabile
+Unter anderem, da eins der Ziele des Projektes ist, eine stabile
 'Out-Of-The-Box'-Installation zu liefern. Neben der intuitiven Installation und dem
 Betrieb wird auch jeweils eine \textit{LTS}-Version der aktuellen Veröffentlichung angeboten.
 Hierbei steht das Akronym \textit{LTS} für Long Term Support und garantiert dem Anwender eine
@@ -1651,7 +1651,7 @@ erleichtert werden.
 
 Bisher wurden seit der initialen Veröffentlichung im Februar 2012(\cite{rasppifoundweb})
 drei Generationen in unterschiedlichen Ausführungen
-entwickelt. Die Bezeichnung A(+) beziehungsweise B(+) gibt jeweils Aufschluss
+entwickelt. Die Bezeichnung A(+) beziehungsweise B(+) gibt Aufschluss
 über die jeweilige Ausführung.
 
 \subsubsection{Hardware Modell B (Schenkel)}
@@ -1674,7 +1674,7 @@ CentOS, Slackware, ...
 Aufgrund hoher Stabilität und Verfügbarkeit aller benötigten Treiber
 (u.a. dem SIM-Kartenleser) wurde die auf \textit{Debian GNU Linux}\footnote{\url{https://www.debian.org/}}
 basierende Distribution \textit{Raspbian}\footnote{\url{https://www.raspbian.org/}} ausgewählt.
-Es erbt somit alle Eigenschaften vom übergeordneten Debianprojekt.
+Sie erbt somit alle Eigenschaften des übergeordneten Debianprojekt.
 So auch den Paketmanager \textit{dpkg} mit ca. 35.000 vorkompilierten
 Softwarepaketen - in einigen Fällen für den Betrieb mit dem
 Raspberry Pi optimiert. Nicht vorpaketierte Software kann auf dem Raspberry
@@ -1685,8 +1685,8 @@ für die ARM-Architektur kompiliert werden.
 Windowmanagern XFCE oder LXDE ausgeliefert.
 
 Nachdem im Juni 2012(\cite{raspbianweb}) die erste
-Version fertiggestellt wurde ist Raspbian nach wie vor aktiv
-in Entwicklung. Momentan im stabilen Debian-Release \textit{Jessie}.
+Version fertiggestellt wurde, ist Raspbian nach wie vor aktiv
+in Entwicklung. Aktuell im stabilen Debian-Release \textit{Jessie}.
 Selbiges wird auch zur Umsetzung des Endgerätes eingesetzt.
 Die vorkompilierten Pakete stammen dementsprechend aus dem aktuellen
 \textit{stable}-Zweig, der häufig vor allem im Umfeld des Serverbetriebes
@@ -1708,7 +1708,7 @@ das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisie
 \subsubsection{Grundlage (Schenkel)}
 \textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
 ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
-Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
+Damals noch \textit{Sun VirtualBox} genannt, wurde es von \textit{Oracle} übernommen und ist
 nach wie vor frei zugänglich (nach der GNU GPL2 Lizenz) \cite{dash13}.
 
 \textit{VirtualBox} bietet den Hypervisor für Hostplattformen, eine API und ein SDK zur
@@ -1720,7 +1720,7 @@ erläutert.
 
 \paragraph{Wirtsystem} wird das Betriebssystem genannt, welches die Grundlage für den Hypervisor
 liefert. Es gehört entweder selbst zum Hypervisor oder intergeriert diesen so, dass Gastsysteme
-aufm ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
+auf ihm betrieben werden können. Beide Typen werden unter \Verweis{subsubsec:hypervisor} genauer
 erläutert.
 
 \paragraph{Gastsystem} wird das Betriebssystem genannt, welches virtualisiert auf dem Hypervisor
@@ -1731,10 +1731,10 @@ es sich um ein physikalisches System handeln.
 darin installierten Gastsystem. Hier werden die virtuellen Komponenten (CPU, RAM, HDD, etc.)
 definiert und dem Gastsystem bereitgestellt.
 
-\paragraph{Gasterweiterungen} werden dazu benötigt die Integration der Gastsysteme zu verbessern.
+\paragraph{Gasterweiterungen} werden dazu benötigt, die Integration der Gastsysteme zu verbessern.
 Diese sind von Gastsystem zu Gastsystem verschieden und müssen deshalb gesondert ausgeliefert werden.
 Dazu gehören beispielsweise Treiber für die graphische Ausgabe, die Integration von Mauspuffern
-oder dem weiterleiten von USB-Geräten.
+oder dem Weiterleiten von USB-Geräten.
 
 \paragraph{Softwarekomponenten} von Virtualbox sind in verschiedene Daemon-Prozesse aufgeteilt.
 Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:\vspace*{5mm}
@@ -1765,7 +1765,7 @@ Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:\vspace*{5
 
 \subsubsection{Hypervisor (Schenkel)}
 \label{subsubsec:hypervisor}
-Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
+Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht,
 mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
 
 Bei \textit{Hypervisorn} existieren zwei verschiedene Architekturen: \textit{Typ1} und
@@ -1788,17 +1788,17 @@ VMware Workstation\footnote{\url{https://www.vmware.com/products/workstation}}.
 Verschiedene Ressourcen müssen unter virtuellen Maschinen aufgeteilt werden, sodass weder für die
 Teilnehmer ein Leistungseinbruch entsteht noch die Ressourcen ineffizient genutzt werden.
 Eine zentrale Rolle spielen die Belegung von Prozessor-, Arbeitsspeicher-,
-Swapspeicher- sowie Netzwerk-Kapazität. Um diese Ressourcen zu verwalten existieren verschiedene
+Swapspeicher- sowie Netzwerk-Kapazität. Um diese Ressourcen zu verwalten, existieren verschiedene
 Ansätze.
 
-Eine Methode ist alle Ressourcen in diskrete Teile aufzuteilen und selbige einzeln den Teilnehmern
+Eine Methode ist, alle Ressourcen in diskrete Teile aufzuteilen und selbige einzeln den Teilnehmern
 zuzuordnen. Diese Methode bietet sich beispielsweise bei Ressourcen mit endlicher Größe an
 (CPU, RAM). Während die Umsetzung einfach zu realisieren ist, birgt dieser Ansatz einen Nachteil.
 Auf diesem Weg werden einzelne Hardwareteile unter Umständen nicht effizient genutzt,
 da sie aktuell nicht vom besitzenden Teilnehmer in Verwendung sind, jedoch persistent zugewiesen wurden.
 
 Aus diesem Grund wurde eine weitere Methode entwickelt, die eine software-regulierte Grenze setzt.
-Hier sorgen entweder Hypervisor oder Betriebssystem dafür dass der Teilnehmer nicht mehr als
+Hier sorgen entweder Hypervisor oder Betriebssystem dafür, dass der Teilnehmer nicht mehr als
 diese bestimmte zugewiesene Obergrenze der Ressourcennutzung erreicht. Verbleibende, aktuell
 nicht verwendete Ressourcen können von anderen Teilnehmern beansprucht werden. Dies im Rahmen
 ihrer eigenen Ressourcenobergrenze\cite{victor10}.
@@ -1806,34 +1806,34 @@ ihrer eigenen Ressourcenobergrenze\cite{victor10}.
 Die dritte verbreitete Methode ist der (auch in Betriebssystemen eingesetzte)
 \textit{Fair Share Schedule (FSS)}. Solange ausreichend Kapazitäten zur Verfügung stehen,
 erhält jeder Teilnehmer so viel Ressourcen, wie er anfordert. Ist die tatsächliche Gesamtgrenze der
-Ressource erschöpft, erhält jeder Teilnehmer nurnoch den Teil, den er als Minimum zugesichert bekam.
+Ressource erschöpft, erhält jeder Teilnehmer lediglich den Teil, den er als Minimum zugesichert bekam.
 Diese Methode erreicht die effizienteste Ressourcenausnutzung \cite{victor10}.
 
 Zu beachten ist, dass fehlende Arbeitsspeicherressourcen bei einem Teilnehmer sich negativer auswirken
-kann, als fehlende Prozessorressourcen. Während 10\% weniger Prozessorkapazität einen
+können, als fehlende Prozessorressourcen. Während 10\% weniger Prozessorkapazität einen
 Performanceverlust von ebenso 10\% bewirkt, kann 10\% weniger Arbeitsspeicher als erforderlich zu
 erweitertem Paging-Aufwand führen. Dies kann unter Umständen auch andere Teilnehmer beeinflussen.
 Aus diesem Grund muss auch der Speicher ausreichend restriktiv partitioniert beziehungsweise zugewiesen werden.
 
 \paragraph{Sicherheit} und Isolation wird bei VirtualBox in erster Linie dadurch umgesetzt, dass
-es, wie alle anderen Anwendungen für Endanwender auf der x86-Architektur, sich auf Ring 3 konzentrieren.
+es, wie alle anderen Anwendungen für Endanwender auf der x86-Architektur, sich auf Ring 3 konzentriert.
 Dieser Ring repräsentiert die geringste Privilegierungsstufe auf dem x86-Prozessor. Der Kernel
 beispielsweise wird in Ring 0 betrieben. Dazwischen existieren zwei weitere Privilegierungsstufen.
 
 Für jeden Teilnehmer wird ein einziger Prozess eröffnet. Jeglicher Code von virtuellen Teilnehmern
 wird in diesem Rahmen in Ring 3 ausgeführt. So erreicht jede Applikation in einer virtuellen Maschine
-nahezu die gleiche Performance als würde sie nativ auf dem Host betrieben.
+nahezu die gleiche Performance, als würde sie nativ auf dem Host betrieben.
 
-Anders wird der Kernelcode der virtuellen Maschine behandelt. Sollte keine Hardwarevirtualisierung
-zur Verfügung stehen, wird dieser nicht in Ring 1 (wie vorgesehen), sondern lediglich in Ring 1
+Abweichend wird der Kernelcode der virtuellen Maschine behandelt. Sollte keine Hardwarevirtualisierung
+zur Verfügung stehen, wird dieser nicht in Ring 0 (wie vorgesehen), sondern lediglich in Ring 1
 ausgeführt. Dies kann insofern problematisch sein, da Befehle existieren, die ausschließlich
 in Ring 0 funktionieren oder sich auf Ring 1 abweichend verhalten. Aus diesem Grund überprüft
 VirtualBox dauerhaft Ring 1 nach Befehlen dieser Art. Wird ein Befehl gefunden, der von dieser
 Problematik betroffen ist, setzt VirtualBox diesen direkt in einen geeigneten Hypervisorbefehl
 um.
 
-In manchen Fällen ist VirtualBox nicht dazu in der Lage den entsprechenden Code korrekt zu
-interpretieren. Deshalb ist es unter Umständen notwendig gewisse Befehle in einer
+In manchen Fällen ist VirtualBox nicht dazu in der Lage, den entsprechenden Code korrekt zu
+interpretieren. Deshalb ist es unter Umständen notwendig, gewisse Befehle in einer
 emulierten Umgebung auszuführen. Hierzu wird (unter Performanceeinbrüchen) Gebrauch von
 \textit{QEMU} gemacht. 
 
@@ -1844,18 +1844,18 @@ Auf diesem Weg ist zusätzlich
 ein Performancezuwachs beziehungsweise kein Performanceverlust zu verzeichnen \cite{victor10}.
 
 \subsubsection{Motivation (Schenkel)}
-\textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
-zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
+\textit{VirtualBox} ermöglicht es auf einem Hostsystem, mehrere virtuelle Maschinen nebeneinander
+zu betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
 zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
 werden. So ergibt sich eine effiziente Ressourcennutzung, für alle Komponenten, die ursprünglich
 dedizierte Hardware erforderten und für sich alleine beanspruchten.
 
 Darüber hinaus sind virtuelle Maschinen sehr portabel und können auf anderen Hostsystemen als
-ihrer ursprünglichen, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
+ursprünglich, gestartet und betrieben werden. Ebenso ist es möglich (virtuelle)
 Hardwarekonfigurationen dynamisch anzupassen. Aus diesen Gründen eignen sich virtuelle
 Maschinen sehr gut zu Test- und Entwicklungszwecken. Auch das Betreiben von Legacy-Betriebssystemen
 ist in einer virtuellen Umgebung möglich. Systeme können flexibel für unterschiedliche
-Situationen angepasst (oder auch isoliert) werden ohne dabei großen Aufwand zu generieren.
+Situationen angepasst (oder auch isoliert) werden, ohne dabei großen Aufwand zu generieren.
 Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (provisioniert) werden.
 
 Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
