@@ -6,84 +6,84 @@
 	\subsection{Alternative Vorgehensweisen (Heumann)}
 	\label{diskussion-alternative}
 	
-	Die Arbeit ließ einiges an Spielraum besonders die Art der Umsetzung. Deshalb soll in
+	Die Arbeit ließ einiges an Spielraum zu, besonders die Art der Umsetzung. Deshalb soll in
 	diesem Kapitel aufgezeigt werden, was alternativ möglich gewesen wäre.
 	
-	Eine Möglichkeit wäre sicherlich gewesen für beide Seiten, also UE und AuC, die selbe
+	Eine Möglichkeit wäre sicherlich gewesen, für beide Seiten, also UE und AuC, die selbe
 	Programmiersprache zu verwenden. So hätte beides mit C geschrieben werden können,
 	jedoch wäre der Aufwand ein größerer geworden. Das liegt daran, dass für C keine
 	Wrapper-Klasse in dem Umfang von pyscard (vgl. Kapitel \Verweis{pyscard}) existiert.
 	Somit müssten einige Dinge, die durch pyscard und osmo-sim-auth abgewickelt wurden,
 	selbst programmiert werden. Aber die Funktionalität wäre grundsätzlich durch PCSClite
-	gegeben die USIM über C anzusprechen. \\
-	Umgekehrt wäre die Möglichkeit gewesen den Netzprovider ebenfalls in Python zu
+	gegeben, die USIM über C anzusprechen. \\
+	Umgekehrt hätte die Möglichkeit bestanden, den Netzprovider ebenfalls in Python zu
 	implementieren. Die Fähigkeiten von Python wären für die Aufgabe ausreichend gewesen,
 	zumal keine Optimierung auf Größe oder Geschwindigkeit des Programms gelegt wurde.
 	Durch seine Hardwarenähe hat C in beiden Bereichen gegenüber Python einen Vorteil,
 	aber diese war nicht gefragt. Jedoch hätte es bei Python das Problem gegeben, dass
-	die vorhanden Kenntnisse sehr gering waren im Gegensatz zu C. Hier wäre also zu Beginn
-	ein größerer Aufwand entstanden die Sprache zu lernen. \\
-	Da das Programm zur Steuerung der SIM-Karte sehr geil ist, ist es jedoch kein Widerspruch
+	die vorhandenen Kenntnisse sehr gering waren im Gegensatz zu C. Hier wäre also zu Beginn
+	ein größerer Aufwand entstanden, durch das Erlernen der Sprache. \\
+	Da das Programm zur Steuerung der SIM-Karte sehr umfangreich ist, ist es jedoch kein Widerspruch,
 	hier die Zeit für die Grundkenntnisse in Python zu investieren, da sie vermutlich geringer
 	waren als der Zeitaufwand, der für eine Implementierung in C nötig gewesen wäre.
 	
-	Abschließend ist zu sagen, dass die Liste der Sprachen aus der gewählt werden konnte
+	Abschließend ist zu sagen, dass die Liste der Sprachen aus denen gewählt werden konnte,
 	ziemlich umfangreich ist, aber mit pyscard existiert ein guter Wrapper für PCSClite und
-	es ergab Sinn ein Projekt was mit Hardware kommuniziert auch mit einer hardwarenahen
+	es ergab Sinn, ein Projekt, das mit Hardware kommuniziert, auch mit einer hardwarenahen
 	Sprache umzusetzen.	
 	
 	\subsection{Ausblick (Heumann)}
 		\subsubsection{Verbesserungen (Heumann)}
 		Wie in Kapitel \Verweis{ergebnis-tests} angesprochen wurde, sind alle gesetzten
 		Ziele erreicht worden, aber es gab hier und da einige Probleme, die aufgetreten
-		sind und manche von denen wären vermutlich vermeidbar gewesen. Dazu zählen vor
+		sind und von denen manche vermutlich vermeidbar gewesen wären. Dazu zählen vor
 		allem Fehler bei der Entwicklung des AES- und Milenage-Algorithmuses.
 		
 		Lange bestand eine unterschiedliche Meinung darüber, wo der Unterschied von UMTS-
-		und GSM-Authentifizierung lag. Und trotz vermehrter kurzer Unterhaltungen in
-		denen dies offensichtlich wurde, hat es lange gedauert bis ein längeres Gespräch
-		stattfand in dem gemeinsam geklärt wurde, wie sich beide unterscheiden. Wäre
+		und GSM-Authentifizierung lag. Und trotz vermehrter kurzer Unterhaltungen, in
+		denen dies offensichtlich wurde, hat es lange gedauert, bis ein längeres Gespräch
+		stattfand, in dem gemeinsam geklärt wurde, wie sich beide unterscheiden. Wäre
 		dieser Diskurs schon früher geführt worden, wäre eine erste Implementierung mit
 		pysim vermutlich nicht geschehen, sondern die Suche wäre weiter gegangen und
-		schon früher auf osmo-sim-auth gefallen.
+		die Wahl schon früher auf osmo-sim-auth gefallen.
 		
-		Der andere große Punkt war, dass nicht bekannt war, wie und wer den Wert von SQN
+		Der andere große Punkt war die fehlende Kenntnis darüber, wie und wer den Wert von SQN
 		verantwortet. Der Wert tauchte zwar immer wieder auf, aber in den Dokumenten,
-		die gelesen wurden war dieser Wert im Gegensatz zu allen anderen nicht näher
+		die gelesen wurden, war dieser Wert im Gegensatz zu allen anderen nicht näher
 		spezifiziert. Deshalb wurde zu Beginn angenommen, dass der Netzprovider SQN
 		entscheidet und durch den AUTN die SIM-Karte diesen vermittelt bekommt. Es
-		stellte sich jedoch raus, dass SQN von der USIM verwaltet wird und es sehr wohl
+		stellte sich jedoch heraus, dass SQN von der USIM verwaltet wird und es sehr wohl
 		eine Methode zur Berechnung der SQN gibt, aber es wurde an den falschen Stellen
-		danach gesucht und versuchte deshalb kurz vor Projektabschluss nochmal Probleme.
+		danach gesucht und verursachte deshalb kurz vor Projektabschluss nochmal Probleme.
 		Ein Lesen der Referenzen der Milenage-Spezifikation 35.205 vom 3GPP hätte direkt
-		zu dem Dokument 33.102 geführt, in der auch die SQN erläutert wurde. Hier gilt
-		es beim nächsten Mal nicht erst Google für die Suche zu bemühen sondern das zu
+		zu dem Dokument 33.102 geführt, in dem auch die SQN erläutert wurde. Hier gilt
+		es beim nächsten Mal, nicht erst Google für die Suche zu bemühen, sondern das zu
 		durchsuchen, was schon existiert.
 		
 		\subsubsection{Mögliche zukünftige Projekte (Heumann)}
-		Die Authentifizierung und der Schlüsselaustausch von UMTS ist noch umfangreicher
-		als was in diesem Projekt umgesetzt wurde. Da es in diesem Projekt allein um die
+		Die Authentifizierung und der Schlüsselaustausch von UMTS sind noch umfangreicher
+		als jene Aspekte, die in diesem Projekt umgesetzt wurden. Da es in diesem Projekt allein um die
 		Authentifizierung ging, wurde die Berechnung von CK und IK vernachlässigt. Dies
 		wäre in einem weiteren Schritt eine Möglichkeit. Dadurch könnten dann auch
 		Nachrichten zwischen Nutzergerät und Authentifizierungsstelle verschickt werden.
-		Noch ein Schritt weiter wäre eventuell eine weitere SIM-Karte, die sich beim
+		Noch ein Schritt weiter wäre eine weitere SIM-Karte, die sich beim
 		Netzprovider authentifiziert und dann mit der jetzigen USIM kommuniziert.
 
 		Für diesen Schritt müsste jedoch vorher das Programm auf dem AuC angepasst
 		werden und eine Datenbank erhalten, in der die unterschiedlichen Parameter für
 		die einzelnen USIM's abgespeichert werden.
 
-		Generell erlaubt der aktuelle Prozess nur USIM-Karten. Hier wäre zu überlegen
+		Generell erlaubt der aktuelle Prozess nur USIM-Karten. Hier wäre zu überlegen,
 		für SIM-Karten auf dem GSM-Standard ebenfalls die
 		Authentifizierung zu ermöglichen. Der Milenage-Algorithmus ermöglicht die
 		Abwärtskompatibilität, weshalb kein neuer Standard verstanden werden muss und
 		der zusätzliche Programmieraufwand nicht sehr groß sein wird.
 	
 		Generell sollte auch der Programmcode optimiert werden. An einigen Stellen
-		können Programmteile in eigne Funktionen ausgegliedert werden, um Redundanzen
+		können Programmteile in eigene Funktionen ausgegliedert werden, um Redundanzen
 		zu vermeiden und das Programm selbst im Speicherplatzverbrauch zu reduzieren. Des
 		weiteren wird schon jetzt eine ähnliche Aufgabe durch rotWord und shiftRows
-		gegeben, weshalb shiftRows einfach rotWord implementieren könnte. \\
+		gelöst, weshalb shiftRows einfach rotWord implementieren könnte. \\
 		Neben der Reduzierung von Redundanzen kann überlegt werden, wo sich die
 		Geschwindigkeit des Programms optimieren lässt. Am Ende ist den Autoren zum
 		Beispiel aufgefallen, dass es für die Umwandlung des Schlüssels und des
@@ -92,17 +92,17 @@
 		spaltenweise. Damit müssten auch die einzelnen Transformations-Funktionen
 		umgebaut werden, was in Anbetracht der Zeit in diesem Projekt nicht mehr umsetzbar
 		war. \\
-		So gibt es aber vermutlich noch einige Stellen an denen eine Optimierung unter dem
+		So gibt es aber vermutlich noch einige Stellen, an denen eine Optimierung unter dem
 		Aspekt Performanz und wahrscheinlich auch Speicherbedarf möglich ist.
 	
-		Als nächster Punkt für zukünftige Erweiterungen bestünde die Möglichkeit den
+		Als nächster Punkt für zukünftige Erweiterungen bestünde die Möglichkeit, den
 		Start der Authentifizierung automatisiert zu erkennen. So bietet PCSClite die
-		Möglichkeit eine Meldung zu erhalten, wenn in das Kartenlesegerät die SIM-Karte
+		Möglichkeit, eine Meldung zu erhalten, wenn in das Kartenlesegerät eine SIM-Karte
 		gesteckt wird, beziehungsweise auch wenn diese wieder entfernt wird. Damit
 		könnte der Server dauerhaft laufen und der Raspberry Pi würde sich ohne den
 		manuellen Start durch einen Nutzer beim Netzprovider registrieren.
 
-		Als letzten sinnvollen Punkt wird das Abbilden der realen Struktur gesehen. Das
+		Als letzter sinnvoller Punkt wird das Abbilden der realen Struktur gesehen. Das
 		bedeutet, dass eine weitere virtuelle Maschine als MSC benötigt würde. Außerdem
 		sollten dann auch die jeweiligen MAC-Werte und der RES an der richtigen Stelle
 		überprüft werden mit der richtigen Reaktion durch die einzelnen Kommunikationspartner.
