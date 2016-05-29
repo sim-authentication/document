@@ -1,11 +1,11 @@
 \clearpage
 
-\section{Theorie}
+\section{Theorie (Schenkel \& Heumann)}
 \label{theorie}
 
 %% Chipkarten %%
-\subsection{Chipkarten}
-\subsubsection{Entwicklung}
+\subsection{Chipkarten (Schenkel)}
+\subsubsection{Entwicklung (Schenkel)}
 Wie bereits in der Einleitung erwähnt startete die Verbreitung der SIM-Karten
 mit Einführung der Telefon- und Krankenversicherungskarten im Jahr 1985.
 Bereits 6 Jahre später kamen die ersten Karten mit Mikroprozessoren - die \ac{SIM}-Karten
@@ -16,7 +16,7 @@ Neben den klassischen Mikroprozessorkarten für \ac{GSM}-Netze wurden im Jahr
 1998 damit begonnen JavaCards zu entwickeln. Diese verfügen über eine
 Java-Laufzeitumgebung.
 
-\subsubsection{Typen}
+\subsubsection{Typen (Schenkel)}
 Bei Chipkarten wird zwischen zwei verschiedenen Typen unterschieden:
 Speicher- und Prozessor-Karten \cite{chipkarten02}. Die Karten mit Mikroprozessoren
 sind mittlerweile stärker vertreten als die reinen Speicherkarten.
@@ -46,7 +46,7 @@ die verschiedenen Anwendungen ausgeführt werden können.
 Neuere Architekturen erlauben es nach der Ausgabe der Karten Codestrecken
 zu ändern oder erweitern.
 
-\subsubsection{SIM-Karten}
+\subsubsection{SIM-Karten (Schenkel)}
 
 \paragraph{Standardisierung}
 \textit{SIM-Karten} folgen dem Standard der Chipkartentechnologie und sind in
@@ -234,7 +234,7 @@ Die Funktion entspricht trotzdem der einer gewöhnlichen \textit{Mini-} oder \te
 Zur Verwendung der unterschiedlichen Formfaktoren muss lediglich der eingesetzte Kartenleser
 geeignet gewählt werden.
 
-\subsection{Mobilfunkstandards} % TODO: #edit umbenennen?
+\subsection{Mobilfunkstandards (Schenkel)} % TODO: #edit umbenennen?
 Technologien für den Mobilfunk basieren unter anderem auf den bereits beschriebenen
 Chipkartenstandards. Weit verbreitete Standards für die Kommunikation sind
 \textit{UMTS} und \textit{GSM}. Sie schließen neben den Chipkarten einen weiteren
@@ -286,17 +286,17 @@ und verfügt nun über weitere Vektoren, die im nachfolgenden Kapitel näher
 erläutert werden.
 
 %% Authentifizierungsvorgang %%
-\subsection{Authentifizierungsvorgang}
+\subsection{Authentifizierungsvorgang (Heumann)}
 \label{authentifizierungsvorgang}
 
 Eine Darstellung des Authentifizierungsvorgangs ist in \Abbildung{kommunikationswege} zu
 sehen. Diese beschreibt nur die Authentifizierung einer \ac{USIM}-Karte, aber nicht einer
 GSM \ac{SIM}-Karte. \\
 Die Authentifizierung ist recht umfangreich und soll hier anhand des Diagramms näher
-erläutert werden. Anschließend wird auf die Stärken des Authentifizierungs\-
-vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
+erläutert werden. Anschließend wird auf die Stärken des Authentifizierungs\-vorgangs
+eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
 
- \subsubsection{Ablauf}
+ \subsubsection{Ablauf (Heumann)}
  
  \begin{figure}[htp]
  \begin{center}
@@ -308,8 +308,8 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
 
  Die Authentifizierung mit \ac{USIM}-Karten geschieht in zwei Richtungen. Es muss nicht nur die
  USIM verifizieren können, dass sie eine valide Karte ist, sondern der Netzprovider muss sich auch
- gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten schickt sie
- Registrierungsanfrage an den nächsten \ac{MSC}. Diese fragt daraufhin beim \ac{AuC} des
+ gegenüber der USIM verifizieren. Möchte eine USIM nun Zugang zum Netz erhalten, schickt sie
+ eine Registrierungsanfrage an den nächsten \ac{MSC}. Diese fragt daraufhin beim \ac{AuC} des
  Netzproviders nach einem \ac{AV}. Dieser wird berechnet und nutzt dabei den in Kapitel
  \ref{milenage} auf S. \pageref{milenage} angesprochenen Milenage-Algorithmus. \\
  Der AV ist ein Quintett und besteht aus
@@ -329,15 +329,15 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  Die Werte XRES, CK und IK speichert der MSC zwischen und RAND, sowie AUTN werden an die USIM
  weitergegeben als Antwort auf die Registrierungsanfrage.
 
- Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerktoken um
- zu überprüfen, dass die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
+ Mit Hilfe des RAND kann die USIM nun den XMAC-A berechnen, also den erwarteten Netzwerktoken, um
+ zu überprüfen, ob die USIM sich bei dem richtigen Netzprovider registriert. Wenn XMAC-A
  und MAC-A nicht übereinstimmen, wird dem MSC mitgeteilt, dass die Authentifizierung nicht erfolgreich
  war und die Kommunikation beendet.
 
  Sollten die Werte jedoch wie erwartet übereinstimmen, überprüft die USIM, ob die SQN im erlaubten
  Bereich ist. Wenn dem nicht so ist, bedeutet das nicht automatisch, dass die Kommunikation wieder
  beendet wird. Die USIM speichert die gültige SQN, was in Kapitel \Verweis{milenage-funktion}
- nochmal näher erläutert wird. Diese wird aktualisiert bei jeder Authentifizierungsanfrage und so kann
+ nochmal näher erläutert wird. Diese wird bei jeder Authentifizierungsanfrage aktualisiert und so kann
  es passieren, dass das AuC keine aktuelle SQN generiert hat und eine Resynchronisation vorgenommen
  werden muss, welche am Ende dieses Kapitels erklärt wird.
  
@@ -348,7 +348,7 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
  
  \paragraph{Resynchronisation}
  \label{par:resynchronisation}
-  Wie vorher in diesem Kapitel erwähnt kann es passieren, dass die SQN zwischen USIM und AuC
+  Wie vorher in diesem Kapitel erwähnt, kann es passieren, dass die SQN zwischen USIM und AuC
   nicht mehr synchron sind und deswegen resynchronisiert werden müssen. Dafür generiert die
   USIM ebenfalls einen RAND-Wert und einen AUTS-Token, welcher dem AUTN sehr ähnlich ist.
   Der AUTS hat im Gegensatz zum AUTN aber keinen AMF und statt dem MAC-A, wird ein MAC-S
@@ -359,18 +359,18 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   Netzproviders verwendet wurde. Genauer wird dies in Kapitel \Verweis{milenage-funktion}
   erklärt.\\
   Ähnlich wie bei der Authentifizierung berechnet diesmal das AuC eine XMAC-S und vergleicht
-  diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich geht wieder eine Meldung an den
-  MSC, die einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
+  diese mit dem MAC-S aus dem AUTS. Sind diese nicht gleich, geht wieder eine Meldung an den
+  MSC, der einen Fehler meldet und den Authentifizierungsvorgang beendet. Wenn diese Werte
   jedoch gleich sind, wird mit Hilfe der neuen SQN nochmal der AV berechnet und an den MSC
-  geschickt. Dieser gibt wieder AUTN und RAND an die USIM weiter welche die selben Schritte
+  geschickt. Dieser gibt wieder AUTN und RAND an die USIM weiter, welche die selben Schritte
   wie zuvor ausführt und diesmal zu dem Ergebnis kommen sollte, dass SQN im erlaubten
   Bereich liegt.
   
   Als Quelle für dieses Kapitel und für weitere Informationen dient \cite{3gpp.33.102}.
   
- \subsubsection{Stärken der UMTS Authentifizierung}
+ \subsubsection{Stärken der UMTS Authentifizierung (Heumann)}
  Der Aufbau der \ac{UMTS}-Struktur beruht auf der selben Struktur, wie bereits \ac{GSM}.
- Denn auch wenn GSM einige Schwächen aufweist, zeigen die zehnjährige Existenz von GSM,
+ Denn auch wenn GSM einige Schwächen aufweist, zeigt die zehnjährige Existenz von GSM,
  dass die Sicherheitsarchitektur gut ist \cite{putz01}. Deshalb hat sich die \ac{3GPP} auch
  dazu entschieden, dass die Basis\-sicherheits\-features erhalten bleiben in UMTS. Konkret
  nennen Pütz, Schmitz und Martin (s. \cite{putz01}) unter anderem die folgenden Punkte:
@@ -384,29 +384,30 @@ vorgangs eingegangen unter anderem in Bezug auf die Vorgehensweise in GSM.
   \item Die Möglichkeit für jeden Provider eigene Authentifizierungsalgorithmen zu nutzen
  \end{itemize}
  
- Zusätzlich zu den Sicherheitsfeatures, die aus GSM übernommen wurden hat UMTS einige
+ Zusätzlich zu den Sicherheitsfeatures, die aus GSM übernommen wurden, hat UMTS einige
  Schwächen aus GSM beseitigt oder zumindest das Ausnutzen eben jener erschwert. \\
  So können abgefangene \acp{AV} von Angreifern nicht wiederverwendet werden, da
  die SQN eingeführt wurde. \cite{putz01}\\
  Außerdem muss sich nun auch der Netzprovider der USIM gegenüber verifizieren, was
  Man-in-the-Middle Angriffe erschwert. \cite{putz01} \\
  Als letzter Punkt ist zu erwähnen, dass Daten noch länger verschlüsselt bleiben, als noch
- bei GSM, was die Angriffspunkte an denen man an die unverschlüsselten Daten direkt
- kommt weiter minimiert. \cite{spitz11}
+ bei GSM, was die Angriffspunkte, an denen man an die unverschlüsselten Daten direkt
+ kommt, weiter minimiert. \cite{spitz11}
 
 %% Milenage Algorithmus %%
-\subsection{Milenage Algorithmus}
+\subsection{Milenage Algorithmus (Heumann)}
 \label{milenage}
 Zwischen \ac{SIM}-Karte und Netzprovider muss eine sichere Authentifizierung und
-Kommunikation gewährleistet werden können. Dies für den USIM-Vorgänger entwickelten Algorithmus des \ac{3GPP} nicht mehr
-gewährleistet. Mit der Entwicklung des neuen Netzstandards wurde deshalb entschieden
+Kommunikation gewährleistet werden können. Dies ist bei dem für den USIM-Vorgänger
+entwickelten Algorithmus des \ac{3GPP} nicht
+gewährleistet. Mit der Entwicklung des neuen Netzstandards wurde deshalb entschieden,
 auch einen neuen Algorithmus zu entwickeln, namentlich der Milenage Algorithmus. \\
 Dieser verfügt über die sieben Funktionen \emph{f1}, \emph{f1*}, \emph{f2}, \emph{f3},
-\emph{f4}, \emph{f5}, \emph{f5*} mit Hilfe derer eine sichere Authentifizierung und
-Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei lediglich für die
-Re-synchonisation nötig. \\
+\emph{f4}, \emph{f5}, \emph{f5*}, mit Hilfe derer eine sichere Authentifizierung und
+Schlüsselgenerierung ermöglicht wird. Die Funktionen mit \emph{*} sind dabei für die
+Re-synchonisation nötig, welche im Zuge dieser Arbeit auch durchgeführt wird. \\
 3GPP hat, wie auch beim Vorgänger, diese Funktionen nicht näher spezifiziert und ermöglicht
-den Netzprovidern eigene Lösungen zu implementieren. Deshalb wird nur beschrieben in
+den Netzprovidern eigene Lösungen zu implementieren. Deshalb wird nur beschriebe,n in
 welchem Kontext diese Funktionen Anwendung finden und generelle Anforderungen
 an diese Algorithmen definiert \cite{3gpp.35.205}.
 
@@ -417,7 +418,7 @@ ver- und entschlüsseln.
 In den nachfolgenden Unterkapiteln werden die Vorteile und die Funktionsweise des
 Algorithmus, erläutert.
 
- \subsubsection{Warum Milenage sicher ist}
+ \subsubsection{Warum Milenage sicher ist (Heumann)}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde schon erklärt, dass die Mechanismen
  zur Authentifizierung und zum Schlüsselaustausch angepasst wurden und durch einige
  Änderungen Vorteile mit sich bringen, aber auch der weiterentwickelte Algorithmus zur
@@ -447,7 +448,7 @@ Algorithmus, erläutert.
  
 %% TODO #edit bei bedarf hier noch die Vorraussetzungen an die Parameter bzw. wie diese modifiziert werden können
 
- \subsubsection{Funktionsweise}
+ \subsubsection{Funktionsweise (Heumann)}
  \label{milenage-funktion}
  In Kapitel \Verweis{authentifizierungsvorgang} wurde beschrieben, welche Daten zwischen
  \ac{AuC} und \ac{UE} verschickt werden, jedoch nicht wie diese Daten generiert werden. Es
@@ -553,7 +554,7 @@ Algorithmus, erläutert.
  Netzproviders.
  
 %% AES/Rijndael %%
-\subsection{AES / Rijndael}
+\subsection{AES / Rijndael (Heumann)}
 \label{aes}
  Rijndael oder \ac{AES} sind beide Blockverschlüsselungen. Das bedeutet, dass der zu
  verschlüsselnde Text in gleich große Blöcke aufgeteilt wird und jeder Block mit einem Schlüssel
@@ -571,7 +572,7 @@ Algorithmus, erläutert.
  wie der Verschlüsselungs\-algorithmus der beiden funktioniert. Nicht angesprochen wird der
  Entschlüsselungs\-algorithmus, da der für diese Arbeit keine Relevanz hat.
  
- \subsubsection{Geschichte}
+ \subsubsection{Geschichte (Heumann)}
  \label{aes-geschichte}
  Die erste Blockverschlüsselung, die vom \ac{NIST} 1977 offiziell übernommen wurde, war
  \ac{DES} und basierte auf einer überarbeiteten Version der Blockverschlüsselung Lucifer. Bei
@@ -600,7 +601,7 @@ diese die generelle Erlaubnis erteilt als \emph{SECRET} eingestufte Dokumente mi
 verschlüsseln und selbst als \emph{TOP SECRET} eingestufte Dokumente dürfen mit einer
 Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  
- \subsubsection{Mitbewerber}
+ \subsubsection{Mitbewerber (Heumann)}
  Als die größten Konkurrenten von Rijndael werden ``Twofish'' und ``Serpent'' gesehen. Um zu verstehen
  warum die Entscheidung am Ende trotzdem auf Rijndael fiel sollen die beiden Konkurrenten an dieser
  Stelle untersucht werden. Beide verfolgen einen klassischen Ansatz.
@@ -625,7 +626,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  im Design angeht ist Twofish zwischen Serpent und Rijndael anzusehen. Bislang ist nur eine theoretische Schwachstelle
  bekannt, aber keine konkrete Methode diese zu nutzen. \cite{schmeh07}
  
- \subsubsection{Algebraische endliche Körper}
+ \subsubsection{Algebraische endliche Körper (Heumann)}
  Der Algorithmus ist verständlich und anwendbar, auch ohne das Wissen über die mathematischen
  Grundlagen dazu. Trotzdem beruht die Tatsache, dass der Algorithmus funktioniert, auf Mathematik
  und diese soll hier erläutert werden. Konkret liegt dem Algorithmus die algebraische Struktur des
@@ -770,7 +771,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Die polynome Arithmetik wird nun im folgenden Kapitel erklärt speziell für die Körpererweiterung
  $GF(2^8)$.
  
- \subsubsection{Polynome Arithmetik in $GF(2^8)$}
+ \subsubsection{Polynome Arithmetik in $GF(2^8)$ (Heumann)}
  \label{polynome-arithmetic}
  Die Addition bei einem endlichen Körper wird erreicht durch die Addition der einzelnen Koeffizienten. Wie
  im vorherigen Kapitel gezeigt, bedeutet das, dass die jeweiligen Koeffizienten über eine XOR-Operation
@@ -871,7 +872,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
  Damit ist die Berechnung der beiden Elemente deutlich effizienter und dient als gute Grundlage für die
  Implementierung der AES-Chiffre. Diese wird im folgenden Kapitel beschrieben.
  
- \subsubsection{Funktionsweise}
+ \subsubsection{Funktionsweise (Heumann)}
  \label{aes-funktion}
  Bei der Blockverschlüsselung gibt es fünf verschiedene Betriebsmodi, die in der ISO/IEC 10116:2006
  \cite{ISO10116} beschrieben sind. Diese Betriebsmodi beschreiben wie ein Text bestehend aus
@@ -1041,7 +1042,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   zu kennen. Die Transformation in der letzten Runde anzuwenden würde also lediglich Rechenzeit benötigen, aber würde
   den Schlüssel nicht sicherer machen, weshalb die Transformation im letzten Schritt weggelassen wurde. \cite{schmeh07}
   
-  \subsubsection{Bewertung von AES}
+  \subsubsection{Bewertung von AES (Heumann)}
   Wie in den vorherigen Kapitel aufgezeigt verfolgt Rijndael einen innovativen und eleganten Ansatz gegenüber Twofish und
   Serpent. Da in der Wettbewerbsphasen keine Sicherheitslücken sichtbar wurden und die Verschlüsselungsgeschwindigkeit
   sehr schnell ist setzte sich dieser durch. Nach einigen weiteren Jahren in denen sich Kryptoanalytiker mit dem Algorithmus
@@ -1049,7 +1050,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
   nur drei bis fünf Runden. Konkret bedeutet das, dass ein mit Rijndael verschlüsselter Text bis zur siebten Runde bei einer
   Schlüssellänge von 128 Bits geknackt werden kann. Bei 192 Bits braucht es acht Runden und bei 256 Bits neun von 14 Runden.
   
-   \subsubsection{AES Vizualization Tool}
+   \subsubsection{AES Vizualization Tool (Schenkel)}
    \label{subsubsec:aesviz}
    Die Implementierung des AES-Algorithmus wird neben genannter Literatur auch unter
    Zuhilfenahme eines Tool durchgeführt: das \textit{AES Vizualization Tool} der Michigan
@@ -1113,7 +1114,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 
 
 %% Point-to-Point %%
-\subsection{PPP}
+\subsection{PPP (Schenkel)}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
 wird von Providern (\ac{ISP}) die Implementierungen eines
 \ac{PPP} verwendet. Mit Protokollen dieser Art wurden zum Beispiel schon Modem- oder ISDN-Verbindungen
@@ -1122,7 +1123,8 @@ hier hauptsächlich in
 Form von \ac{PPPoE}. Auf beide Architekturen wird im folgenden
 genauer eingegangen.
 
-\subsubsection{Architektur PPP}\label{subsubsection:architecture_ppp}
+\subsubsection{Architektur PPP (Schenkel)}
+\label{subsubsection:architecture_ppp}
 \ac{PPP} ist Teil der TCP/IP-Protokollsuite und sichert die komplette Funktionalität des
 Datalink-Layers. Es wurde hauptsächlich für den Betrieb von Modems entwickelt. % weitere Geräte??
 Jede Maschine, die ein Modem in Betrieb hatte, nutzte bereits \ac{PPP} um z.B.
@@ -1261,7 +1263,8 @@ Eine Terminierung der Verbindung ist neben \ac{LCP} auch auf \ac{NCP}-Ebene mög
 damit die PPP-Verbindung trotz 'Terminierung' bestehen bleibt.
 
 
-\subsubsection{Architektur PPPoE}\label{subsubsection:architecture_pppoe}
+\subsubsection{Architektur PPPoE (Schenkel)}
+\label{subsubsection:architecture_pppoe}
 Zur Realisierung der Verbindung zwischen Authentication Center und
 Endgerät wurde in diesem Projekt aufgrund der Beschaffenheit des Raspberry Pis eine
 Ethernetverbindung gewählt. Dieser wird das im vorangegangenen
@@ -1311,7 +1314,7 @@ aufgebaut und Daten können ausgetauscht werden.
 Dieser Zustand ist erreicht, sobald die Discovery-Phase
 erfolgreich abgeschlossen ist.
 
-\subsubsection{Roaring Penguin PPPoE}
+\subsubsection{Roaring Penguin PPPoE (Schenkel)}
 Die eingesetzte Software zur Realisierung der PPPoE-Verbindung ist der
 Roaring Penguin\footnote{\url{https://www.roaringpenguin.com/products/pppoe}} PPPoE-Server.
 
@@ -1347,7 +1350,7 @@ Kontroll- und Dateninformationen können bei Bedarf über unterschiedliche
 Ethernet-Devices ausgetauscht werden.
 
 %% PC/SC %%
-\subsection{PC/SC}
+\subsection{PC/SC (Schenkel)}
 Multitasking- und Multiuserbetrieb in modernen Betriebssystemen erfordert
 auch das Bereitstellen eines Standards, um den Zugriff auf Chipkarten
 mit mehreren (parallel arbeitenden) Teilnehmern zu organisieren. Ein Standard, der sich mit genau
@@ -1361,7 +1364,7 @@ konformen Lesegerät muss durch den Treiber sichergestellt werden.
 Entwickelt wurde PC/SC von verschiedenen Herstellern. Hauptsächlich
 Gemalto, Microsoft, Infineon und Toshiba.
 
-\subsubsection{Spezifikation und Aufbau der Schnittstelle}
+\subsubsection{Spezifikation und Aufbau der Schnittstelle (Schenkel)}
 Die Spezifikation definiert Schnittstellen, die den Zugriff auf Chipkarten ausgehend
 von mehreren Applikationen beziehungsweise Nutzern ermöglichen. Grundlegend
 dafür benötigt werden neben dem Standardkonformen Treiber ein \ac{IFD} und
@@ -1401,7 +1404,7 @@ von Chipkarten und Lesern zugegriffen wird.
 Sowohl unter Windows als auch in vielen Linux-Distributionen sind
 \textit{PC/SC-Treiber} mittlerweile verbreitet.
 
-\subsubsection{PCSClite}
+\subsubsection{PCSClite (Schenkel)}
 Die unter Linux-Distributionen verfügbare Version ist
 PCSClite\footnote{\url{https://pcsclite.alioth.debian.org/}}.
 Das von David Corcoran gestartete Projekt M.U.S.C.L.E
@@ -1413,7 +1416,7 @@ Neben diversen Linux-Distributionen werden auch Mac OSX und diverse
 BSD- sowie Unix-Derivate unterstützt.
 
 %% Programmiersprache C %%
-\subsection{Die Sprache C}
+\subsection{Die Sprache C (Heumann)}
  C ist eine prozedurale Programmiersprache, die nicht für einen speziellen
  Anwendungsfall entwickelt wurde. Sie hat einen hohen Verbreitungsgrad
  und ist laut \ac{IEEE} Spectrum\footnote{\url{http://spectrum.ieee.org/computing/software/the-2015-top-ten-programming-languages} [besucht am 17.05.16]}
@@ -1424,7 +1427,7 @@ BSD- sowie Unix-Derivate unterstützt.
  bedeutet, dass die Sprache prozedural ist und welche Besonderheiten C
  aufweist.
 
- \subsubsection{Geschichte}
+ \subsubsection{Geschichte (Heumann)}
   Die Entwicklung von C hängt stark zusammen mit der Entwicklung des Unix-Systems.
   Dieses wurde ursprünglich in Assembler geschrieben und nun wurde
   überlegt den Code neu zu schreiben, allerdings in B. Mit B ließen sich jedoch
@@ -1445,7 +1448,7 @@ BSD- sowie Unix-Derivate unterstützt.
   führte zu zwei weiteren Standards in 1999 (C99) und 2011 (C11). Unterstützt wird von den
   Compilern C89 und oft auch C99, wohingegen C11 nicht sehr verbreitet ist. \nocite{ritchie93}
  
- \subsubsection{Prozedurales Programmierparadigma}
+ \subsubsection{Prozedurales Programmierparadigma (Heumann)}
   In der Programmierung gibt es verschiedene Stile, wie Programmcode geschrieben und strukturiert
   werden kann. Dabei gibt es einige fundamentale Stile, die als Programmierparadigmen bezeichnet
   werden. Die vier wichtigsten Paradigmen sind das imperative, funktionale, logische und objekt-
@@ -1461,7 +1464,7 @@ BSD- sowie Unix-Derivate unterstützt.
   gruppiert und aus dem Hauptprogramm heraus abgerufen. Bei C ist dieses Programm in einer ``main''-
   Funktion enthalten und über diese Funktion wird das Programm gestartet.
 
- \subsubsection{Besonderheiten}
+ \subsubsection{Besonderheiten (Heumann)}
  C ist eine ``low-level''-Sprache, was an sich nichts schlechtes ist, aber es bedeutet, dass C mit den
  Objekten arbeitet, mit denen auch die meisten Computern arbeiten. Konkret bedeutet das, dass
  C nur Zeichen, Zahlen und Speicheradressen nutzt. Durch arithmetische und logische Operationen,
@@ -1520,8 +1523,8 @@ BSD- sowie Unix-Derivate unterstützt.
   durchführen, ob alle genutzten Funktionen seitens des Programms in einer eingebunden Bibliothek zur
   Verfügung stehen.
 
-\subsection{Die Sprache Python}
-\subsubsection{Grundlagen}
+\subsection{Die Sprache Python (Schenkel)}
+\subsubsection{Grundlagen (Schenkel)}
 \textit{Python} ist eine seit 1991 frei veröffentlichte Programmiersprache. Sie zählt
 zu den interpretierten Programmiersprachen. Primäre Ziele der Sprache sind zusammengefasst:
 \begin{itemize}
@@ -1548,15 +1551,15 @@ In seltenen Fällen kann es auch notwendig sein Binärcode auszuliefern, ohne de
 die aus vorliegendem \textit{Python}-Code ausführbare Programme generieren. Ein Beispiel hierfür
 ist \textit{py2exe}\footnote{\url{http://www.py2exe.org/}}.
 
-\subsubsection{Motivation zur Nutzung}
+\subsubsection{Motivation zur Nutzung (Schenkel)}
 Die Entscheidung für diese Programmiersprache fällt vor allem aus dem Grund, dass bereits eine
 Vielzahl von Skripten aus kleineren Projekten im Bereich der Kommunikation mit \textit{SIM}-Karten
 (also auf der Seite des UE) existieren. An diese Skripte kann angeschlossen werden. Nachfolgend werden die zugrunde liegende
 Skripte näher erläutert. Diese werden für die Umsetzung dieser Studienarbeit verwendet sowie
 in ihrer Funktion erweitert.
 
-\subsection{Bibliotheken}
-\subsubsection{pysim}
+\subsection{Bibliotheken (Schenkel)}
+\subsubsection{pysim (Schenkel)}
 \label{subsec:pysim}
 Pysim\footnote{\url{https://github.com/kevinprince/pysim}} ist ein
 Python-Skript, geschrieben von Kevin Prince,
@@ -1575,7 +1578,7 @@ ist es mit Pysim auch möglich Werte auf programmierbaren SIM-Karten zu setzen.
 Neben abgeschlossenen Skripten ist auch die interaktive Nutzung auf der
 Python-Shell verwendbar.
 
-\subsubsection{osmo-sim-auth}
+\subsubsection{osmo-sim-auth (Schenkel)}
 \label{subsec:osmosim}
 \textit{Osmo-sim-auth}\footnote{\url{http://openbsc.osmocom.org/trac/wiki/osmo-sim-auth}}
 überschneidet sich im Unfang angebotener Funktionen mit \textit{pysim}. Hauptsächlich ist es,
@@ -1599,7 +1602,7 @@ in direkter Kommunikation mit der SIM-Karte werden auch folgende
 Funktionalitäten durch das Projekt realisiert:
 \ac{BSC},\ac{MSC},\ac{HLR},\ac{AuC},\ac{VLR}, und \ac{EIR}\cite{osmocombscweb}.
 
-\subsubsection{pyscard}
+\subsubsection{pyscard (Schenkel)}
 \label{pyscard}
 Zur Verwendung des Tools \textit{pysim} oder \textit{osmo-sim-auth} wird eine Python-Bibliothek benötigt,
 die Smartcard-Support für Python bereitstellt. Diese Bibliothek
@@ -1616,7 +1619,7 @@ APDUs stattfinden.
 Veröffentlicht wurde pyscard als freie Software unter der
 \textit{GNU Lesser General Public License}.
 
-\subsection{Ubuntu}
+\subsection{Ubuntu (Schenkel)}
 \label{subsec:ubuntu}
 Als Grundlage für die Umsetzung des Providers wird die Linuxdistribution Ubuntu\footnote{\url{http://www.ubuntu.com/}}
 gewählt. In Desktop- sowie Serverumgebungen wird es zunehmend eingesetzt.
@@ -1633,11 +1636,11 @@ allerdings durch eine ebenso breite, allerdings darüber hinaus aktuellere Paket
 Motivation zum Einsatz von Ubuntu in der Version 14.04 LTS ist die bestehende Erfahrung
 mit dieser Version in Verbindung mit dem PPPoE-Server von Roaring Penguin (Version 4.11). 
 
-\subsection{Raspberry Pi}
+\subsection{Raspberry Pi (Schenkel)}
 
 Die Hardwaregrundlage für das Endgerät bietet die Plattform eines Raspberry Pis, einem Kleincomputer.
 
-\subsubsection{Raspberry Pi Foundation}
+\subsubsection{Raspberry Pi Foundation (Schenkel)}
 Entwickelt wird der Raspberry Pi von der Raspberry Pi Foundation\footnote{\url{https://www.raspberrypi.org}}
 (registriert in Großbritannien). Ziel der Organisation ist es,
 seit Veröffentlichung des ersten Modells, einen kostengünstigen
@@ -1651,7 +1654,7 @@ drei Generationen in unterschiedlichen Ausführungen
 entwickelt. Die Bezeichnung A(+) beziehungsweise B(+) gibt jeweils Aufschluss
 über die jeweilige Ausführung.
 
-\subsubsection{Hardware Modell B}
+\subsubsection{Hardware Modell B (Schenkel)}
 Das in diesem Projekt eingesetzte Modell B der ersten Generation verfügt über folgende Hardwarekomponenten:
 \begin{itemize}
 \item CPU - 700 MHz Singlecore ARM1176JZF-S
@@ -1660,7 +1663,7 @@ Das in diesem Projekt eingesetzte Modell B der ersten Generation verfügt über 
 \item Grafikprozessor - Broadcom VideoCore IV
 \end{itemize}
 
-\subsubsection{Betriebssystem}
+\subsubsection{Betriebssystem (Schenkel)}
 Als Betriebssystem gibt es für den Raspberry Pi eine breite Auswahl.
 Neben einer Vielzahl von Media-Center-Plattformen sind auch alle
 Desktop- beziehungsweise Server-Versionen gängiger Linux-Derivate verfügbar:
@@ -1698,11 +1701,11 @@ auch die Ziele des Debian/GNU-Projekts. Es ist dementsprechend unter
 den \textit{Debian Free Software Guidelines}\footnote{\url{https://wiki.debian.org/DFSGLicenses}}
 lizenziert und durch die Raspbian-Community unabhängig entwickelt.
   
-\subsection{VirtualBox}
+\subsection{VirtualBox (Schenkel)}
 Die eingesetzte Virtualisierungsplattform zur Simulation des Providers ist VirtualBox\footnote{\url{https://www.virtualbox.org/}}. Das Betriebssystem Ubuntu, der PPPoE-Server und weitere Software für
 das Bereitstellen des Providers wird innerhalb einer virtuelle Maschine realisiert.
 
-\subsubsection{Grundlage}
+\subsubsection{Grundlage (Schenkel)}
 \textit{VirtualBox} ist ein open-source Typ-2 Hypervisor (\Verweis{subsubsec:hypervisor}), der
 ursprünglich von der \textit{innotek GmbH}, gefolgt von \textit{Sun Microsystems} entwickelt wurde.
 Damals noch \textit{Sun VirtualBox} genannt wurde es von \textit{Oracle} übernommen und ist
@@ -1760,7 +1763,7 @@ Nachfolgende werden diese aufgelistet und beschrieben \cite{victor10}:\vspace*{5
     \caption{Prozessarchitektur von VirtualBox}
 \end{table}
 
-\subsubsection{Hypervisor}
+\subsubsection{Hypervisor (Schenkel)}
 \label{subsubsec:hypervisor}
 Ein \textit{Hypervisor} oder auch \ac{VMM} ist die Softwarekomponente, die es ermöglicht
 mehrere Gastbetriebssysteme (in VMs) gleichzeitig zu betreiben.
@@ -1840,7 +1843,7 @@ kann entsprechender Kernelcode bis auf Ring 0 reichen und dort ordnungsgemäß a
 Auf diesem Weg ist zusätzlich
 ein Performancezuwachs beziehungsweise kein Performanceverlust zu verzeichnen \cite{victor10}.
 
-\subsubsection{Motivation}
+\subsubsection{Motivation (Schenkel)}
 \textit{VirtualBox} ermöglicht es auf einem Hostsystem mehrere virtuelle Maschinen nebeneinander
 zu Betreiben. Unter Berücksichtigung der Tatsache, dass viele Applikationen nicht immer ihre
 zur Verfügung stehenden Ressourcen (CPU, RAM, HDD, etc.) benötigen, können diese dynamisch verwaltet
@@ -1858,8 +1861,8 @@ Ebenso flexibel können fertig entwickelte und getestete Systeme reproduziert (p
 Da die Verfasser dieser Arbeit über Ressourcen auf ihren Arbeits-PCs verfügen und \textit{VirtualBox}
 kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges eingesetzt.
 
-\subsection{Projektumsetzung}
- \subsubsection{Anforderungen}
+\subsection{Projektumsetzung (Heumann)}
+ \subsubsection{Anforderungen (Heumann)}
  Zu Beginn, und teilweise auch während des Projektes, wurden Anforderungen
  an das Projekt gestellt, die umgesetzt werden sollen und Grenzen gesetzt, die
  dem Projekt einen Rahmen vorgeben. Außerdem wurden Meilensteine definiert,
@@ -1913,7 +1916,7 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
  um eventuell auftretende Komplikationen und Verzögerungen ausgleichen zu können ohne den
  Erfolg des Projektes zu gefährden.
 
- \subsubsection{Unterstützende Tools}
+ \subsubsection{Unterstützende Tools (Heumann)}
   Im Projekt werden einige Tools genutzt, die die Arbeit unterstützen und die Kommunikation
   unter den beiden Autoren vereinfacht. Trello und Git(hub) sollen hier kurz vorgestellt werden,
   da sie eine große Hilfe waren.

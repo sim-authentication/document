@@ -1,9 +1,9 @@
-\section{Tätigkeit}
+\section{Tätigkeit (Schenkel \& Heumann)}
 
-\subsection{Erstellen des Netzproviders}
+\subsection{Erstellen des Netzproviders (Schenkel \& Heumann)}
 
 %TODO: #edit Ubuntu und PPPoE klingen eher wie eine Anleitung, als wie eine "Dokumentation"
-	\subsubsection{Ubuntu}
+	\subsubsection{Ubuntu (Schenkel)}
 	Wie in \Verweis{subsec:ubuntu} beschrieben wird Version 14.04 LTS
 	der Linuxdistribution Ubuntu eingesetzt. Das bei der Herstellerwebsite\footnote{\url{http://releases.ubuntu.com/14.04/}},
 	für Serverbetrieb erhältliche Image wird in einer virtuellen Maschine betrieben.
@@ -39,7 +39,7 @@
     	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentifizierung
     	des UE den Zugang zum Internet freizuschalten.
 
-    	\subsubsection{PPPoE}
+    	\subsubsection{PPPoE (Schenkel)}
     	Die Einrichtung von \textit{PPPoE} basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
     	bezogen. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
@@ -83,26 +83,25 @@
         Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
-	\subsubsection{Implementierung AES}
+	\subsubsection{Implementierung AES (Heumann)}
 	\label{implementierung-aes}
 	Die Blockchiffre AES wurde in der Datei \emph{rijndael.c} geschrieben. Der Code wurde in drei
-	logische Teile unterteilt, nämlich die Variablendeklaration, die Main-Funktion, die die
-	einzelnen Runden steuert und Funktionen, die die konkrete Implementierung der jeweiligen
-	Transformation bereitstellen. Des weiteren wurde ein eigener Variablentyp \emph{u8} definiert,
+	logische Teile unterteilt, nämlich die Variablendeklaration, die encrypt-Funktion, die die
+	einzelnen Runden steuert, und Funktionen für jeweiligen Transformation, die in den Runden
+	durchgeführt werden. Des weiteren wurde ein eigener Variablentyp \emph{u8} definiert,
 	der eine verkürzte Form des unsigned integer ist. \\
-%%TODO: #anhang C-Code hinzufügen #CHECK
-	Der gesamte Code steht im Anhang ??? und wird in den folgenden Paragraphen näher erläutert.
+	Der gesamte Code steht im Anhang \ref{lst:rijndael.c} und wird in den folgenden Paragraphen näher erläutert.
 
 		\paragraph{Variablen}
-		Die zu Beginn initialisierten Variablen sind einige Zählervariablen, die für spätere Schleifen
+		Die zu Beginn initialisierten Variablen sind unter anderem Zählervariablen, die für spätere Schleifen
 		reserviert werden. Zusätzlich werden jedoch auch einige Konstanten definiert. Da keine
-		Optimierung bezüglich des Speicherplatzverbrauchs getätigt werden muss, wird die Substitutions-
-		Tabelle, also die S-box, nicht zur Laufzeit erst berechnet, sondern zu Beginn definiert. Ähnlich
-		sind die Rundenkonstanten für die Generierung des Rundenschlüssels schon vorher in einer Konstante
-		definiert. Des weiteren existiert die \emph{mixMatrix}, genauer gesagt ein 4 x 4-Array, welches die
+		Optimierung bezüglich des Speicherplatzverbrauchs getätigt werden muss, wird die Substitutions-Tabelle,
+		also die S-box, nicht zur Laufzeit erst berechnet, sondern zu Beginn definiert. Ähnlich
+		sind die Rundenkonstanten c für die Generierung des Rundenschlüssels schon vorher in einer Konstante
+		definiert. Des weiteren existiert die \emph{mixMatrix}, ein 4 x 4-Array, welches die
 		MixColumns-Transformation vereinfachen wird. \\
 		\emph{tmp} ist ein Hilfs-Array, in \emph{key} wird der Chiffrierschlüssel gespeichert, in \emph{roundKey}
-		die Rundenschlüssel für alle zehn Runden, also inklusive der 1. Runde, und in \emph{state} wird der Zustand
+		die Rundenschlüssel für alle zehn Runden, inklusive der 1. Runde, und in \emph{state} wird der Zustand
 		hinterlegt. 
  
 		\paragraph{encrypt}
@@ -110,14 +109,14 @@
 		braucht drei Eingabeparameter. \emph{input} ist der Textblock, \emph{keyStr} der
 		Schlüssel und output die Variable, in die der chiffrierte Status am Ende geschrieben
 		werden soll. \\
-		Da Textblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen
-		wird bei beiden erst convert2array aufgerufen. Wie die Funktion erkennen lässt
+		Da Textblock und Schlüssel zu erst noch in ein Array konvertiert werden müssen,
+		wird bei beiden erst convert2array aufgerufen. Wie die Funktion erkennen lässt,
 		konvertiert sie den Inhalt des ersten Eingabeparameter in ein Array und speichert das
 		Ergebnis in der zweiten übergebenen Variable. Entgegen der Spezifikation wird das
 		der Textblock und der Schlüssel aber nicht zeilenweise, sondern spaltenweise in das
 		Array umgewandelt.
 
-		\begin{lstlisting}[language=C]
+		\begin{lstlisting}[language=C, caption=]
 		void convert2array(u8 input[16], u8 output[4][4]) {
     			for (j = 0; j < 4; j++) {
         			for (i = 0; i < 4; i++) {
@@ -203,7 +202,7 @@
 		t2-Funktion umgesetzt, ähnlich der mathematischen Definition in Kapitel
 		\Verweis{milenage-funktion}.
 
-	\subsubsection{Implementierung Milenage}
+	\subsubsection{Implementierung Milenage (Heumann)}
 	\label{implementierung-milenage}
 	Die Implementierung des Milenage Algorithmus wurde nicht auf Basis der Funktionen
 	strukturiert sondern der Ausgabeblöcke. Die Funktionen \emph{f2} und \emph{f5} sind
@@ -308,8 +307,8 @@
 		Das vordere und hintere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 
-	\subsection{Erstellen des UE}
-		\subsubsection{Aufsetzen des Raspberry Pis}
+	\subsection{Erstellen des UE (Schenkel)}
+		\subsubsection{Aufsetzen des Raspberry Pis (Schenkel)}
         \label{subsubsec:installpi}
 			\paragraph{Raspbian} wird über die von der Webpräsenz\footnote{\url{https://www.raspberrypi.org/downloads/raspbian/}}
             des Projekts gehosteten vorgefertigten Builds aufgesetzt.
@@ -350,16 +349,16 @@
             des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem pullen
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
-	\subsection{Integration mit PPPoE}
+	\subsection{Integration mit PPPoE (Schenkel)}
         Um den Verbindungsaufbau zwischen UE und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
         als auch der Server für \ac{PPPoE} konfiguriert sowie gestartet sein.
 
-	\subsubsection{Server}
+	\subsubsection{Server (Schenkel)}
          Hier muss initial der Daemon für den \ac{PPPoE}-Server gestartet sein. Anzugeben ist das gewünschte
          Netz mit zugehöriger Netzwerkschnittstelle. Ebenso muss die IPTables-Regel zur Weiterleitung
          des Internetverkehrs gesetzt sein.
 
-         \subsubsection{Client}
+         \subsubsection{Client (Schenkel)}
          Hier müssen einmalig über das Tool \textit{pppoe-conf} die Parameter und Authentifizierungsdaten
          für die \ac{PPPoE}-Verbindung eingepflegt werden.
 
@@ -368,9 +367,9 @@
          des Systems oder Verbindungsabbruch (regulär oder durch technische Zwischenfälle) greift dieser
          Mechanismus ebenfalls.
          
-\subsection{Implementierung der Server-Client Architektur}
+\subsection{Implementierung der Server-Client Architektur (Schenkel \& Heumann)}
 \label{server-client-architektur}
-	\subsubsection{Implementierung des Servers}
+	\subsubsection{Implementierung des Servers (Heumann)}
     	\label{subsec:impl_server}
 	Das Hauptprogramm, das am Ende in main.c gestartet wird, ist der eigentliche Netzprovider beziehungsweise
 	die Authentifizierungsstelle. Damit diese Daten dynamisch empfangen kann, wird ein Serversocket aufgebaut
@@ -428,7 +427,7 @@
 		es, dass die Nachricht des Clients nicht gelesen werden konnte. \\
 		In beiden Fällen wird das Programm und damit der Server beendet.
 
-    \subsubsection{Implementierung des Clients}
+    \subsubsection{Implementierung des Clients (Schenkel)}
     Wie bereits erläutert existiert neben dem Server (vgl. \Verweis{subsec:impl_server}) auch ein Client,
     damit die Kommunikation wie erwünscht realisiert werden kann. Hier handelt es sich um die Komponente,
     die Zugriff auf die SIM-Karte hat (\emph{UE}) und alle notwendigen Informationen an den Server sendet.
@@ -484,7 +483,7 @@
         \paragraph{Beenden der Verbindung} Die Verbindung wird dann beendet, wenn entweder Client
         oder Server dies initiieren. 
 	
-    \subsubsection{Kommunikationsablauf zwischen Client und Server}
+    \subsubsection{Kommunikationsablauf zwischen Client und Server (Schenkel)}
     Dieser Ablauf wird über die durch Sockets initiierte Verbindung realisiert. Aufgrund
     der Tatsache, dass der Vorgang je nach Ausgangszustand den Aufruf verschiedener Operationen
     verlangt, wird ein Statuscode in jede Nachricht integriert. Anhand dieses Statuscodes
