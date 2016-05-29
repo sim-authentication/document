@@ -1430,18 +1430,18 @@ BSD- sowie Unix-Derivate unterstützt.
  \subsubsection{Geschichte (Heumann)}
   Die Entwicklung von C hängt stark zusammen mit der Entwicklung des Unix-Systems.
   Dieses wurde ursprünglich in Assembler geschrieben und nun wurde
-  überlegt den Code neu zu schreiben, allerdings in B. Mit B ließen sich jedoch
+  überlegt, den Code neu zu schreiben, allerdings in B. Mit B ließen sich jedoch
   einige der Unix-Features nicht umzusetzen, wie beispielsweise die Byte-Adressierung.
   
   Deshalb wurde 1972 die Sprache C von Dennies Ritchie bei Bell Labs entwickelt. Die Portabilität war
   dabei zu Beginn nicht beabsichtigt, stattdessen war C nur für Unix-Systeme entwickelt
   worden. Allerdings wurden schnell Compiler auch auf andere Systeme portiert. 1973
-  war C dann leistungsfähig genug, dass der Großteil des Unix Kernels in C geschrieben war.
+  war C dann leistungsfähig genug, um den Großteil des Unix Kernels in C zu schreiben.
   
   C wurde Ende der 70er auf verschiedenen Rechensystemen, wie Mainframecomputer und
-  Heimrechnern von implementiert. Dies bewegte vermutlich das American National Standards
-  Institude dazu, 1983 eine Komitee zu gründen, was sich um eine Standardspezifikation von
-  C kümmert. Das Komitee, X3J11, veröffentlichte 1989 seinen ersten Standard, der oft auch
+  Heimrechnern implementiert. Dies bewegte vermutlich das American National Standards
+  Institude dazu, 1983 ein Komitee zu gründen, das sich um eine Standardspezifikation von
+  C kümmerte. Das Komitee, X3J11, veröffentlichte 1989 seinen ersten Standard, der oft auch
   als ANSI C, Standard C oder C89 bekannt ist.
   
   Nach der Weitergabe des Standards an die \ac{ISO} 1990 wurde dieser weiterentwickelt und
@@ -1453,34 +1453,34 @@ BSD- sowie Unix-Derivate unterstützt.
   werden kann. Dabei gibt es einige fundamentale Stile, die als Programmierparadigmen bezeichnet
   werden. Die vier wichtigsten Paradigmen sind das imperative, funktionale, logische und objekt-
   orientierte Programmierparadigma \cite{normark03}. Das prozedurale Paradigma ist eine Spezialisierung des 
-  imperativen Paradigma. Programmiersprachen können teilweise nur mit einem Paradigma entwickelt
+  imperativen Paradigmas. Programmiersprachen können teilweise nur mit einem Paradigma entwickelt
   werden, aber oft gibt es auch mehrere Ansätze. So kann C beispielsweise auch objekt-orientiert
   geschrieben werden, aber eigentlich gilt es als prozedurale Programmiersprache.
   
   Die Idee der prozeduralen Programmierung ist, dass Aufgaben nacheinander erledigt werden, wie
   sie aufgeschrieben sind. Im Unterschied dazu wird zum Beispiel in der objekt-orientierten
-  Programmierung das Programm in Klassen aufzuteilen, welche Funkionen zur Verfügung stellen. Bei
-  einer prozeduralen Sprache werden die Funktionen in Bibliotheken nach ihr Aufgabengebieten
+  Programmierung das Programm in Klassen aufgeteilt, welche Funktionen zur Verfügung stellen. Bei
+  einer prozeduralen Sprache werden die Funktionen in Bibliotheken nach ihren Aufgabengebieten
   gruppiert und aus dem Hauptprogramm heraus abgerufen. Bei C ist dieses Programm in einer ``main''-
-  Funktion enthalten und über diese Funktion wird das Programm gestartet.
+  Funktion enthalten, über die das Programm gestartet wird.
 
  \subsubsection{Besonderheiten (Heumann)}
- C ist eine ``low-level''-Sprache, was an sich nichts schlechtes ist, aber es bedeutet, dass C mit den
- Objekten arbeitet, mit denen auch die meisten Computern arbeiten. Konkret bedeutet das, dass
+ C ist eine ``low-level''-Sprache, was an sich nichts Schlechtes ist, aber es bedeutet, dass C mit den
+ Objekten arbeitet, mit denen auch die meisten Computern arbeiten. Konkret heißt das, dass
  C nur Zeichen, Zahlen und Speicheradressen nutzt. Durch arithmetische und logische Operationen,
  die in der Maschine implementiert sind, lassen sich diese Datentypen kombinieren und bewegen.
  Daraus resultiert, dass keine Zeichenketten wie in höheren Programmiersprachen existieren oder
- Funktion, die auf Zeichenketten und Arrays angewendet werden können. \cite{kernighan88} \\
- Welche Besonderheiten diese Dinge mit sich bringen soll im folgenden aufgezeigt werden.
+ Funktionen, die auf Zeichenketten und Arrays angewendet werden können. \cite{kernighan88} \\
+ Welche Besonderheiten diese Aspekte mit sich bringen, soll im Folgenden aufgezeigt werden.
 
  \paragraph{Pointers}
   Pointers sind Variablen, die die Speicheradressen von Variablen speichern. Sie werden in C häufig
-  angewendet, da sie oft die einzige Möglichkeit sind eine Berechnung durchzuführen und teilweise
+  angewendet, da sie oft die einzige Möglichkeit sind, eine Berechnung durchzuführen und teilweise
   auch, weil sie zu kompakterem und effizienterem Code führen als andere Ansätze. \cite{kernighan88}
-  Pointers sind also eine große Hilfe, aber da sie Speicheradressen speichern sind sie auch nicht ganz
+  Pointers sind also eine große Hilfe, aber da sie Speicheradressen speichern, sind sie auch nicht ganz
   einfach zu verwenden und können zu unerwarteten Ergebnissen führen, wenn auf eine falsche
-  Speicheradresse zugegriffen wird. Wie \Abbildung{c-pointers} dargestellt ist in der Variable c ein
-  Wert abgespeichert  und in der Pointervariable p ist die Adresse in der die Variable c liegt gespeichert.
+  Speicheradresse zugegriffen wird. Wie in \Abbildung{c-pointers} dargestellt, ist in der Variable c ein
+  Wert abgelegt und in der Pointervariable p ist die Adresse, in der die Variable c liegt, abgespeichert.
   
   \begin{figure}[h!]
    \begin{center}
@@ -1500,17 +1500,17 @@ BSD- sowie Unix-Derivate unterstützt.
   liefert dann die Adresse der Variable \emph{c}.
 
   \paragraph{Bitweise Operatoren}
-  Um einzelne Bits zu manipulieren ist es am einfachsten mit bitweisen Operatoren zu arbeiten. In vielen
+  Um einzelne Bits zu manipulieren, ist es am einfachsten, mit bitweisen Operatoren zu arbeiten. In vielen
   Sprachen existieren Möglichkeiten, um diese durchzuführen, aber sie werden selten genutzt. Der Grund
-  dafür ist, dass in der Regel keinen einzelnen Bits manipuliert werden müssen, um eine gegebene Aufgabe
+  dafür ist, dass in der Regel keine einzelnen Bits manipuliert werden müssen, um eine gegebene Aufgabe
   zu erledigen. Da es in C aber nur wenige Funktionen gibt, sind sie in den meisten Programmen zwingend
   erforderlich. Es werden die sechs Operationen Und (\&), Oder ($|$), Exklusiv-Oder ($^{\wedge}$), Verschiebung nach
   links ($<<$) oder rechts ($>>$) und das Komplement ($\sim$) von C unterstützt.
 
   \paragraph{Bibliotheken}
-  Zum Schluss sollte noch etwas zu den Bibliotheken gesagt werden. In prozeduralen Sprachen lassen sich
-  Funktionen in Bibliotheken bündeln. Da C jedoch von Haus aus nur wenige Funktionen bereitstellt gibt es
-  nur wenige C-Programme die ohne eine externe Bibliothek auskommen. So gibt es einige sogenannte
+  Zum Schluss soll noch etwas zu den Bibliotheken gesagt werden. In prozeduralen Sprachen lassen sich
+  Funktionen in Bibliotheken bündeln. Da C jedoch von Haus aus nur wenige Funktionen bereitstellt, gibt es
+  nur wenige C-Programme, die ohne eine externe Bibliothek auskommen. So gibt es einige sogenannte
   Standardbibliotheken, die von der ISO und ANSI C spezifiziert wurden. Durch diese
   Bibliotheken wird der Umfang von C erweitert und abhängig vom Betriebssystem gibt es noch andere
   Bibliotheken für verschieden Anwendungsfälle. \\
@@ -1864,27 +1864,27 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
 \subsection{Projektumsetzung (Heumann)}
  \subsubsection{Anforderungen (Heumann)}
  Zu Beginn, und teilweise auch während des Projektes, wurden Anforderungen
- an das Projekt gestellt, die umgesetzt werden sollen und Grenzen gesetzt, die
+ gestellt, die umgesetzt werden sollen und Grenzen gesetzt, die
  dem Projekt einen Rahmen vorgeben. Außerdem wurden Meilensteine definiert,
  um der Projektumsetzung mehr Struktur zu geben.
  
  In Kapitel \Verweis{idee-arbeit} wurde bereits angesprochen, dass hardwareseitig
  ein Raspberry Pi mit einem Kartenleser als \ac{UE} dienen soll und der Netzprovider
- simuliert wird auf einer virtuellen Maschine. Die Kommunikation der beiden Geräte
+ auf einer virtuellen Maschine simuliert wird. Die Kommunikation der beiden Geräte
  wird über eine \ac{PPPoE}-Verbindung realisiert. Was nicht simuliert wird, ist der
  \ac{MSC}, da dafür eine weitere virtuelle Maschine aufgesetzt werden muss und die
- Funktionalität des Knotens darauf reduziert wäre RES und XRES (vgl. Kapitel \ref{authentifizierungsvorgang})
+ Funktionalität des Knotens darauf reduziert wäre, RES und XRES (vgl. Kapitel \ref{authentifizierungsvorgang})
  miteinander zu vergleichen.
  
  Der Vergleich der beiden Werte RES und XRES wird allerdings auch nicht an anderer
- Stelle umgesetzt, sondern fällt weg, ebenso wie bei der Resnchronisation der Vergleich
+ Stelle umgesetzt, sondern fällt weg, ebenso wie bei der Resynchronisation der Vergleich
  von MAC-S mit XMAC-S. Beide Vergleiche werden gemacht um sicher zu stellen, dass
  der jeweils andere Kommunikationspartner nicht korrupt ist. Da in diesem Projekt eine
  PPPoE-Verbindung genutzt wird, ist sichergestellt, dass beide Partner nicht korrupt sind
  und eine Überprüfung deshalb überflüssig.
  
  Da das Kernziel eine erfolgreiche Authentifizierung ist, werden die nötigen Funktionen
- für sowohl die Synchronisation, als auch die Resynchronisation umgesetzt. Die Datenbank
+ für sowohl die Synchronisation, als auch die Resynchronisation umgesetzt. Die Datenbank,
  in der der aktuelle SQN, beziehungsweise SEQ, gespeichert werden fällt jedoch weg, da
  diese bei nur einer USIM wieder zusätzlicher Aufwand bedeutet. \\
  Da es außerdem nur um die Authentifizierung geht, aber nicht die Kommunikation zwischen
@@ -1898,15 +1898,15 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
  
  Bei beiden Algorithmen geht es zudem nicht um Geschwindigkeit oder Ressourcenverbrauch.
  Das soll heißen, dass bei der Implementierung dieser nicht daraufhin optimiert wird, dass wenig
- Speicherplatz benötigt wird oder das Programm besonders schnell ist. Stattdessen ist lediglich
- wichtig, dass beide Algorithmen korrekt implementiert werden und am Ende die Werte generieren
+ Speicherplatz benötigt wird oder dass das Programm besonders schnell ist. Stattdessen ist lediglich
+ wichtig, dass beide Algorithmen korrekt implementiert werden und am Ende die Werte generieren,
  die für die Eingabeparameter zu erwarten sind.
  
- \paragraph{Meilensteine} Die Meilensteine, die für das Projekt definiert wurden lauten wie folgt:
+ \paragraph{Meilensteine} Die Meilensteine, die für das Projekt definiert wurden, lauten wie folgt:
  \begin{description}
  \item [27.10.2015] Die Grundlagen für die Authentifizierungs\-algorithmen sollen bekannt und verstanden sein
  \item [07.12.2015] Das Auslesen einer USIM soll funktionieren, alternativ soll eine USIM emuliert werden können
- \item [01.02.2016] Der virtuelle Netzbetreiber soll gemäß der Spezifikationen funktionieren, für die nötigen Funktionen
+ \item [01.02.2016] Der virtuelle Netzbetreiber soll gemäß der Spezifikationen, für die nötigen Funktionen funktionieren
  \item [29.02.2016] Die USIM soll in den Authentifizierungsprozess eingebunden werden, also mit dem virtuellen Netzbetreiber kommunizieren
  \item [17.04.2016] Die Studienarbeit ist bis zu diesem Zeitpunkt fertig geschrieben
  \item [30.05.2016] Die Studienarbeit muss abgegeben werden
@@ -1918,13 +1918,13 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
 
  \subsubsection{Unterstützende Tools (Heumann)}
   Im Projekt werden einige Tools genutzt, die die Arbeit unterstützen und die Kommunikation
-  unter den beiden Autoren vereinfacht. Trello und Git(hub) sollen hier kurz vorgestellt werden,
+  unter den beiden Autoren vereinfachen. Trello und Git(hub) sollen hier kurz vorgestellt werden,
   da sie eine große Hilfe waren.
 
   \paragraph{Trello}
   Die web-basierte Projekt\-management\-software Trello wird vom US-amerikanischen Unternehmen
   ``Fog Creek Software'' betrieben. Gegründet wurde es am 13. September 2011 und erfreut sich  in
-  letzter Zeit immer mehr Beliebtheit, sodass es seit Mitte 2015 auch auf Deutsch existiert. \\
+  letzter Zeit immer größerer Beliebtheit, sodass es seit Mitte 2015 auch auf Deutsch existiert. \\
   Wenn man bei Trello angemeldet ist, kann man mehreren sogenannten Boards zugeordnet sein. In
   diesen Boards gibt es dann Listen. So kann mit Trello schnell ein Scrum- oder Kanban-Board
   erstellt werden. Man ist darauf jedoch nicht festgelegt, weshalb die Software ziemlich
@@ -1935,8 +1935,8 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
   Um den Programmcode und das Schreiben dieser Arbeit zu vereinfachen, wurde Git genutzt. Dies ist
   eine quelloffene verteilte Versionsverwaltung, die vom Linux Gründer Linus Torvalds entwickelt
   wurde. Der Grund dafür war, dass die Entwickler des Linuxkernels lange BitKeeper genutzt haben
-  für die Versionsverwaltung, aber dies konnte durch eine Lizenzänderung nicht mehr genutzt werden,
-  weshalb Torvalds sich entschied seine eigene Verwaltung zu bauen, die seine Anforderungen erfüllt. \\
+  für die Versionsverwaltung, aber diese konnten durch eine Lizenzänderung nicht mehr genutzt werden,
+  weshalb Torvalds sich entschied, seine eigene Verwaltung zu bauen, die seine Anforderungen erfüllt. \\
   Im Gegensatz zu beispielsweise Subversion, gibt es nicht einen zentralen Server, auf dem die komplette
   Historie gespeichert ist, sondern jeder Client ist auch ein Server und hält die Historie bereit. Dies
   ermöglicht dem Nutzer einige Interaktionen durchzuführen ohne an das Internet angebunden zu sein. \\
