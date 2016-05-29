@@ -40,11 +40,11 @@
     	des UE den Zugang zum Internet freizuschalten.
 
     	\subsubsection{PPPoE (Schenkel)}
-    	Die Einrichtung von \textit{PPPoE} basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
+    	Die Einrichtung von \textit{PPPoE} kann basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
     	bezogen. Zusätzlich wird das Ubuntu-Paket zur Unterstützung
     	des Point-To-Point-Protocol (als \textit{ppp} erhältlich) benötigt. Sind diese beiden Grundvoraussetzungen
-    	abgedeckt wird der Roaring Penguin PPPoE-Server ohne spezielle Änderungen aus dem Quellcode kompiliert.
+    	abgedeckt, wird der Roaring Penguin PPPoE-Server ohne spezielle Änderungen aus dem Quellcode kompiliert.
 
     	In der Datei \textit{/etc/ppp/pppoe-server-options} werden die notwendigen Parameter gesetzt. Anzugeben
     	sind die DNS-Server sowie die CHAP-Authentifizierung. Der User für die Authentifizierung
@@ -63,7 +63,7 @@
     	folgernder Form eingerichtet werden:
 
     	\begin{lstlisting}[language=bash]
-		$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o enp0s25 -j MASQUERADE
+		$ iptables -t nat -A POSTROUTING -s 192.168.178.0/24 -o eth0 -j MASQUERADE
 	\end{lstlisting}
 
 	Sie nimmt den Verkehr auf dem Device \textit{enp0s25} an und maskiert (vgl. \ac{NAT}) diesen
@@ -78,9 +78,9 @@
 		pppoe-server -C isp -L 192.168.178.254 -p /etc/ppp/allip -I enp0s25
 	\end{lstlisting}
 
-    Ein Beispiel-Initskript, welches diesen Zweck erfüllt befindet sich im Anhang unter \Verweis{lst:pppoe_init}.
+    Ein Beispiel-Initskript, welches diesen Zweck erfüllt, befindet sich im Anhang unter \Verweis{lst:pppoe_init}.
 
-        Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen können sich über
+        Korrekt konfigurierte Clients, die über die Zugangsdaten verfügen, können sich über
         diese Verbindung anmelden und Internetzugriff erhalten.
 
 	\subsubsection{Implementierung AES (Heumann)}
@@ -359,7 +359,7 @@
          Hier müssen einmalig über das Tool \textit{pppoe-conf} die Parameter und Authentifizierungsdaten
          für die \ac{PPPoE}-Verbindung eingepflegt werden.
 
-         Das Tool bietet die Möglichkeit selbige Informationen
+         Das Tool bietet die Möglichkeit, diese Informationen
          zu speichern und automatisch den Verbindungsaufbau mit dem Server aufzunehmen. Bei Neustart
          des Systems oder Verbindungsabbruch (regulär oder durch technische Zwischenfälle) greift dieser
          Mechanismus ebenfalls.
@@ -437,10 +437,10 @@
     Python den Kommunikationsaufbau mit Chipkarten ermöglichen (card-Utils, card-Sim und card-USIM).
 
         \paragraph{Aufruf der Authentifizierung} Diese Funktion wird im Clientprogramm im Abschnitt
-        \textit{handle\_usim} definiert. Wenn externe Informationen vorhanden sind, werde sie für den Aufruf
+        \textit{handle\_usim} definiert. Wenn externe Informationen vorhanden sind, werdem diese für den Aufruf
         gesammelt und entsprechend an die SIM-Karte gesendet. In jedem Fall wird ein Authentifizierungsvorgang
         für eine USIM-Karte initiiert. \\
-        Abhängig von gegebenen Information ist die SIM-Karte daraufhin in der Lage Ergebnisvektoren
+        Abhängig von gegebenen Information, ist die SIM-Karte daraufhin in der Lage Ergebnisvektoren
         zu berechnen und zu liefern. Hier gibt es drei verschiedene Möglichkeiten:
             \begin{addmargin}[1em]{2em}
             Die Form der Anfrage war inkorrekt. D.h. sowohl der Wert für AUTN, als auch der Wert für RAND entsprechen
@@ -470,7 +470,7 @@
         bis entweder der Client oder der Server die Verbindung abbrechen. Dies gewährleistet die
         Möglichkeit der erneuten Authentifizierung.
 
-        In der Schleife werden Nachrichten auf Basis der Informationen, die von der SIM-Karte geliefert werden
+        In der Schleife werden Nachrichten auf Basis der Informationen, die von der SIM-Karte geliefert werden,
         an den Server gesendet. Ebenso werden von selbigem Informationen empfangen. Je nach aktuellem Zustand
         beziehungsweise Position im Authentifizierungsvorgang, werden unterschiedliche Operationen ausgeführt.
         Welche Operationen ausgeführt werden müssen, wird anhand des Statuscodes erkannt. Dieser kann
@@ -499,18 +499,18 @@
     der Clientnachricht assoziieren und daraufhin die IMSI extrahieren. Der Client führt
     nach Empfang der Serverantwort, die einen Wert für sowohl AUTN als auch RAND enthält, den
     ersten Authentifizierungsversuch durch. Glückt dieser, generiert die SIM-Karte bereits zu diesem
-    Zeitpunkt bereits Werte für die Vektoren Ck, Ik und RES und der Authentifizierungsvorgang ist
-    erfolgreich beendet. Sollte dies nicht der Fall sein, antwortet die SIM-Karte mit einem Wert für
+    Zeitpunkt Werte für die Vektoren Ck, Ik und RES und der Authentifizierungsvorgang ist
+    erfolgreich abgeschlossen. Sollte dies nicht der Fall sein, antwortet die SIM-Karte mit einem Wert für
     AUTS, da die Resynchronisation der SQN noch aussteht. Der Statuscode des Clients wird auf 2 gesetzt
     und eine weitere Iteration des Vorgangs aufgerufen.
 
     \paragraph{Statuscode 2:} In dieser Iteration sendet der Client neben der IMSI auch die AUTS an den
     Server. Zusätzlich wird dem Server der Statuscode 3 übermittelt.
 
-    \paragraph{Statuscode 3:} Erhält der Server diesen Statuscode führt er die Resynchronisation der SQN
-    aus. Dies erfolgt anhand der vom Client erhaltenen AUTS. Hat der Server dies abgeschlossen, übergibt er
+    \paragraph{Statuscode 3:} Erhält der Server diesen Statuscode, führt er die Resynchronisation der SQN
+    aus. Dies erfolgt anhand der vom Client erhaltenen AUTS. Hat der Server dies abgeschlossen, gibt er
     den neu errechneten Wert an den Client zurück. Dieser nimmt den Wert an und führt die Authentifizierung
-    erneut aus. Glückt dieser Vorgang antwortet die SIM-Karte schließlich mit den gewünschten Vektoren
+    erneut aus. Glückt dieser Vorgang, antwortet die SIM-Karte schließlich mit den gewünschten Vektoren
     CK, IK und RES. Die Authentifizierung ist hier erfolgreich abgeschlossen.
 
 \clearpage
