@@ -39,6 +39,7 @@
     	aufrecht erhalten werden muss. So ist es möglich nach erfolgreicher Authentifizierung
     	des UE den Zugang zum Internet freizuschalten.
 
+    	\clearpage
     	\subsubsection[PPPoE (Schenkel)]{PPPoE}
     	Die Einrichtung von \textit{PPPoE} kann basierend auf der vollständigen Ubuntuinstallation realisiert werden. Hierzu wird die aktuelle
     	Version 3.11 auf der Herstellerwebsite\footnote{\url{https://www.roaringpenguin.com/products/pppoe}}
@@ -259,6 +260,7 @@
 		einer for-Schleife auch wieder in der Konsole ausgegeben werden. Da RES auch an die USIM geschickt wird,
 		wird diese mit der Standardfunktion sprintf in das \emph{response\_arr} übertragen.
 		
+        \clearpage
 		\paragraph{f5star}
 		Diese Funktion benötigt ebenfalls zwei Werte. Der eine ist wieder der Schlüssel und der andere ist die SQN
 		verknüpft mit AK, die von der SIM-Karte geschickt wird für die Resynchronisation. Die Funktion berechnet erst
@@ -284,12 +286,14 @@
 		der Wert von \emph{seq} auch wieder in das letzte Byte durch die oder-Operation übertragen.
 		%%TODO: #edit überprüfen in wie vielen Anfragen eigentlich auch der Überlauf des 5 Bytes stattfinden kann und Code eventuell anpassen
 
+        \clearpage
 		\paragraph{rotWord}
 		%%TODO: Muss im Code in die milenage.c verschoben werden
 		Diese Funktion nutzt einen effizienten Algorithmus, um ein Array oder eine Zeichenkette zu rotieren. Die
 		Idee dahinter ist, dass, wenn wie in \Abbildung{rotWord} eine Zeichenkette 10 Zeichen hat und um 3 Zeichen
 		nach links rotiert werden soll, die ersten drei Zeichen gespiegelt werden, anschließend die letzten
 		sieben Zeichen und in einem dritten Schritt der gesamte String.
+
 		%%TODO: #edit richtige Abbildung einfügen
 		\begin{figure}[htp]
 			\begin{center}
@@ -304,6 +308,8 @@
 		Das vordere und hintere Element werden dann mit Hilfe der \emph{tmp}-Variable ausgetauscht, bis die Schleife
 		in der Mitte des Arrays angekommen ist und das Array damit invertiert wurde.
 
+	\cleapage
+	
 	\subsection[Erstellen des UE (Schenkel)]{Erstellen des UE}
 		\subsubsection[Aufsetzen des Raspberry Pis (Schenkel)]{Aufsetzen des Raspberry Pis}
         \label{subsubsec:installpi}
@@ -336,7 +342,7 @@
             Treiber mitgelieferte Scanmechanismus für neue Devices an. Da der Treiber
             Hotplugfähig ist, kann direkt mit der SIM-Karte gearbeitet werden, sobald diese
             eingesetzt wird.
-
+    \clearpage
 	\paragraph{pysim} kann von Kevin Prince's Githubrepository\footnote{\url{https://github.com/kevinprince/pysim}} bezogen werden. Es benötigt ebenso
             wie andere nachfolgend genannte Python-Skripte noch das Paket \textit{pysim}, welches
             in den offiziellen Raspbian Paketquellen zur Verfügung steht. Nach erfolgreicher Installation
@@ -346,6 +352,7 @@
             des Projekts Osmocom zu  beziehen. Genau wie auch pysim kann dieses nach dem Pullen
             über Python verwendet werden. Entweder als Bibliothek oder direkt im Interpreter.
 
+	\clearpage
 	\subsection[Integration mit PPPoE (Schenkel)]{Integration mit PPPoE}
         Um den Verbindungsaufbau zwischen UE und \ac{AuC} korrekt abzuwickeln muss sowohl der Client
         als auch der Server für \ac{PPPoE} konfiguriert, sowie gestartet sein.
@@ -363,7 +370,8 @@
          zu speichern und automatisch den Verbindungsaufbau mit dem Server aufzunehmen. Bei Neustart
          des Systems oder Verbindungsabbruch (regulär oder durch technische Zwischenfälle) greift dieser
          Mechanismus ebenfalls.
-         
+
+\clearpage
 \subsection[Implementierung der Server-Client Architektur (Schenkel \& Heumann)]{Implementierung der Server-Client Architektur}
 \label{server-client-architektur}
 	\subsubsection[Implementierung des Servers (Heumann)]{Implementierung des Servers}
