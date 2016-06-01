@@ -148,13 +148,13 @@ bookmarksdepth=3]{hyperref} %Kreiert Links von der Table of Content zu Kapiteln 
 	}
 \end{titlepage} 
  
-\clearpage
-\shipout\null
-\addtocounter{page}{1}
+%\clearpage
+%\shipout\null
+%\addtocounter{page}{1}
 
 \phantomsection
 \input{sections/declaration}
-\clearpage
+%\clearpage
 
 %\phantomsection
 %\headAndToc{Abstract}
@@ -163,7 +163,7 @@ bookmarksdepth=3]{hyperref} %Kreiert Links von der Table of Content zu Kapiteln 
 %	\input{sections/abstractEN}
 %	\paragraph{German} 
 %	\input{sections/abstractDE}
-%\clearpage
+\clearpage
 
 \phantomsection
 \headAndTocENDE{Contents}{Inhaltsverzeichnis}
@@ -214,7 +214,13 @@ bookmarksdepth=3]{hyperref} %Kreiert Links von der Table of Content zu Kapiteln 
 	\clearpage
 }
 %\shipout\null
-
+%\addtocounter{page}{1}
+%\phantomsection
+%\clearpage
+\opt{doublepage}{
+	\lfoot{\ifthispageodd{\thepage}{}}	
+	\rfoot{\ifthispageodd{}{\thepage}}
+}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \pagenumbering{arabic}

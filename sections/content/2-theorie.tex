@@ -1086,7 +1086,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 
    Jede dieser angebotenen Versionen verfügt über zwei verschiedene Betriebsmodi: dem \textit{Demo Modus}
    und den \textit{Practice Modus}. Beide sind dazu entwickelt, den Ablauf des AES-Algorithmus für
-   einen 128 Bit langen Textblock beziehungsweise Schlüssel zu verdeutlichen\cite{michiganuni}.
+   einen 128 Bit langen Textblock beziehungsweise Schlüssel zu verdeutli\-chen\cite{michiganuni}.
    Jeder Modus verfügt über vier verschiedene Module:
 
    \begin{itemize}
@@ -1141,7 +1141,7 @@ Schlüssellänge von 192 oder 256Bits verschlüsselt werden. \cite{paar10}
 Zur Bereitstellung einer Punkt-zu-Punkt-Verbindung als Grundlage des Authentifizierungsvorgangs
 wird von Providern (\ac{ISP}) die Implementierungen eines
 \ac{PPP} verwendet. Mit Protokollen dieser Art wurden zum Beispiel schon Modem- oder ISDN-Verbindungen
-aufgebaut. Heutige Szenarien sind unter anderem auch GPRS- und UMTS-Datenverbindungen -
+aufgebaut. Heutige Szenarien sind unter anderem auch GPRS- und UMTS-Datenverbin\-dungen -
 hier hauptsächlich in
 Form von \ac{PPPoE}. Auf beide Architekturen wird im folgenden
 genauer eingegangen.
@@ -1156,7 +1156,7 @@ Neben der Freischaltung von Internetverbindungen wird \ac{PPP} von vielen \acp{I
 auch dazu verwendet Zugriffe zu monitoren, sowie Angriffe durch Intrusion Detection zu vermeiden.
 In üblichen \ac{LAN}-Umgebungen ist es notwendig, dass eingesetzte Technologien die Datalink-Layer-Funktion
 implementieren und darüber hinaus über einen MAC-Mechanismus verfügen, da verschiedene
-Quellen/Ziele das selbe Medium teilen könnten. Dieser Regulierungsmechanismus ist bei \ac{PPP}
+Quellen und Ziele das selbe Medium teilen könnten. Dieser Regulierungsmechanismus ist bei \ac{PPP}
 nicht notwendig, da es sich um eine Punkt-zu-Punkt beziehungsweise Ende-zu-Ende-Verbindung handelt.
 In jedem Fall handelt es sich um genau zwei Teilnehmer:
 %TODO: Statt itemize description nutzen und Quelle/Ziel kurz erklären?
@@ -1197,7 +1197,7 @@ Ein \ac{PPP}-Frame ist wie folgt aufgebaut:
 
  \begin{figure}[htp]
   \begin{center}
-   \includegraphics[width=500pt]{aufbau_ppp_frame}
+   \includegraphics[width=470pt]{aufbau_ppp_frame}
   \end{center}
   \caption[Aufbau eines PPP-Frames]{Aufbau eines PPP-Frames \cite{tcpipillustrated}}
   \label{abb:aufbau_ppp_frame}
@@ -1930,7 +1930,7 @@ kosteneffizient und vergleichbar ein Serversystem betreiben kann, wird selbiges 
  Damit bleibt, dass bis auf \emph{f3} und \emph{f4}, alle Funktionen, die in Kapitel \Verweis{milenage}
  genannt wurden, korrekt umgesetzt werden sollen.
  
- Zur korrekten Umsetzung der Milenage-Funktionen gehört ebenfalls eine Eigen\-implementierung
+ Zur korrekten Umsetzung der Milenage-Funktionen gehört ebenfalls eine Eigenimplemen\-tierung
  des AES-Algorithmus, aber nur für eine Blocklänge von 128 Bits, da der Milenage-Algorithmus
  keine anderen Blocklängen benötigt.
  
